@@ -1,5 +1,6 @@
 package com.three.alcoholshoppingmall.project.purchase;
 
+import com.three.alcoholshoppingmall.project.market.Ordertype;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
