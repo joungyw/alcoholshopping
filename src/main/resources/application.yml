@@ -21,15 +21,11 @@ spring :
       hibernate:
         format_sql: true
 
-
 #  sql:
 #    init:
 #      mode: always
 
-
-server:
-  port: 8089
-
-
-
+token:
+  jwt:
+    secret: asdasdsadasdsadsadsasdadasssdsaadsasddasdasdasadsdsa
 

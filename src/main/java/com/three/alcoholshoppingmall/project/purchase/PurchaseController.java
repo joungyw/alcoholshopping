@@ -1,7 +1,6 @@
 package com.three.alcoholshoppingmall.project.purchase;
 
 
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -26,37 +25,44 @@ public class PurchaseController {
     private final PurchaseServicce purchaseServicce;
 
 
-
     @PostMapping("/pickup")
-    @Operation(summary = "구매내역 중 픽업 보기")
+    @Operation(summary = "구매내역 중 픽업 보기",
+            description = "회원의 구매 내역중 픽업으로 수령을 신청한 제품을 모두 보여줍니다." +
+                    "email의 입력이 필요합니다.")
     public ResponseEntity<List<Purchase>> PICKUP(@Valid @RequestBody PurchaseDTO purchaseDTO) {
 
-        List<Purchase> list = purchaseServicce.PICKUPlist(purchaseDTO.getEmail(), purchaseDTO.getOrdertype());
+        List<Purchase> list = purchaseServicce.PICKUPlist(purchaseDTO.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @PostMapping("/delivery")
-    @Operation(summary = "구매내역 중 배달 보기")
+    @Operation(summary = "구매내역 중 배달 보기",
+            description = "회원의 구매 내역중 배달로 수령을 신청한 제품을 모두 보여줍니다." +
+                    "email의 입력이 필요합니다.")
     public ResponseEntity<List<Purchase>> DELIVERY(@Valid @RequestBody PurchaseDTO purchaseDTO) {
-        List<Purchase> list = purchaseServicce.DELIVERYlist(purchaseDTO.getEmail(), purchaseDTO.getOrdertype());
+        List<Purchase> list = purchaseServicce.DELIVERYlist(purchaseDTO.getEmail());
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @PostMapping("/pickuplimt")
-    @Operation(summary = "구매내역중 픽업 최근 5개만")
+    @Operation(summary = "구매내역중 픽업 최근 5개만",
+            description = "회원의 구매 내역중 가장 최근에 픽업으로 수령을 신청한 제품을 5개를 보여줍니다." +
+                    "email의 입력이 필요합니다.")
 
     public ResponseEntity<List<Purchase>> PICKUPLIMT(@RequestBody PurchaseDTO purchaseDTO) {
-        List<Purchase> list = purchaseServicce.PICKUPlimt(purchaseDTO.getEmail(), purchaseDTO.getOrdertype());
+        List<Purchase> list = purchaseServicce.PICKUPlimt(purchaseDTO.getEmail());
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @PostMapping("/deliverylimt")
-    @Operation(summary = "구매내역중 배달 최근 5개만")
+    @Operation(summary = "구매내역중 배달 최근 5개만",
+            description = "회원의 구매 내역중 가장 최근에 배달로 수령을 신청한 제품을 5개를 보여줍니다." +
+                    "email의 입력이 필요합니다.")
 
     public ResponseEntity<List<Purchase>> DELIVERYLIMT(@RequestBody PurchaseDTO purchaseDTO) {
-        List<Purchase> list = purchaseServicce.DELIVERYLIMTlimt(purchaseDTO.getEmail(), purchaseDTO.getOrdertype());
+        List<Purchase> list = purchaseServicce.DELIVERYLIMTlimt(purchaseDTO.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
