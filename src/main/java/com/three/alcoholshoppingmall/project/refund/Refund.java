@@ -1,5 +1,6 @@
 package com.three.alcoholshoppingmall.project.refund;
 
+import com.three.alcoholshoppingmall.project.market.Ordertype;
 import com.three.alcoholshoppingmall.project.purchase.Division;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;

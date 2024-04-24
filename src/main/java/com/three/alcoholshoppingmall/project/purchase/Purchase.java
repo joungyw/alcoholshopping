@@ -1,5 +1,6 @@
 package com.three.alcoholshoppingmall.project.purchase;
 
+import com.three.alcoholshoppingmall.project.market.Ordertype;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
