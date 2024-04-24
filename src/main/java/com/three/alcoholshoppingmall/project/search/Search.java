@@ -1,7 +1,6 @@
 package com.three.alcoholshoppingmall.project.search;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;

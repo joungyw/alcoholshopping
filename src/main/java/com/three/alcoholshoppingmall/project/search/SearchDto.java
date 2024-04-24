@@ -1,6 +1,5 @@
 package com.three.alcoholshoppingmall.project.search;
 
-import com.three.alcoholshoppingmall.project.user.User;
 import lombok.*;
 
 @Getter
