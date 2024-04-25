@@ -28,6 +28,8 @@ public class AlcoholController {
                     "따로 입력 값은  필요 없습니다")
     public ResponseEntity<List<Information>> MainPage() {
 
+
+
         List<Information> list = alcoholService.Page();
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
