@@ -86,6 +86,7 @@ public class AlcoholController {
                     "email만 입력 하시면 됩니다.")
     public ResponseEntity<List<Alcohol>> MemberAlgorithm(@RequestBody PurchaseDTO purchaseDTO) {
 
+
         List<Alcohol> list = alcoholService.Algorithm(purchaseDTO.getEmail());
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
