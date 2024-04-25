@@ -24,6 +24,10 @@ public class Exchange {
     @Schema(title = "주류 ID", description = "table에서 자동으로 생성되는 칼럼입니다.")
     private Long id;
 
+    @Schema(title = "nickname", description = "회원의 nickname입니다.")
+    @Column(nullable = false)
+    private String nickname;
+
     @Enumerated(EnumType.STRING)
     @Schema(title = "구매, 환불, 교환 여부", description = "구매자의 상품의 상태를 표기 합니다")
     private Division division;
