@@ -24,21 +24,10 @@ spring :
 #  sql:
 #    init:
 #      mode: always
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 
-
-=======
 
 token:
   jwt:
     secret: asdasdsadasdsadsadsasdadasssdsaadsasddasdasdasadsdsa
->>>>>>> 영웅
 
-
-=======
-token:
-  jwt:
-    secret: asdasdsadasdsadsadsasdadasssdsaadsasddasdasdasadsdsa
->>>>>>> khj
