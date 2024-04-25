@@ -29,9 +29,6 @@ public enum ErrorCode {
     // 로그인 에러 코드
     CHECKIDPASSWORD(HttpStatus.NOT_FOUND,"CHECKIDPASSWORD","아이디와 비밀번호를 확인해 주세요."),
 
-    TEST(HttpStatus.NOT_FOUND,"TEST","다른에러")
-
-
 ;
     private HttpStatus httpStatus;
     private String errorCode;
