@@ -32,6 +32,9 @@ public class JWTInterceptor implements HandlerInterceptor {
         System.out.println(request.getRequestURI());
         if (request.getRequestURI().contains("login") ||
                 request.getRequestURI().contains("map") ||
+                request.getRequestURI().contains("swagger") ||
+                request.getRequestURI().contains("api-docs") ||
+                request.getRequestURI().contains("v3/api-docs")||
                 request.getRequestURI().contains("main") ||
                 request.getRequestURI().contains("event") ||
                 request.getRequestURI().contains("search")) {

@@ -6,6 +6,8 @@ import com.three.alcoholshoppingmall.project.user.User;
 import com.three.alcoholshoppingmall.project.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.query.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,31 +23,25 @@ public class SearchService {
 
 
     @Transactional
-    public List<Alcohol> searchAlcoholByName(String email, String searchcontents) {
-
-        List<Alcohol> list = alcoholRepository.findByNameContaining(searchcontents);
-
-        searchRepository.searchsave(email, searchcontents);
-
+    public List<Alcohol> searchAlcoholByName(String searchDto, String email) {
+        List<Alcohol> list = alcoholRepository.findByNameContaining(searchDto);
+        // 이메일이 유효한 경우에만 검색 기록 저장
+        searchRepository.searchsave(email, searchDto);
         return list;
+
     }
 
-    public List<Search> recentSearch(SearchDto searchDto) {
-        List<Search> list = searchRepository.recentSearch(searchDto.getUser().getEmail());
+    public List<Search> recentSearch(String email) {
+        User dbUser = userRepository.findByEmail(email);
+
+        List<Search> list = searchRepository.findAllByUserOrderById(dbUser, PageRequest.of(0, 5));
         if (list == null) {
             return null;
         } else {
             return list;
         }
     }
-
 }
-
-
-
-
-
-
 
 
 
