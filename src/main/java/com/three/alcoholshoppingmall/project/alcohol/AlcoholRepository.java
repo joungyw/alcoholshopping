@@ -96,56 +96,56 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
 
     // 최대 가격 순 정렬
     @Query(value = "SELECT a.id, a.name, a.maincategory, a.subcategory, a.content, a.aroma, a.taste, a.finish, a.nation, a.picture, COALESCE(MAX(b.price), 0) AS max_price\n" +
-            "FROM alcohol a LEFT JOIN purchase b ON a.name = b.name GROUP BY a.id, a.name, a.maincategory, a.subcategory, a.content, a.aroma, a.taste, a.finish, a.nation, a.picture\n" +
+            "FROM alcohol a LEFT JOIN stock b ON a.name = b.name GROUP BY a.id, a.name, a.maincategory, a.subcategory, a.content, a.aroma, a.taste, a.finish, a.nation, a.picture\n" +
             "ORDER BY COALESCE(MAX(b.price), 0) DESC, a.id", nativeQuery = true)
     List<Alcohol> max();
 
     // 최대 가격 순 정렬시 평점 정렬
     @Query(value = "SELECT COALESCE(AVG(r.grade), 0) AS ratingaverage\n" +
             "FROM alcohol a LEFT JOIN review r ON a.name = r.name\n" +
-            "LEFT JOIN purchase b ON a.name = b.name\n" +
+            "LEFT JOIN stock b ON a.name = b.name\n" +
             "GROUP BY a.name, a.id\n" +
             "ORDER BY MAX(COALESCE(b.price, 0)) DESC, a.id ASC", nativeQuery = true)
     List<Double> maxratings();
 
     // 최대 가격 순 정렬시 가격 출력
     @Query(value = "SELECT COALESCE(MAX(b.price), 0) AS max_price\n" +
-            "FROM alcohol a LEFT JOIN purchase b ON a.name = b.name GROUP BY a.id, a.name, a.maincategory, a.subcategory, a.content, a.aroma, a.taste, a.finish, a.nation, a.picture\n" +
+            "FROM alcohol a LEFT JOIN stock b ON a.name = b.name GROUP BY a.id, a.name, a.maincategory, a.subcategory, a.content, a.aroma, a.taste, a.finish, a.nation, a.picture\n" +
             "ORDER BY COALESCE(MAX(b.price), 0) DESC, a.id", nativeQuery = true)
     List<Integer> maxprices();
 
     // 최대 가격 순 정렬시 리뷰 갯수
     @Query(value = "SELECT COALESCE(COUNT(r.writing), 0) AS review_count " +
             "FROM alcohol a LEFT JOIN review r ON a.name = r.name " +
-            "LEFT JOIN purchase b ON a.name = b.name " +
+            "LEFT JOIN stock b ON a.name = b.name " +
             "GROUP BY a.id " +
             "ORDER BY COALESCE(MAX(b.price), 0) DESC, a.id", nativeQuery = true)
     List<Integer> maxreviewCount();
 
     // 최소 가격 순 정렬
     @Query(value = "SELECT a.id, a.name, a.maincategory, a.subcategory, a.content, a.aroma, a.taste, a.finish, a.nation, a.picture, COALESCE(MIN(b.price), 0) AS min_price\n" +
-            "FROM alcohol a LEFT JOIN purchase b ON a.name = b.name GROUP BY a.id, a.name, a.maincategory, a.subcategory, a.content, a.aroma, a.taste, a.finish, a.nation, a.picture\n" +
+            "FROM alcohol a LEFT JOIN stock b ON a.name = b.name GROUP BY a.id, a.name, a.maincategory, a.subcategory, a.content, a.aroma, a.taste, a.finish, a.nation, a.picture\n" +
             "ORDER BY COALESCE(MIN(b.price), 0), a.id", nativeQuery = true)
     List<Alcohol> min();
 
     // 최소 가격 순 정렬시 평점 정렬
     @Query(value = "SELECT COALESCE(AVG(r.grade), 0) AS ratingaverage\n" +
             "FROM alcohol a LEFT JOIN review r ON a.name = r.name\n" +
-            "LEFT JOIN purchase b ON a.name = b.name\n" +
+            "LEFT JOIN stock b ON a.name = b.name\n" +
             "GROUP BY a.name, a.id\n" +
             "ORDER BY MIN(COALESCE(b.price, 0)) ASC, a.id ASC", nativeQuery = true)
     List<Double> minratings();
 
     // 최소 가격 순 정렬시 가격 출력
     @Query(value = "SELECT COALESCE(MIN(b.price), 0) AS min_price\n" +
-            "FROM alcohol a LEFT JOIN purchase b ON a.name = b.name GROUP BY a.id, a.name, a.maincategory, a.subcategory, a.content, a.aroma, a.taste, a.finish, a.nation, a.picture\n" +
+            "FROM alcohol a LEFT JOIN stock b ON a.name = b.name GROUP BY a.id, a.name, a.maincategory, a.subcategory, a.content, a.aroma, a.taste, a.finish, a.nation, a.picture\n" +
             "ORDER BY COALESCE(MIN(b.price), 0), a.id", nativeQuery = true)
     List<Integer> minprices();
 
     // 최소 가격 순 정렬시 리뷰 갯수
     @Query(value = "SELECT COALESCE(COUNT(r.writing), 0) AS review_count " +
             "FROM alcohol a LEFT JOIN review r ON a.name = r.name " +
-            "LEFT JOIN purchase b ON a.name = b.name " +
+            "LEFT JOIN stock b ON a.name = b.name " +
             "GROUP BY a.id " +
             "ORDER BY COALESCE(MIN(b.price), 0) ASC, a.id ASC", nativeQuery = true)
     List<Integer> minreviewCount();

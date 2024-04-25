@@ -18,9 +18,9 @@ public class FavoritesService {
     private final FavoritesRepository favoritesFRepository;
 
 
-    public List<Favorites> Favoriteslist(FavoritesDTO favoritesDTO) {
+    public List<Favorites> Favoriteslist(String email) {
 
-        List<Favorites> list = favoritesFRepository.MyFavorites(favoritesDTO.getEmail());
+        List<Favorites> list = favoritesFRepository.MyFavorites(email);
 
         return list;
     }

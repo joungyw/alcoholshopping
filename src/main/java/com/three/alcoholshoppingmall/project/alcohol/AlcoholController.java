@@ -1,16 +1,14 @@
 package com.three.alcoholshoppingmall.project.alcohol;
 
-
-import com.three.alcoholshoppingmall.project.purchase.PurchaseDTO;
+import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,13 +20,12 @@ public class AlcoholController {
 
     private final AlcoholService alcoholService;
 
-    @PostMapping("/mainpage")
+    @GetMapping("/mainpage")
     @Operation(summary = "메인 페이지 정보",
             description = "모든 술의 정보와 가격 평균 평점 리뷰 갯수가 표시됩니다." +
-                    "따로 입력 값은  필요 없습니다")
+                    "따로 입력 값은  필요 없습니다"
+    )
     public ResponseEntity<List<Information>> MainPage() {
-
-
 
         List<Information> list = alcoholService.Page();
 
@@ -47,7 +44,7 @@ public class AlcoholController {
     }
 
 
-    @PostMapping("/pop")
+    @GetMapping("/pop")
     @Operation(summary = "인기 정렬",
             description = "많이 팔린 순으로 정렬 합니다." +
                     "입력 값은 없습니다.")
@@ -58,7 +55,7 @@ public class AlcoholController {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @PostMapping("/max")
+    @GetMapping("/max")
     @Operation(summary = "가격 높은 순 정렬",
             description = "가격이 높은 순으로 정렬 합니다." +
                     "입력 값은 없습니다.")
@@ -70,7 +67,7 @@ public class AlcoholController {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @PostMapping("/min")
+    @GetMapping("/min")
     @Operation(summary = "가격 낮은 정렬",
             description = "가격이 낮은 순으로 정렬 합니다." +
                     "입력 값은 없습니다.")
@@ -82,17 +79,19 @@ public class AlcoholController {
     }
 
 
-    @PostMapping("/algorithm")
+    @GetMapping("/algorithm")
     @Operation(summary = "내 알고리즘",
             description = "회원의 구매정보를 토대로 술을 추천 합니다. 구매 정보가 없을 경우 많이 팔린 술 8개를 추천 합니다." +
                     "email만 입력 하시면 됩니다.")
-    public ResponseEntity<List<Alcohol>> MemberAlgorithm(@RequestBody PurchaseDTO purchaseDTO) {
+    public ResponseEntity<List<Alcohol>> MemberAlgorithm() {
 
-
-        List<Alcohol> list = alcoholService.Algorithm(purchaseDTO.getEmail());
-
-        return ResponseEntity.status(HttpStatus.OK).body(list);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null){
+            return null;
+        }else{
+            User user = (User)authentication.getPrincipal();
+            List<Alcohol> list = alcoholService.Algorithm(user.getEmail());
+            return ResponseEntity.status(HttpStatus.OK).body(list);
+        }
     }
-
-
 }

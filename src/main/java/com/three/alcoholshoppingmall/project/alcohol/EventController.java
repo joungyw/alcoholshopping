@@ -5,10 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,7 +17,7 @@ public class EventController {
 
     private final Eventservice eventservice;
 
-    @PostMapping("/most")
+    @GetMapping("/most")
     @Operation(summary = "주간 많이 팔린 제품",
             description = "주간 많이 팔린 술 8개를 보여 줍니다." +
                     "입력 값은 없습니다.")
@@ -41,7 +38,7 @@ public class EventController {
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
-    @PostMapping("/newproduct")
+    @GetMapping("/newproduct")
     @Operation(summary = "신 제품",
             description = "가장 최근에 나온 제품을 보여 줍니다." +
                     "입력 값은 없습니다.")

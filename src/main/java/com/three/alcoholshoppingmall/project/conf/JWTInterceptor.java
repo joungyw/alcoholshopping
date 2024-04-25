@@ -30,7 +30,9 @@ public class JWTInterceptor implements HandlerInterceptor {
         String token = request.getHeader("Authorization");
 
         if(request.getRequestURI().contains("login")||
-        request.getRequestURI().contains("map")){
+        request.getRequestURI().contains("map")||
+                request.getRequestURI().contains("main")||
+                request.getRequestURI().contains("event")){
             return true;
         }
 
@@ -68,6 +70,6 @@ public class JWTInterceptor implements HandlerInterceptor {
             throw new RuntimeException("JWT 토큰 검증 실패");
         }
 
-        return false;
+        return true;
     }
 }
