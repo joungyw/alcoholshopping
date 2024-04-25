@@ -3,9 +3,12 @@ package com.three.alcoholshoppingmall.project.search;
 import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholDto;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
+import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +31,18 @@ public class SearchController {
                     "검색내용에 검색 기록이 나오며 검색기록과 관련된 술 이름들이 name에 저장됩니다.")
     public List<Alcohol> searchAlcoholByName(
             @RequestBody SearchDto searchDto) {
-        List<Alcohol> list = searchService.searchAlcoholByName(searchDto);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email;
+
+        if (authentication == null) {
+            email = null;
+        } else {
+            User user = (User) authentication.getPrincipal();
+            email = user.getEmail();
+        }
+        List<Alcohol> list = searchService.searchAlcoholByName(email, searchDto.getSearchcontents());
+
         return list;
     }
 

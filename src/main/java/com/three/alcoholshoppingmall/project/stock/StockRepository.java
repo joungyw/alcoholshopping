@@ -10,7 +10,10 @@ import java.util.Stack;
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
 
-    Optional<Stock> findByNameAndMarketname(String name, String marketname);
+
+    //해당술의 개당 가격
+    @Query(value = "SELECT price FROM stock WHERE marketname = :marketname AND NAME = :name", nativeQuery = true)
+    int checkprice(String name, String marketname);
 
 
     //해당 매장의 해당술의 재고

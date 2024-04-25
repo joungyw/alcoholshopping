@@ -1,6 +1,8 @@
 package com.three.alcoholshoppingmall.project.search;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +17,8 @@ public interface SearchRepository extends JpaRepository<Search, Long> {
     List<Search> recentSearch(String email);
 
 
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO search (email, searchcontents) VALUES (:email, :searchcontents)", nativeQuery = true)
+    void searchsave(String email, String searchcontents);
 }

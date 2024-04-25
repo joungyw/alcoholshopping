@@ -2,6 +2,7 @@ package com.three.alcoholshoppingmall.project.search;
 
 import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
+import com.three.alcoholshoppingmall.project.user.User;
 import com.three.alcoholshoppingmall.project.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,23 +21,12 @@ public class SearchService {
 
 
     @Transactional
-    public List<Alcohol> searchAlcoholByName(SearchDto searchDto) {
-        Search search = new Search();
-        List<Alcohol> list = alcoholRepository.findByNameContaining(searchDto.getSearchcontents());
-        // 이메일이 유효한 경우에만 검색 기록 저장
-        if (searchDto.getUser() != null) {
-            search = search.builder()
-                    .searchcontents(searchDto.getSearchcontents())
-                    .user(searchDto.getUser())
-                    .build();
-                    searchRepository.save(search);
+    public List<Alcohol> searchAlcoholByName(String email, String searchcontents) {
 
+        List<Alcohol> list = alcoholRepository.findByNameContaining(searchcontents);
 
-            } else {
-                    search.setSearchcontents(searchDto.getSearchcontents());
-                    searchRepository.save(search);
+        searchRepository.searchsave(email, searchcontents);
 
-                }
         return list;
     }
 
@@ -48,7 +38,8 @@ public class SearchService {
             return list;
         }
     }
-    }
+
+}
 
 
 

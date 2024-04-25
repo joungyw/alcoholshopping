@@ -29,14 +29,16 @@ public class JWTInterceptor implements HandlerInterceptor {
 
         String token = request.getHeader("Authorization");
 
-        if(request.getRequestURI().contains("login")||
-        request.getRequestURI().contains("map")||
-                request.getRequestURI().contains("main")||
-                request.getRequestURI().contains("event")){
+        System.out.println(request.getRequestURI());
+        if (request.getRequestURI().contains("login") ||
+                request.getRequestURI().contains("map") ||
+                request.getRequestURI().contains("main") ||
+                request.getRequestURI().contains("event") ||
+                request.getRequestURI().contains("search")) {
             return true;
         }
 
-        if(token == null || !token.contains("Bearer ")){
+        if (token == null || !token.contains("Bearer ")) {
             System.out.println("토큰 없음");
             return false;
         }
@@ -62,7 +64,7 @@ public class JWTInterceptor implements HandlerInterceptor {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        }catch (ExpiredJwtException e) {
+        } catch (ExpiredJwtException e) {
             System.out.println("토큰 만료");
             throw new RuntimeException("JWT 토큰 만료");
         } catch (Exception e) {
