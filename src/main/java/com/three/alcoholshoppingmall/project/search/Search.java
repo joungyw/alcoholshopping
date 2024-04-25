@@ -12,6 +12,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Table(name = "search")
 @Schema(description = "search 테이블에 대한 내용입니다.")
 public class Search {

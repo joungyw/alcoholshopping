@@ -22,7 +22,7 @@ public class TokenManager {
         return Jwts.builder()
                 .subject("loginToken")
                 .claim("email",dbuser.getEmail())
-                .claim("password",dbuser.getPassword())
+                .claim("nickname",dbuser.getNickname())
                 .expiration(new Date(System.currentTimeMillis()+1000*60*15))
                 .signWith(hmacShaKeyFor(mykey.getBytes()))
                 .compact();

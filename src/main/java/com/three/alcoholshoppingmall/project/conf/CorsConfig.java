@@ -19,7 +19,7 @@ public class CorsConfig implements WebMvcConfigurer {
         System.out.println(registry);
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("login","create","map");
+                .excludePathPatterns("login","create","map","/search/contents");
     }
 
     @Override

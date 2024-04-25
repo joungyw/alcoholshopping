@@ -29,38 +29,43 @@ public class JWTInterceptor implements HandlerInterceptor {
 
         String token = request.getHeader("Authorization");
 
-        if(request.getRequestURI().contains("login")||
-        request.getRequestURI().contains("map")){
+        if (request.getRequestURI().contains("login") ||
+                request.getRequestURI().contains("map") ||
+                request.getRequestURI().contains("swagger") ||
+                request.getRequestURI().contains("api-docs") ||
+                request.getRequestURI().contains("v3/api-docs")) {
             return true;
         }
 
-        if(token == null || !token.contains("Bearer ")){
+        if (token == null || !token.contains("Bearer ")) {
             System.out.println("토큰 없음");
             return false;
         }
 
-        System.out.println(token);
         try {
-            System.out.println(token.substring("Bearer ".length()));
             Jws<Claims> jws = tokenManager.validateToken(token.substring("Bearer ".length()).trim());
 
             List<SimpleGrantedAuthority> roles = Stream.of(jws.getPayload().get("email").toString())
                     .map(SimpleGrantedAuthority::new)
                     .toList();
-            System.out.println(roles);
+
+            User user = User.builder()
+                    .email(jws.getPayload().get("email").toString())
+                    .nickname(jws.getPayload().get("nickname").toString())
+                    .build();
+
+            System.out.println("인터셉터에서 Authentication user 등록");
+            System.out.println(user);
+            System.out.println("인터셉터에서 Authentication user 등록");
 
             Authentication authentication = UsernamePasswordAuthenticationToken.authenticated(
-                    User.builder()
-                            .email(jws.getPayload().get("email").toString())
-                            .id(jws.getPayload().get("id", Long.class))
-                            .build(),
+                    user,
                     null,
                     roles
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        }catch (ExpiredJwtException e) {
+        } catch (ExpiredJwtException e) {
             System.out.println("토큰 만료");
             throw new RuntimeException("JWT 토큰 만료");
         } catch (Exception e) {
@@ -68,6 +73,6 @@ public class JWTInterceptor implements HandlerInterceptor {
             throw new RuntimeException("JWT 토큰 검증 실패");
         }
 
-        return false;
+        return true;
     }
 }
