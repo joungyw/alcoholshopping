@@ -30,10 +30,10 @@ public class JWTInterceptor implements HandlerInterceptor {
 
         String token = request.getHeader("Authorization");
 
-        if(request.getRequestURI().contains("login")||
-            request.getRequestURI().contains("map")||
+        if( request.getRequestURI().contains("login")||
+            request.getRequestURI().contains("market")||
             request.getRequestURI().contains("swagger-ui")||
-                request.getRequestURI().contains("v3")){
+            request.getRequestURI().contains("v3")){
             return true;
         }
 
@@ -54,6 +54,7 @@ public class JWTInterceptor implements HandlerInterceptor {
                     User.builder()
                             .email(jws.getPayload().get("email").toString())
                             .nickname(jws.getPayload().get("nickname").toString())
+                            .password(jws.getPayload().get("password").toString())
                             .address(jws.getPayload().get("address").toString())
                             .lastaddress(jws.getPayload().get("lastaddress").toString())
                             .gender(Gender.fromString(jws.getPayload().get("gender").toString()))

@@ -37,7 +37,7 @@ public class LoginController {
         User dbuser = loginRepository.findByEmail(login.getEmail());
 
         if (dbuser == null || !encoder.matches(login.getPassword(),dbuser.getPassword())) {
-            throw new BizException(ErrorCode.CHECKIDPASSWORD);
+            throw new BizException(ErrorCode.CHECKEMAILPASSWORD);
         }
 
         return tokenManager.generateToken(dbuser);
