@@ -24,7 +24,7 @@ public class Search {
     @Schema(title = "회원 이메일", description = "회원의 이메일을 넣는 조인된 칼럼입니다.")
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "email", referencedColumnName = "email")
+    @JoinColumn(name = "email", referencedColumnName = "email",nullable = false)
     private User user;
 
 

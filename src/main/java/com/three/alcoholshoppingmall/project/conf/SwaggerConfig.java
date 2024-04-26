@@ -21,13 +21,5 @@ import org.springframework.context.annotation.Configuration;
 )
 @Configuration
 public class SwaggerConfig {
-    @Bean
-    public GroupedOpenApi User() {
-        String[] paths = {"/**"};
-        return GroupedOpenApi.builder()
-                .group("User Management")
-                .pathsToMatch(paths)
-                .build();
-    }
 
 }

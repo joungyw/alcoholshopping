@@ -31,24 +31,42 @@ public class SearchController {
     private final AlcoholRepository alcoholRepository;
     private final SearchService searchService;
 
-    @PostMapping("/contents") // 검색
-    @Operation(summary = "이름으로 주류 검색",
-            description = "이름으로 주류 검색, 검색을 완료하지 않아도 내용이 나오게 만들었습니다. <br>" +
-                    "피그마에서 검색을 하면 검색 기록들과 연관된 술의 정보가 db에 저장됩니다.")
-    public ResponseEntity<List<Alcohol>> searchAlcoholByName(@RequestBody SearchDto searchDto) {
+    @PostMapping("/contents") // 회원 검색
+    @Operation(summary = "회원 검색, 이름으로 주류를 검색",
+            description = "회원이 검색하는 기능입니다. <br>" +
+                    "이름으로 주류 검색을 하는 기능입니다. <br>" +
+                    "검색을 완료하지 않아도 내용이 나오게 만들었습니다. <br>" +
+                    "피그마에서 검색을 하면 검색 기록과 회원의 이메일이 db에 저장됩니다.")
+    public ResponseEntity<List<Alcohol>> memberSearch(@RequestBody SearchDto searchDto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication);
         String email;
+
         if (authentication instanceof AnonymousAuthenticationToken) {
             email = null;
+            System.out.println("이메일이 없으면 일로오나");
         } else {
             User user = (User) authentication.getPrincipal();
             email = user.getEmail();
+            System.out.println("이메일이 있으면 일로오나");
         }
-        List<Alcohol> list = searchService.searchAlcoholByName(searchDto.getSearchcontents(), email);
+        List<Alcohol> list = searchService.memberSearch(searchDto.getSearchcontents(), email);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
+
+    @PostMapping("/anony/contents")
+    @Operation(summary = "비회원 검색, 이름으로 주류를 검색",
+            description = "비회원이 검색하는 기능입니다.<br>" +
+            "이름으로 주류를 검색하는 기능입니다.<br>" +
+                    "검색을 완료하지 않아도 내용이 나오게 만들었습니다.<br>" +
+                    "피그마에서 검색을 하면 검색 기록과 비회원의 이메일이 db에 저장됩니다.")
+    public ResponseEntity<List<Alcohol>> NonmemberSearch(@RequestBody SearchDto searchDto) {
+        System.out.println("일로 오나");
+        String email = "anony@anony.anony";
+        List<Alcohol> list = searchService.memberSearch(searchDto.getSearchcontents(), email);
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
 
     @PostMapping("/recent")
     @Operation(summary = "최근 검색기록",
@@ -56,14 +74,11 @@ public class SearchController {
                     "피그마에서 검색 창에 검색 시 최근 검색 기록 5개를 뜨게 하는 기능입니다. <br>" +
                     "검색을 하면서 db에 저장되었던 내용을 내림차순으로 5개를 출력하게 하는 기능입니다. <br>")
     public List<Search> recent(
-            ) {
+    ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        System.out.println(user);
         String email = user.getEmail();
         String nickname = user.getNickname();
-        System.out.println(email);
-        System.out.println(nickname);
 
         List<Search> list = searchService.recentSearch(email);
         return list;

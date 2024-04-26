@@ -28,13 +28,15 @@ public class JWTInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         String token = request.getHeader("Authorization");
-
+        System.out.println(request.getRequestURI());
         if (request.getRequestURI().contains("login") ||
                 request.getRequestURI().contains("map") ||
                 request.getRequestURI().contains("swagger") ||
                 request.getRequestURI().contains("api-docs") ||
+                request.getRequestURI().contains("anony") ||
                 request.getRequestURI().contains("v3/api-docs")) {
             return true;
+
         }
 
         if (token == null || !token.contains("Bearer ")) {
@@ -64,6 +66,7 @@ public class JWTInterceptor implements HandlerInterceptor {
                     roles
             );
 
+            System.out.println("등록되나" + authentication);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (ExpiredJwtException e) {
             System.out.println("토큰 만료");
