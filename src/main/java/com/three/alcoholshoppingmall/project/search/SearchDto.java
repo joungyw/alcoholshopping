@@ -13,9 +13,9 @@ public class SearchDto {
 
     private Long id;
 
+    private String email;
 
     private String searchcontents;
 
-    private User user;
 
 }

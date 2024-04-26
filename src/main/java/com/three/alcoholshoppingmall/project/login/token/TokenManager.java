@@ -21,20 +21,20 @@ public class TokenManager {
 
         return Jwts.builder()
                 .subject("loginToken")
-                .claim("email",dbuser.getEmail())
-                .claim("password",dbuser.getPassword())
-                .claim("nickname",dbuser.getNickname())
-                .claim("address",dbuser.getAddress())
-                .claim("lastaddress",dbuser.getLastaddress())
-                .claim("gender",dbuser.getGender())
-                .claim("birthdate",dbuser.getBirthdate())
-                .claim("phone",dbuser.getPhone())
-                .expiration(new Date(System.currentTimeMillis()+1000*60*15))
+                .claim("email", dbuser.getEmail())
+                .claim("password", dbuser.getPassword())
+                .claim("nickname", dbuser.getNickname())
+                .claim("address", dbuser.getAddress())
+                .claim("lastaddress", dbuser.getLastaddress())
+                .claim("gender", dbuser.getGender())
+                .claim("birthdate", dbuser.getBirthdate())
+                .claim("phone", dbuser.getPhone())
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 15))
                 .signWith(hmacShaKeyFor(mykey.getBytes()))
                 .compact();
     }
 
-    public Jws<Claims> validateToken(String token){
+    public Jws<Claims> validateToken(String token) {
         Jws<Claims> jws = Jwts.parser().setSigningKey(hmacShaKeyFor(mykey.getBytes()))
                 .build()
                 .parseClaimsJws(token);

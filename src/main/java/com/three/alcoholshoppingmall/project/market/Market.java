@@ -21,6 +21,7 @@ public class Market {
     @Schema(title = "매장 ID", description = "table에서 자동으로 생성되는 칼럼입니다.")
     private Long id;
 
+    @Column(unique = true)
     @Schema(title = "매장 이름", description = "해당 매장의 이름 입니다.")
     private String marketname;
 

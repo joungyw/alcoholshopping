@@ -30,17 +30,19 @@ public class JWTInterceptor implements HandlerInterceptor {
 
         String token = request.getHeader("Authorization");
 
-        if(request.getRequestURI().contains("login")||
-                request.getRequestURI().contains("main")||
-                request.getRequestURI().contains("event")||
-                request.getRequestURI().contains("market")||
-                request.getRequestURI().contains("swagger-ui")||
-                request.getRequestURI().contains("v3")){
+        if (request.getRequestURI().contains("login") ||
+                request.getRequestURI().contains("main") ||
+                request.getRequestURI().contains("event") ||
+                request.getRequestURI().contains("market") ||
+                request.getRequestURI().contains("anony") ||
+                request.getRequestURI().contains("swagger-ui") ||
+                request.getRequestURI().contains("v3")) {
 
             return true;
+
         }
 
-        if(token == null || !token.contains("Bearer ")){
+        if (token == null || !token.contains("Bearer ")) {
             System.out.println("토큰 없음");
             return false;
         }
@@ -50,8 +52,8 @@ public class JWTInterceptor implements HandlerInterceptor {
 
             List<SimpleGrantedAuthority> roles =
                     Stream.of(jws.getPayload().get("email").toString())
-                    .map(SimpleGrantedAuthority::new)
-                    .toList();
+                            .map(SimpleGrantedAuthority::new)
+                            .toList();
 
             Authentication authentication = UsernamePasswordAuthenticationToken.authenticated(
                     User.builder()
@@ -66,12 +68,11 @@ public class JWTInterceptor implements HandlerInterceptor {
                             .id(jws.getPayload().get("id", Long.class))
                             .build(),
                     null,
-                    roles
-            );
+                    roles);
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        }catch (ExpiredJwtException e) {
+        } catch (ExpiredJwtException e) {
             System.out.println("토큰 만료");
             throw new RuntimeException("JWT 토큰 만료");
         } catch (Exception e) {

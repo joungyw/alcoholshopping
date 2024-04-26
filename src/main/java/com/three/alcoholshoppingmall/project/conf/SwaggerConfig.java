@@ -8,8 +8,8 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 @OpenAPIDefinition(
         info = @Info(title = "AlcoholFree",
                 version = "v1.0.0"
-        )
-)
+        ))
+
 @SecurityScheme(
         name = "bearerAuth",
         type = SecuritySchemeType.HTTP,
