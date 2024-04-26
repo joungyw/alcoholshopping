@@ -21,14 +21,14 @@ public class Search {
     @Schema(title = "검색 ID", description = "table에서 자동으로 생성되는 칼럼입니다.")
     private Long id;
 
-    @Schema(title = "회원 이메일", description = "회원의 이메일을 넣는 조인된 칼럼입니다.")
+    @Schema(title = "회원 이메일", description = "회원의 이메일을 넣는 조인된 칼럼입니다.",example = "회원 이메일")
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "email", referencedColumnName = "email",nullable = false)
     private User user;
 
 
-    @Schema(title = "검색내용", description = "검색 내용을 입력하는 칼럼입니다.")
+    @Schema(title = "검색내용", description = "검색 내용을 입력하는 칼럼입니다.",example = "검색내용")
     private String searchcontents;
 
 }
