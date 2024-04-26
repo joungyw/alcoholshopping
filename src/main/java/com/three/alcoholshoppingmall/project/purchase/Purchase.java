@@ -54,4 +54,8 @@ public class Purchase {
     @Schema(title = "amount", description = "해당 물품의 구매 수량입니다.")
     private  int amount;
 
+    @Schema(title = "nickname", description = "회원의 nickname입니다.")
+    @Column(nullable = false)
+    private String nickname;
+
 }

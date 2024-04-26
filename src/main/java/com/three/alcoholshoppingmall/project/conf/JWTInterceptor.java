@@ -1,6 +1,7 @@
 package com.three.alcoholshoppingmall.project.conf;
 
 import com.three.alcoholshoppingmall.project.login.token.TokenManager;
+import com.three.alcoholshoppingmall.project.user.Gender;
 import com.three.alcoholshoppingmall.project.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -28,13 +29,15 @@ public class JWTInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         String token = request.getHeader("Authorization");
-        System.out.println(request.getRequestURI());
+
         if (request.getRequestURI().contains("login") ||
-                request.getRequestURI().contains("map") ||
-                request.getRequestURI().contains("swagger") ||
-                request.getRequestURI().contains("api-docs") ||
+                request.getRequestURI().contains("main") ||
+                request.getRequestURI().contains("event") ||
+                request.getRequestURI().contains("market") ||
                 request.getRequestURI().contains("anony") ||
-                request.getRequestURI().contains("v3/api-docs")) {
+                request.getRequestURI().contains("swagger-ui") ||
+                request.getRequestURI().contains("v3")) {
+
             return true;
 
         }
@@ -47,27 +50,28 @@ public class JWTInterceptor implements HandlerInterceptor {
         try {
             Jws<Claims> jws = tokenManager.validateToken(token.substring("Bearer ".length()).trim());
 
-            List<SimpleGrantedAuthority> roles = Stream.of(jws.getPayload().get("email").toString())
-                    .map(SimpleGrantedAuthority::new)
-                    .toList();
-
-            User user = User.builder()
-                    .email(jws.getPayload().get("email").toString())
-                    .nickname(jws.getPayload().get("nickname").toString())
-                    .build();
-
-            System.out.println("인터셉터에서 Authentication user 등록");
-            System.out.println(user);
-            System.out.println("인터셉터에서 Authentication user 등록");
+            List<SimpleGrantedAuthority> roles =
+                    Stream.of(jws.getPayload().get("email").toString())
+                            .map(SimpleGrantedAuthority::new)
+                            .toList();
 
             Authentication authentication = UsernamePasswordAuthenticationToken.authenticated(
-                    user,
+                    User.builder()
+                            .email(jws.getPayload().get("email").toString())
+                            .nickname(jws.getPayload().get("nickname").toString())
+                            .password(jws.getPayload().get("password").toString())
+                            .address(jws.getPayload().get("address").toString())
+                            .lastaddress(jws.getPayload().get("lastaddress").toString())
+                            .gender(Gender.fromString(jws.getPayload().get("gender").toString()))
+                            .birthdate(jws.getPayload().get("birthdate").toString())
+                            .phone(jws.getPayload().get("phone").toString())
+                            .id(jws.getPayload().get("id", Long.class))
+                            .build(),
                     null,
-                    roles
-            );
+                    roles);
 
-            System.out.println("등록되나" + authentication);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
         } catch (ExpiredJwtException e) {
             System.out.println("토큰 만료");
             throw new RuntimeException("JWT 토큰 만료");

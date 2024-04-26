@@ -4,6 +4,7 @@ package com.three.alcoholshoppingmall.project.purchase;
 import com.three.alcoholshoppingmall.project.market.Ordertype;
 import com.three.alcoholshoppingmall.project.user.Gender;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -44,4 +45,7 @@ public class PurchaseDTO {
     private int age;
 
     private String OrderNumber;
+
+    private String nickname;
 }
+

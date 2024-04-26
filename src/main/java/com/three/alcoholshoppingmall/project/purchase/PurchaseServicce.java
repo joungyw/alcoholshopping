@@ -10,22 +10,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PurchaseServicce {
     private final PurchaseRepository purchaseRepository;
-    public List<Purchase> PICKUPlist(String email, Ordertype ordertype) {
+    public List<Purchase> PICKUPlist(String email) {
         List<Purchase>  list = purchaseRepository.Pickuplist(email);
         return list;
     }
 
-    public List<Purchase> DELIVERYlist(String email, Ordertype ordertype) {
+    public List<Purchase> DELIVERYlist(String email) {
         List<Purchase>  list = purchaseRepository.Deliverylist(email);
         return list;
     }
 
-    public List<Purchase> PICKUPlimt(String email, Ordertype ordertype) {
+    public List<Purchase> PICKUPlimt(String email) {
         List<Purchase> list = purchaseRepository.Pickuplimt(email);
         return list;
     }
 
-    public List<Purchase> DELIVERYLIMTlimt(String email, Ordertype ordertype) {
+    public List<Purchase> DELIVERYLIMTlimt(String email) {
         List<Purchase> list = purchaseRepository.Deliverylimt(email);
         return list;
     }
