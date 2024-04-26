@@ -26,3 +26,13 @@ spring:
 token:
   jwt:
     secret: asdasdsadasdsadsadsasdadasssdsaadsasddasdasdasadsdsa
+
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: email  # email로 데이터 유형을 변경
+        password:
+          type: password  # password로 데이터 유형을 변경
