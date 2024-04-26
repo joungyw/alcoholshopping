@@ -27,10 +27,7 @@ public enum ErrorCode {
     CHECKPASSWORD(HttpStatus.NOT_FOUND,"CHECKPASSWORD","입력한 비밀번호가 다릅니다."),
 
     // 로그인 에러 코드
-    CHECKIDPASSWORD(HttpStatus.NOT_FOUND,"CHECKIDPASSWORD","아이디와 비밀번호를 확인해 주세요."),
-
-    TEST(HttpStatus.NOT_FOUND,"TEST","다른에러")
-
+    CHECKEMAILPASSWORD(HttpStatus.NOT_FOUND,"CHECKEMAILPASSWORD","이메일과 비밀번호를 확인해 주세요."),
 
 ;
     private HttpStatus httpStatus;

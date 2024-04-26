@@ -1,6 +1,7 @@
 package com.three.alcoholshoppingmall.project.conf;
 
 import com.three.alcoholshoppingmall.project.login.token.TokenManager;
+import com.three.alcoholshoppingmall.project.user.Gender;
 import com.three.alcoholshoppingmall.project.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -30,9 +31,12 @@ public class JWTInterceptor implements HandlerInterceptor {
         String token = request.getHeader("Authorization");
 
         if(request.getRequestURI().contains("login")||
-        request.getRequestURI().contains("map")||
                 request.getRequestURI().contains("main")||
-                request.getRequestURI().contains("event")){
+                request.getRequestURI().contains("event")||
+                request.getRequestURI().contains("market")||
+                request.getRequestURI().contains("swagger-ui")||
+                request.getRequestURI().contains("v3")){
+
             return true;
         }
 
@@ -41,19 +45,24 @@ public class JWTInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        System.out.println(token);
         try {
-            System.out.println(token.substring("Bearer ".length()));
             Jws<Claims> jws = tokenManager.validateToken(token.substring("Bearer ".length()).trim());
 
-            List<SimpleGrantedAuthority> roles = Stream.of(jws.getPayload().get("email").toString())
+            List<SimpleGrantedAuthority> roles =
+                    Stream.of(jws.getPayload().get("email").toString())
                     .map(SimpleGrantedAuthority::new)
                     .toList();
-            System.out.println(roles);
 
             Authentication authentication = UsernamePasswordAuthenticationToken.authenticated(
                     User.builder()
                             .email(jws.getPayload().get("email").toString())
+                            .nickname(jws.getPayload().get("nickname").toString())
+                            .password(jws.getPayload().get("password").toString())
+                            .address(jws.getPayload().get("address").toString())
+                            .lastaddress(jws.getPayload().get("lastaddress").toString())
+                            .gender(Gender.fromString(jws.getPayload().get("gender").toString()))
+                            .birthdate(jws.getPayload().get("birthdate").toString())
+                            .phone(jws.getPayload().get("phone").toString())
                             .id(jws.getPayload().get("id", Long.class))
                             .build(),
                     null,
