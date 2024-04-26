@@ -23,7 +23,7 @@ import java.util.List;
 public class FavoritesController {
 
 private final FavoritesService favoritesService;
-    @PostMapping("/list")
+    @GetMapping("/list")
     @Operation(summary = "즐겨찾기 목록",
             description = "해당 회원이 즐겨찾기에 등록한 정보를 모두 보여 줍니다." +
                     "email 입력이 필요 합니다.")

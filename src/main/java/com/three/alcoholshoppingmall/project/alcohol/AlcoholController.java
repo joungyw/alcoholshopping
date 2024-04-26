@@ -14,34 +14,25 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/main")
-@Tag(name = "main", description = "메인 페이지 입니다.")
+@RequestMapping("/alcohol")
+@Tag(name = "alcohol", description = "알콜 정보 출력 페이지 입니다.")
 public class AlcoholController {
 
     private final AlcoholService alcoholService;
+    private final Eventservice eventservice;
 
-    @GetMapping("/mainpage")
-    @Operation(summary = "메인 페이지 정보",
-            description = "모든 술의 정보와 가격 평균 평점 리뷰 갯수가 표시됩니다." +
-                    "따로 입력 값은  필요 없습니다"
-    )
-    public ResponseEntity<List<Information>> MainPage() {
+//    @GetMapping("/mainpage")
+//    @Operation(summary = "메인 페이지 정보",
+//            description = "모든 술의 정보와 가격 평균 평점 리뷰 갯수가 표시됩니다." +
+//                    "따로 입력 값은  필요 없습니다"
+//    )
+//    public ResponseEntity<List<Information>> MainPage() {
+//
+//        List<Information> list = alcoholService.Page();
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(list);
+//    }
 
-        List<Information> list = alcoholService.Page();
-
-        return ResponseEntity.status(HttpStatus.OK).body(list);
-    }
-
-    @PostMapping("/detail")
-    @Operation(summary = "상세 페이지 정보",
-            description = "선택한 술의 정보와 가격 평균 평점 리뷰 갯수가 표시됩니다." +
-                    "name에 술의 이름을 입력하시면 됩니다.")
-    public ResponseEntity<List<DetailInformation>> Detail(@RequestBody AlcoholDto alcoholDto) {
-
-        List<DetailInformation> list = alcoholService.DetailPage(alcoholDto.getName());
-
-        return ResponseEntity.status(HttpStatus.OK).body(list);
-    }
 
 
     @GetMapping("/pop")
@@ -78,20 +69,38 @@ public class AlcoholController {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
+    @GetMapping("/most")
+    @Operation(summary = "주간 많이 팔린 제품",
+            description = "주간 많이 팔린 술 8개를 보여 줍니다." +
+                    "입력 값은 없습니다.")
+    public ResponseEntity<List<Alcohol>> Mostsold(){
 
-    @GetMapping("/algorithm")
-    @Operation(summary = "내 알고리즘",
-            description = "회원의 구매정보를 토대로 술을 추천 합니다. 구매 정보가 없을 경우 많이 팔린 술 8개를 추천 합니다." +
-                    "email만 입력 하시면 됩니다.")
-    public ResponseEntity<List<Alcohol>> MemberAlgorithm() {
+        List<Alcohol> list = eventservice.Most();
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication == null){
-            return null;
-        }else{
-            User user = (User)authentication.getPrincipal();
-            List<Alcohol> list = alcoholService.Algorithm(user.getEmail());
-            return ResponseEntity.status(HttpStatus.OK).body(list);
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
+    @PostMapping("/mostcategory")
+    @Operation(summary = "주간 많이 팔린 술 카테고리별",
+            description = "각 카테고리별로  주간 많이 팔린 술 8개를 각 카테고리별로 보여 줍니다." +
+                    "maincategory 에 입력이 필요 합니다. 위스키 ,와인 ,리큐르 ,브렌디 ")
+
+    public ResponseEntity<List<Alcohol>> MostCategory(@RequestBody AlcoholDto alcoholDto){
+
+        List<Alcohol> list = eventservice.Mostcategory(alcoholDto.getMaincategory());
+
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+    @GetMapping("/newproduct")
+    @Operation(summary = "신 제품",
+            description = "가장 최근에 나온 제품을 보여 줍니다." +
+                    "입력 값은 없습니다.")
+    public ResponseEntity<List<Alcohol>> NewProduct(){
+
+        List<Alcohol> list = eventservice.Product();
+
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
+
+
 }
