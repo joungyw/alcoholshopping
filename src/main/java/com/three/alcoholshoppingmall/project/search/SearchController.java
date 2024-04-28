@@ -3,10 +3,12 @@ package com.three.alcoholshoppingmall.project.search;
 import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholDto;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
+import com.three.alcoholshoppingmall.project.exception.BizException;
 import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.three.alcoholshoppingmall.project.exception.ErrorCode.*;
 
 @RestController
 @RequestMapping("/search")
@@ -38,19 +42,12 @@ public class SearchController {
                     "이름으로 주류 검색을 하는 기능입니다. <br>" +
                     "검색을 완료하지 않아도 내용이 나오게 만들었습니다. <br>" +
                     "피그마에서 검색을 하면 검색 기록과 회원의 이메일이 db에 저장됩니다.")
-    public ResponseEntity<List<Alcohol>> memberSearch(@RequestBody SearchDto searchDto) {
+    public ResponseEntity<List<Alcohol>> memberSearch(@Valid @RequestBody SearchDto searchDto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email;
-
-        if (authentication instanceof AnonymousAuthenticationToken) {
-            email = null;
-            System.out.println("이메일이 없으면 일로오나");
-        } else {
-            User user = (User) authentication.getPrincipal();
-            email = user.getEmail();
-            System.out.println("이메일이 있으면 일로오나");
-        }
+        User user = (User) authentication.getPrincipal();
+        email = user.getEmail();
         List<Alcohol> list = searchService.memberSearch(searchDto.getSearchcontents(), email);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
@@ -58,11 +55,10 @@ public class SearchController {
     @PostMapping("/anony/contents")
     @Operation(summary = "비회원 검색, 이름으로 주류를 검색",
             description = "비회원이 검색하는 기능입니다.<br>" +
-            "이름으로 주류를 검색하는 기능입니다.<br>" +
+                    "이름으로 주류를 검색하는 기능입니다.<br>" +
                     "검색을 완료하지 않아도 내용이 나오게 만들었습니다.<br>" +
                     "피그마에서 검색을 하면 검색 기록과 비회원의 이메일이 db에 저장됩니다.")
-    public ResponseEntity<List<Alcohol>> NonmemberSearch(@RequestBody SearchDto searchDto) {
-        System.out.println("일로 오나");
+    public ResponseEntity<List<Alcohol>> NonmemberSearch(@Valid @RequestBody SearchDto searchDto) {
         String email = "anony@anony.anony";
         List<Alcohol> list = searchService.memberSearch(searchDto.getSearchcontents(), email);
         return ResponseEntity.status(HttpStatus.OK).body(list);
@@ -74,15 +70,13 @@ public class SearchController {
             description = "최근 검색 기록을 5개를 출력하게 만들었습니다. <br>" +
                     "피그마에서 검색 창에 검색 시 최근 검색 기록 5개를 뜨게 하는 기능입니다. <br>" +
                     "검색을 하면서 db에 저장되었던 내용을 내림차순으로 5개를 출력하게 하는 기능입니다. <br>")
-    public List<Search> recent(
+    public ResponseEntity<List<Search>> recent(
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         String email = user.getEmail();
-        String nickname = user.getNickname();
-
         List<Search> list = searchService.recentSearch(email);
-        return list;
+        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @PostMapping("/maincategory")
@@ -90,9 +84,13 @@ public class SearchController {
             description = "대분류에 해당하는 주류를 검색합니다. <br>" +
                     "대분류에는 와인, 위스키, 브랜디, 리큐르가 있습니다, 이 중 하나를 입력해주세요. <br>" +
                     "피그마에서 대분류 선택 시 소분류 All에 사용할 기능입니다.")
-    public List<Alcohol> selectByMainCategory(@RequestBody AlcoholDto alcoholDto) {
+    public ResponseEntity<List<Alcohol>> selectByMainCategory(@RequestBody AlcoholDto alcoholDto) {
         List<Alcohol> list = alcoholRepository.findByMaincategory(alcoholDto.getMaincategory());
-        return list;
+        Alcohol alcohol = new Alcohol();
+        if (alcohol.getMaincategory()== null){
+            throw new BizException(NULLMAINCATEGORY);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @PostMapping("/subcategory")
@@ -104,20 +102,26 @@ public class SearchController {
                     "리큐르의 소분류에는 리큐르를 입력해주세요. <br>" +
                     "와인의 소분류 입력시에는 띄어쓰기를 유의해주세요. <br>" +
                     "피그마에서 대분류 선택 시 All을 제외한 각각의 소분류에 사용할 기능입니다.")
-    public List<Alcohol> selectBySubCategory(@RequestBody AlcoholDto alcoholDto) {
+    public ResponseEntity<List<Alcohol>> selectBySubCategory(@RequestBody AlcoholDto alcoholDto) {
         List<Alcohol> list = alcoholRepository.findBySubcategory(alcoholDto.getSubcategory());
-        return list;
+        Alcohol alcohol = new Alcohol();
+        if (alcohol.getSubcategory()== null){
+            throw new BizException(NULLSUBCATEGORY);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @PostMapping("/name")
     @Operation(summary = "이름으로 주류 검색",
             description = "주류 이름으로 검색, 검색기록이 완료되지 않아도 주류들이 출력되게 만들었습니다. <br>" +
                     "피그마에서 검색창에서 사용할 기능입니다.")
-    public List<Alcohol> selectByName(@RequestBody AlcoholDto alcoholDto) {
+    public ResponseEntity<List<Alcohol>> selectByName(@RequestBody AlcoholDto alcoholDto) {
         List<Alcohol> list = alcoholRepository.findByNameContaining(alcoholDto.getName());
-        return list;
+        Alcohol alcohol = new Alcohol();
+        if (alcohol.getName()== null){
+            throw new BizException(NOTFOUNDALCOHOL);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
-
-
 }
 
