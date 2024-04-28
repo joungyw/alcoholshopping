@@ -44,7 +44,7 @@ public class JWTInterceptor implements HandlerInterceptor {
 
         if (token == null || !token.contains("Bearer ")) {
             System.out.println("토큰 없음");
-            return false;
+            return true;
         }
 
         try {
