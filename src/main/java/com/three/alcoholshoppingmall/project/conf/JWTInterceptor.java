@@ -1,6 +1,7 @@
 package com.three.alcoholshoppingmall.project.conf;
 
 import com.three.alcoholshoppingmall.project.login.token.TokenManager;
+import com.three.alcoholshoppingmall.project.user.Gender;
 import com.three.alcoholshoppingmall.project.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -29,40 +30,44 @@ public class JWTInterceptor implements HandlerInterceptor {
 
         String token = request.getHeader("Authorization");
 
-        System.out.println(request.getRequestURI());
         if (request.getRequestURI().contains("login") ||
-                request.getRequestURI().contains("map") ||
-                request.getRequestURI().contains("swagger") ||
-                request.getRequestURI().contains("api-docs") ||
-                request.getRequestURI().contains("v3/api-docs")||
-                request.getRequestURI().contains("alcohol") ||
-                request.getRequestURI().contains("search")) {
+                request.getRequestURI().contains("main") ||
+                request.getRequestURI().contains("event") ||
+                request.getRequestURI().contains("market") ||
+                request.getRequestURI().contains("anony") ||
+                request.getRequestURI().contains("swagger-ui") ||
+                request.getRequestURI().contains("v3")) {
+
             return true;
+
         }
 
         if (token == null || !token.contains("Bearer ")) {
             System.out.println("토큰 없음");
             return false;
         }
-
-        System.out.println(token);
         try {
-            System.out.println(token.substring("Bearer ".length()));
             Jws<Claims> jws = tokenManager.validateToken(token.substring("Bearer ".length()).trim());
 
-            List<SimpleGrantedAuthority> roles = Stream.of(jws.getPayload().get("email").toString())
-                    .map(SimpleGrantedAuthority::new)
-                    .toList();
-            System.out.println(roles);
+            List<SimpleGrantedAuthority> roles =
+                    Stream.of(jws.getPayload().get("email").toString())
+                            .map(SimpleGrantedAuthority::new)
+                            .toList();
 
             Authentication authentication = UsernamePasswordAuthenticationToken.authenticated(
                     User.builder()
                             .email(jws.getPayload().get("email").toString())
+                            .nickname(jws.getPayload().get("nickname").toString())
+                            .password(jws.getPayload().get("password").toString())
+                            .address(jws.getPayload().get("address").toString())
+                            .address2(jws.getPayload().get("address2").toString())
+                            .gender(Gender.fromString(jws.getPayload().get("gender").toString()))
+                            .birthdate(jws.getPayload().get("birthdate").toString())
+                            .phone(jws.getPayload().get("phone").toString())
                             .id(jws.getPayload().get("id", Long.class))
                             .build(),
                     null,
-                    roles
-            );
+                    roles);
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 

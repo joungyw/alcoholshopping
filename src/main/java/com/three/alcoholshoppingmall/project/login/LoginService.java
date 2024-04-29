@@ -7,6 +7,7 @@ import com.three.alcoholshoppingmall.project.user.User;
 import com.three.alcoholshoppingmall.project.user.UserDto;
 import com.three.alcoholshoppingmall.project.user.WithdrawStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class LoginService {
 
     private final LoginRepository loginRepository;
+    private final BCryptPasswordEncoder encoder;
 
     public void createUser(UserDto userDto) {
 
@@ -48,7 +50,7 @@ public class LoginService {
                 .nickname(userDto.getNickname())
                 .address(userDto.getAddress())
                 .address2(userDto.getAddress2())
-                .password(userDto.getPassword())
+                .password(encoder.encode(userDto.getPassword()))
                 .phone(userDto.getPhone())
                 .birthdate(userDto.getBirthdate())
                 .gender(userDto.getGender())

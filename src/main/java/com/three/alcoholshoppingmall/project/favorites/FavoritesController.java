@@ -4,6 +4,7 @@ package com.three.alcoholshoppingmall.project.favorites;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholDto;
 import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/favorites")
-
 @Tag(name = "favorites", description = "즐겨찾기 페이지 입니다.")
+@SecurityRequirement(name = "bearerAuth")
 public class FavoritesController {
 
 private final FavoritesService favoritesService;

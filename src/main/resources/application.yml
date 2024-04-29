@@ -1,38 +1,27 @@
-
-
 spring :
+  profiles:
+    default: dev
+
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-    url: jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8
-    username: root
-    password: 1234
+    url: ENC(9Xy8ctRB2R/CFKBwiRbp4PlIjT9I3J4x7l/DeBJ+YGXKxa4gTVPY6cds5Pw/EcQrDBC74+CSCXQW8H3RVVg6B/Eo7+IusgvtFrH/nZ8Jy6PReD8vbAia3FR/2FMBVpW07plvNXcFT5zpPIIY9zDUY35RmpkYx6Ei)
+    username: ENC(gKuctbDMmaJPPKl4hSkOlA==)
+    password: ENC(j9Oj87bQlu7Lat+yEj0yYQ==)
 
-  jpa:
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQLDialect
-    defer-datasource-initialization: true
-    hibernate:
-      ddl-auto: none
-    generate-ddl: true
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
+token:
+  jwt:
+    secret: ENC(BbxwTGWGyT5J0EBgyW4Qn57XvvS1Q8aMVZtd8dkRDsZ5rRVlW0jBCedpesSwNcBMpNm/rm48lkjy1xbHYa40DQ==)
 
-#  sql:
-#    init:
-#      mode: always
-#decorator:
-#  datasource:
-#    p6spy:
-#      enable-logging: true
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
 
 logging:
   level:
     p6spy: info
 
-token:
-  jwt:
-    secret: asdasdsadasdsadsadsasdadasssdsaadsasddasdasdasadsdsa
-server:
-  port: 8089
+
+jasypt:
+  encryptor:
+    passwrod: ${password}

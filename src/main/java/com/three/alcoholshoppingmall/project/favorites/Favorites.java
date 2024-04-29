@@ -32,8 +32,5 @@ public class Favorites { //즐겨찾기
     @ManyToOne
     @JoinColumn(name = "code", referencedColumnName = "code")
     private Alcohol alcohol;
-
-
-
 }
 

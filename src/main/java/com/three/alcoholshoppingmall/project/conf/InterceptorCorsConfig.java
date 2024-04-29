@@ -10,16 +10,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @RequiredArgsConstructor
-public class CorsConfig implements WebMvcConfigurer {
+public class InterceptorCorsConfig implements WebMvcConfigurer {
 
     private final JWTInterceptor jwtInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        System.out.println(registry);
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("login","create","map","search");
+                .excludePathPatterns("/login", "/create", "/market", "/swagger", "/search/anony/contents");
     }
 
     @Override

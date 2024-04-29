@@ -3,6 +3,7 @@ package com.three.alcoholshoppingmall.project.purchase;
 
 import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/purchase")
-
 @Tag(name = "purchase", description = "구매 페이지 입니다.")
+@SecurityRequirement(name = "bearerAuth")
 public class PurchaseController {
 
 

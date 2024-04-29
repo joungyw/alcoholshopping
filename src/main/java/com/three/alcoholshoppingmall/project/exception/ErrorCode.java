@@ -8,7 +8,12 @@ import org.springframework.http.HttpStatus;
 @ToString
 public enum ErrorCode {
     // 검색 에러코드
-    NOTFOUNDALCOHOL(HttpStatus.NOT_FOUND, "NOTSELECT", "조회한 술이 존재하지 않습니다."),
+    NULLSEARCH(HttpStatus.NOT_FOUND, "NULLSEARCH","검색기록은 공백일 수 없습니다."),
+    SEARCHCLENGTH(HttpStatus.BAD_REQUEST, "SEARCHLENGTH", "검색 기록은 두 글자 이상 입력해야합니다."),
+    NULLRECENT(HttpStatus.NOT_FOUND,"NULLRECENT", "최근 검색기록이 존재하지 않습니다."),
+    NULLMAINCATEGORY(HttpStatus.NOT_FOUND, "NULLMAINCATEGORY", "해당 대분류가 존재하지 않습니다."),
+    NULLSUBCATEGORY(HttpStatus.NOT_FOUND, "NULLSUBCATEGORY", "해당 소분류가 존재하지 않습니다."),
+    NOTFOUNDALCOHOL(HttpStatus.NOT_FOUND, "NOTFOUNDALCOHOL", "해당 이름의 주류를 찾을 수 없습니다."),
 
     // 회원가입 에러 코드
     DUPLEMAIL(HttpStatus.BAD_REQUEST,"EMAILDUPL","이미 가입된 이메일입니다."),
@@ -27,10 +32,7 @@ public enum ErrorCode {
     CHECKPASSWORD(HttpStatus.NOT_FOUND,"CHECKPASSWORD","입력한 비밀번호가 다릅니다."),
 
     // 로그인 에러 코드
-    CHECKIDPASSWORD(HttpStatus.NOT_FOUND,"CHECKIDPASSWORD","아이디와 비밀번호를 확인해 주세요."),
-
-    TEST(HttpStatus.NOT_FOUND,"TEST","다른에러")
-
+    CHECKEMAILPASSWORD(HttpStatus.NOT_FOUND,"CHECKEMAILPASSWORD","이메일과 비밀번호를 확인해 주세요."),
 
 ;
     private HttpStatus httpStatus;

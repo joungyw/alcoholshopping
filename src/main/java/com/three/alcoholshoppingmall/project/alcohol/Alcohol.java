@@ -5,10 +5,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "alcohol")
 @Schema(description = "alcohol 테이블에 대한 내용입니다.")
 public class Alcohol {
@@ -16,15 +18,19 @@ public class Alcohol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(title = "주류 code", description = "table에서 자동으로 생성되는 칼럼입니다.")
+    @Column(unique = true,nullable = false)
     private Long code;
 
     @Schema(title = "주류 이름", description = "주류 이름을 넣어주시면 됩니다.")
+    @Column(nullable = false)
     private String name;
 
     @Schema(title = "주류 대분류", description = "주류의 대분류를 넣어주시면 됩니다.")
+    @Column(nullable = false)
     private String maincategory;
 
     @Schema(title = "주류 소분류", description = "주류의 소분류를 넣어주시면 됩니다.")
+    @Column(nullable = false)
     private String subcategory;
 
     @Schema(title = "주류 도수", description = "주류의 도수을 넣어주시면 됩니다.")
