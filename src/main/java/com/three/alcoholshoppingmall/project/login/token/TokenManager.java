@@ -25,7 +25,7 @@ public class TokenManager {
                 .claim("password", dbuser.getPassword())
                 .claim("nickname", dbuser.getNickname())
                 .claim("address", dbuser.getAddress())
-                .claim("lastaddress", dbuser.getLastaddress())
+                .claim("address2", dbuser.getAddress2())
                 .claim("gender", dbuser.getGender())
                 .claim("birthdate", dbuser.getBirthdate())
                 .claim("phone", dbuser.getPhone())

@@ -1,10 +1,9 @@
 package com.three.alcoholshoppingmall.project.purchase;
 
 
-import com.three.alcoholshoppingmall.project.market.Ordertype;
-import com.three.alcoholshoppingmall.project.user.Gender;
+import com.three.alcoholshoppingmall.project.shoppingbasket.Shoppingbasket;
+import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -21,31 +20,18 @@ import java.time.LocalDate;
 public class PurchaseDTO {
 
 
-    private Long id;
+    private Long ordernumber;
 
+    private User user;
 
-    private String email;
-
-    private String name;
-
-    private String marketname;
-
-    private Ordertype ordertype;
-
-    private int price;
+    private Shoppingbasket shoppingbasket;
 
     private Division division;
 
-    private Gender gender;
+    private Delivery delivery;
 
     private String address;
 
     private LocalDate purchaseday;
-
-    private int age;
-
-    private String OrderNumber;
-
-    private String nickname;
 }
 

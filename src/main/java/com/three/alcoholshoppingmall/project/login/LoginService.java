@@ -33,7 +33,7 @@ public class LoginService {
             throw new BizException(ErrorCode.NULLNICKNAME);
         } else if (userDto.getAddress() == null) {
             throw new BizException(ErrorCode.NULLADDRESS);
-        } else if (userDto.getLastaddress() == null) {
+        } else if (userDto.getAddress2() == null) {
             throw new BizException(ErrorCode.NULLLASTADDRESS);
         } else if (userDto.getPassword() == null) {
             throw new BizException(ErrorCode.NULLNICKNAME);
@@ -49,7 +49,7 @@ public class LoginService {
                 .email(userDto.getEmail())
                 .nickname(userDto.getNickname())
                 .address(userDto.getAddress())
-                .lastaddress(userDto.getLastaddress())
+                .address2(userDto.getAddress2())
                 .password(encoder.encode(userDto.getPassword()))
                 .phone(userDto.getPhone())
                 .birthdate(userDto.getBirthdate())

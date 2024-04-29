@@ -1,2 +1,0 @@
-INSERT INTO user (`address`, `birthdate`, `email`, `gender`, `lastaddress`,`nickname`, `password`, `phone`)
-VALUES ('anony', '00000000','anony@anony.anony', 'MALE', 'anony','anony', 'anony', '11111111111');

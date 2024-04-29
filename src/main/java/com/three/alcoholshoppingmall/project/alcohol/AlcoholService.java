@@ -25,39 +25,37 @@ public class AlcoholService {
     private final AlgorithmRepository algorithmRepository;
     private final PurchaseRepository purchaseRepository;
 
-    public List<Information> Page() {
-        List<Double> rating = alcoholRepository.Ratingaverage();
-        List<Integer> allamount = alcoholRepository.Allamount();
-        List<Integer> minprice = alcoholRepository.Minprice();
-        List<Alcohol> alcohols = alcoholRepository.findAll();
-        List<Information> list = new ArrayList<>();
-
-        for (int i = 0; i < alcohols.size(); i++) {
-            Alcohol alcohol = alcohols.get(i);
-            Double grade = (i < rating.size()) ? rating.get(i) : null;
-            Integer price = (i < minprice.size()) ? minprice.get(i) : null;
-            Integer amount = (i < allamount.size()) ? allamount.get(i) : null;
-
-            Information info = Information.builder()
-                    .id(alcohol.getId())
-                    .name(alcohol.getName())
-                    .maincategory(alcohol.getMaincategory())
-                    .subcategory(alcohol.getSubcategory())
-                    .content(alcohol.getContent())
-                    .aroma(alcohol.getAroma())
-                    .taste(alcohol.getTaste())
-                    .finish(alcohol.getFinish())
-                    .nation(alcohol.getNation())
-                    .picture(alcohol.getPicture())
-                    .grade(grade)
-                    .price(price)
-                    .amount(amount)
-                    .build();
-
-            list.add(info);
-        }
-        return list;
-    }
+//    public List<Information> Page() {
+//        List<Double> rating = alcoholRepository.Ratingaverage();
+//        List<Integer> allamount = alcoholRepository.Allamount();
+//        List<Alcohol> alcohols = alcoholRepository.findAll();
+//        List<Information> list = new ArrayList<>();
+//
+//        for (int i = 0; i < alcohols.size(); i++) {
+//            Alcohol alcohol = alcohols.get(i);
+//            Double grade = (i < rating.size()) ? rating.get(i) : null;
+//            Integer amount = (i < allamount.size()) ? allamount.get(i) : null;
+//
+//            Information info = Information.builder()
+//                    .id(alcohol.getCode())
+//                    .name(alcohol.getName())
+//                    .maincategory(alcohol.getMaincategory())
+//                    .subcategory(alcohol.getSubcategory())
+//                    .content(alcohol.getContent())
+//                    .aroma(alcohol.getAroma())
+//                    .taste(alcohol.getTaste())
+//                    .finish(alcohol.getFinish())
+//                    .nation(alcohol.getNation())
+//                    .picture(alcohol.getPicture())
+//                    .grade(grade)
+//                    .price(alcohol.getPrice())
+//                    .amount(amount)
+//                    .build();
+//
+//            list.add(info);
+//        }
+//        return list;
+//    }
 
 
 
@@ -66,13 +64,17 @@ public class AlcoholService {
         Double ratings = alcoholRepository.Rating(name);
         int prices = alcoholRepository.Price(name);
         List<Alcohol> alcohols = alcoholRepository.findByName(name);
+
+
         List<DetailInformation> list = new ArrayList<>();
 
+
+
         for (Alcohol alcohol : alcohols) {
-            int reviewCount = reviewRepository.Reviewcacount(alcohol.getName());
+            int reviewCount = reviewRepository.Reviewcacount(alcohol.getCode());
 
             DetailInformation info = DetailInformation.builder()
-                    .id(alcohol.getId())
+                    .id(alcohol.getCode())
                     .name(alcohol.getName())
                     .maincategory(alcohol.getMaincategory())
                     .subcategory(alcohol.getSubcategory())
@@ -101,17 +103,14 @@ public class AlcoholService {
         if (tag.equals("인기")) {
             alcohols = alcoholRepository.pop();
             ratings = alcoholRepository.popratings();
-            prices = alcoholRepository.popprices();
             reviewCount = alcoholRepository.popreviewCount();
         } else if (tag.equals("최고")) {
             alcohols = alcoholRepository.max();
             ratings = alcoholRepository.maxratings();
-            prices = alcoholRepository.maxprices();
             reviewCount = alcoholRepository.maxreviewCount();
         } else {
             alcohols = alcoholRepository.min();
             ratings = alcoholRepository.minratings();
-            prices = alcoholRepository.minprices();
             reviewCount = alcoholRepository.minreviewCount();
         }
 
@@ -120,11 +119,10 @@ public class AlcoholService {
         for (int i = 0; i < alcohols.size(); i++) {
             Alcohol alcohol = alcohols.get(i);
             Double grade = (i < ratings.size()) ? ratings.get(i) : null;
-            Integer price = (i < prices.size()) ? prices.get(i) : null;
             Integer count = (i < reviewCount.size()) ? reviewCount.get(i) : null;
 
             DetailInformation info = DetailInformation.builder()
-                    .id(alcohol.getId())
+                    .id(alcohol.getCode())
                     .name(alcohol.getName())
                     .maincategory(alcohol.getMaincategory())
                     .subcategory(alcohol.getSubcategory())
@@ -134,7 +132,7 @@ public class AlcoholService {
                     .finish(alcohol.getFinish())
                     .nation(alcohol.getNation())
                     .picture(alcohol.getPicture())
-                    .price(price)
+                    .price(alcohol.getPrice())
                     .ratingaverage(grade)
                     .reviewcacount(count)
                     .build();

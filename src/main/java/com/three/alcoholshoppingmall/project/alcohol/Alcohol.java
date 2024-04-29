@@ -17,8 +17,8 @@ public class Alcohol {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(title = "주류 ID", description = "table에서 자동으로 생성되는 칼럼입니다.")
-    private Long id;
+    @Schema(title = "주류 code", description = "table에서 자동으로 생성되는 칼럼입니다.")
+    private Long code;
 
     @Schema(title = "주류 이름", description = "주류 이름을 넣어주시면 됩니다.")
     private String name;
@@ -46,6 +46,9 @@ public class Alcohol {
 
     @Schema(title = "주류 사진", description = "주류의 사진을 저장하는 필드입니다.")
     private String picture;
+
+    @Schema(title = "주류의 가격", description = "주류의 가격 입니다.")
+    private int price;
 
 
 }

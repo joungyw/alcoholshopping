@@ -1,11 +1,13 @@
 package com.three.alcoholshoppingmall.project.review;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
+import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.*;
-
 @Getter
 @Setter
 @Entity
@@ -18,17 +20,20 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(title = "주류 ID", description = "table에서 자동으로 생성되는 칼럼입니다.")
+    @Schema(title = "리뷰 ID", description = "table에서 자동으로 생성되는 칼럼입니다.")
     private Long id;
 
-    @Schema(title = "주류 명", description = "주류의 이름 입니다.")
-    private String name;
+    @Schema(title = "주류 코드", description = "주류의 코드가 조인된 칼럼입니다.")
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "code", referencedColumnName = "code")
+    private Alcohol alcohol;
 
-    @Schema(title = "판매처 이름", description = "해당 주류를 판매하는 판매처의 이름 입니다.")
-    private String marketname;
-
-    @Schema(title = "email", description = "사용자의 이메일 주소 입니다.")
-    private String email;
+    @Schema(title = "회원 이메일", description = "회원의 이메일을 넣는 조인된 칼럼입니다.")
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "email", referencedColumnName = "email")
+    private User user;
 
     @Schema(title = "리뷰 글", description = "사용자가 작성한 리뷰 글입니다.")
     private String writing;
@@ -40,5 +45,6 @@ public class Review {
 
     @Schema(title = "사진", description = "리뷰시 올린 사진 입니다.")
     private String picture;
+
 
 }

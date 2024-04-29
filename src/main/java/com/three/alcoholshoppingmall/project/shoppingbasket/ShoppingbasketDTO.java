@@ -1,6 +1,10 @@
 package com.three.alcoholshoppingmall.project.shoppingbasket;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.three.alcoholshoppingmall.project.purchase.Delivery;
+import com.three.alcoholshoppingmall.project.stock.Stock;
+import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,21 +19,15 @@ public class ShoppingbasketDTO {
 
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(title = "주류 ID", description = "table에서 자동으로 생성되는 칼럼입니다.")
-    private Long id;
+    private Long shoppingnumber;
 
-    @Schema(title = "email", description = "사용자의 이메일 주소 입니다.")
-    private String email;
+    private User user;
 
-    @Schema(title = "주류 명", description = "주류의 이름 입니다.")
-    private String name;
+    private Long stock;
 
-    @Schema(title = "판매처 이름", description = "해당 주류를 판매하는 판매처의 이름 입니다.")
-    private String marketname;
-
-
-    @Schema(title = "amount", description = "해당 물품의 구매 수량입니다.")
     private  int amount;
+
+    private int price;
 
 
 }

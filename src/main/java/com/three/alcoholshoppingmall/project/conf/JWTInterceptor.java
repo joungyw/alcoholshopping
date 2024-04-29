@@ -44,9 +44,8 @@ public class JWTInterceptor implements HandlerInterceptor {
 
         if (token == null || !token.contains("Bearer ")) {
             System.out.println("토큰 없음");
-            return true;
+            return false;
         }
-
         try {
             Jws<Claims> jws = tokenManager.validateToken(token.substring("Bearer ".length()).trim());
 
@@ -61,7 +60,7 @@ public class JWTInterceptor implements HandlerInterceptor {
                             .nickname(jws.getPayload().get("nickname").toString())
                             .password(jws.getPayload().get("password").toString())
                             .address(jws.getPayload().get("address").toString())
-                            .lastaddress(jws.getPayload().get("lastaddress").toString())
+                            .address2(jws.getPayload().get("address2").toString())
                             .gender(Gender.fromString(jws.getPayload().get("gender").toString()))
                             .birthdate(jws.getPayload().get("birthdate").toString())
                             .phone(jws.getPayload().get("phone").toString())

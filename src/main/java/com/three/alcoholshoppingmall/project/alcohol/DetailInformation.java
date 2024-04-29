@@ -56,11 +56,4 @@ public class DetailInformation {
 
 
 
-
-
-
-
-
-
-
 }
