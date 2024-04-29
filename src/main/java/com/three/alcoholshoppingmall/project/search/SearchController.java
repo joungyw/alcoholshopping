@@ -42,6 +42,7 @@ public class SearchController {
                     "이름으로 주류 검색을 하는 기능입니다. <br>" +
                     "검색을 완료하지 않아도 내용이 나오게 만들었습니다. <br>" +
                     "피그마에서 검색을 하면 검색 기록과 회원의 이메일이 db에 저장됩니다.")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Alcohol>> memberSearch(@Valid @RequestBody SearchDto searchDto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -86,8 +87,8 @@ public class SearchController {
                     "피그마에서 대분류 선택 시 소분류 All에 사용할 기능입니다.")
     public ResponseEntity<List<Alcohol>> selectByMainCategory(@RequestBody AlcoholDto alcoholDto) {
         List<Alcohol> list = alcoholRepository.findByMaincategory(alcoholDto.getMaincategory());
-        Alcohol alcohol = new Alcohol();
-        if (alcohol.getMaincategory()== null){
+        System.out.println(list);
+        if (list.isEmpty()){
             throw new BizException(NULLMAINCATEGORY);
         }
         return ResponseEntity.status(HttpStatus.OK).body(list);
@@ -104,24 +105,11 @@ public class SearchController {
                     "피그마에서 대분류 선택 시 All을 제외한 각각의 소분류에 사용할 기능입니다.")
     public ResponseEntity<List<Alcohol>> selectBySubCategory(@RequestBody AlcoholDto alcoholDto) {
         List<Alcohol> list = alcoholRepository.findBySubcategory(alcoholDto.getSubcategory());
-        Alcohol alcohol = new Alcohol();
-        if (alcohol.getSubcategory()== null){
+        if (list.isEmpty()){
             throw new BizException(NULLSUBCATEGORY);
         }
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @PostMapping("/name")
-    @Operation(summary = "이름으로 주류 검색",
-            description = "주류 이름으로 검색, 검색기록이 완료되지 않아도 주류들이 출력되게 만들었습니다. <br>" +
-                    "피그마에서 검색창에서 사용할 기능입니다.")
-    public ResponseEntity<List<Alcohol>> selectByName(@RequestBody AlcoholDto alcoholDto) {
-        List<Alcohol> list = alcoholRepository.findByNameContaining(alcoholDto.getName());
-        Alcohol alcohol = new Alcohol();
-        if (alcohol.getName()== null){
-            throw new BizException(NOTFOUNDALCOHOL);
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(list);
-    }
 }
 
