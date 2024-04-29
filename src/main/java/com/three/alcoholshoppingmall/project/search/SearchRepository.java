@@ -15,10 +15,6 @@ import java.util.List;
 public interface SearchRepository extends JpaRepository<Search, Long> {
 
 
-    @Query(value = "SELECT *  FROM search where email = :email ORDER BY Id DESC LIMIT 5", nativeQuery = true)
-    List<Search> recentSearch(String email);
-
-
     List<Search> findAllByUserOrderByIdDesc(User user, PageRequest pageable);
 
     @Transactional

@@ -88,7 +88,7 @@ public class SearchController {
     public ResponseEntity<List<Alcohol>> selectByMainCategory(@RequestBody AlcoholDto alcoholDto) {
         List<Alcohol> list = alcoholRepository.findByMaincategory(alcoholDto.getMaincategory());
         System.out.println(list);
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             throw new BizException(NULLMAINCATEGORY);
         }
         return ResponseEntity.status(HttpStatus.OK).body(list);
@@ -105,7 +105,7 @@ public class SearchController {
                     "피그마에서 대분류 선택 시 All을 제외한 각각의 소분류에 사용할 기능입니다.")
     public ResponseEntity<List<Alcohol>> selectBySubCategory(@RequestBody AlcoholDto alcoholDto) {
         List<Alcohol> list = alcoholRepository.findBySubcategory(alcoholDto.getSubcategory());
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             throw new BizException(NULLSUBCATEGORY);
         }
         return ResponseEntity.status(HttpStatus.OK).body(list);
