@@ -1,6 +1,9 @@
 package com.three.alcoholshoppingmall.project.favorites;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
+import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,14 +18,20 @@ public class Favorites { //즐겨찾기
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(title = "ID", description = "자동으로 생성되는 칼럼입니다.")
+    @Schema(title = "ID", description = "찜목록으로 자동으로 생성되는 칼럼입니다.")
     private Long id;
 
-    @Schema(title = "email", description = "사용자의 이메일 주소 입니다.")
-    private String email;
+    @Schema(title = "회원 이메일", description = "회원의 이메일을 넣는 조인된 칼럼입니다.")
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "email", referencedColumnName = "email")
+    private User user;
 
-    @Schema(title = "주류 이름", description = "주류 이름을 넣어주시면 됩니다.")
-    private String name;
+    @Schema(title = "술의 코드", description = "술의 코드를 넣는 조인된 칼럼입니다.")
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "code", referencedColumnName = "code")
+    private Alcohol alcohol;
 
 
 

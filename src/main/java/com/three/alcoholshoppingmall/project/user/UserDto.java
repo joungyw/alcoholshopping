@@ -42,7 +42,7 @@ public class UserDto {
     private String address;
 
     @Schema(title = "lastaddress", description = "회원의 마지막 배송 주소 입니다.")
-    private String lastaddress;
+    private String address2;
 
     @Schema(title = "gender", description = "회원의 성별 입니다.")
     private Gender gender;

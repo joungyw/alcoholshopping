@@ -41,9 +41,9 @@ public class User {
     @Column(nullable = false)
     private String address;
 
-    @Schema(title = "lastaddress", description = "회원의 마지막 배송 주소 입니다.")
+    @Schema(title = "address2", description = "회원의 상세주소 입니다.")
     @Column(nullable = false)
-    private String lastaddress;
+    private String address2;
 
     @Schema(title = "gender", description = "회원의 성별 입니다.")
     @Enumerated(EnumType.STRING)

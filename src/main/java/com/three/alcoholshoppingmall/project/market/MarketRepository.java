@@ -8,7 +8,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MarketRepository extends JpaRepository<Market,Long> {
 
-    @Query(value = "SELECT delivery FROM market WHERE marketname = :marketname",nativeQuery = true)
-    Delivery deliverytype(String marketname);
-
 }

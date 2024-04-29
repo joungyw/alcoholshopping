@@ -12,13 +12,14 @@ import java.util.Optional;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     //해당 술의 리뷰 갯수
-    @Query(value = "SELECT COUNT(*) FROM review WHERE NAME = :name", nativeQuery = true)
-    int Reviewcacount(String name);
+    @Query(value = "SELECT COUNT(*) FROM review WHERE CODE = :code", nativeQuery = true)
+    int Reviewcacount(Long code);
 
     //해당 이메일의 리뷰 보기
-    List<Review> findByEmail(String email);
+    List<Review> findByUser_Email(String email);
 
-    Optional<Review> findByEmailAndName(String email, String name);
 
-    List<Review> deleteByEmailAndName(String email, String name);
+    Optional<Review> findByUser_EmailAndAlcohol_Code(String email, Long code);
+
+    List<Review> deleteByUser_EmailAndAlcohol_Code(String email, Long code);
 }

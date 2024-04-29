@@ -1,7 +1,7 @@
 package com.three.alcoholshoppingmall.project.exchange;
 
 
-import com.three.alcoholshoppingmall.project.market.Ordertype;
+import com.three.alcoholshoppingmall.project.purchase.Delivery;
 import com.three.alcoholshoppingmall.project.purchase.Division;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -37,7 +37,7 @@ public class Exchange {
 
     @Schema(title = "수령형식", description = "물건을 수령할때 배달인지 픽업인지 구분합니다.")
     @Enumerated(EnumType.STRING)
-    private Ordertype ordertype;
+    private Delivery delivery;
 
     @Schema(title = "술 이름", description = "술의 이름 입니다.")
     private String name;

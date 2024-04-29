@@ -26,12 +26,9 @@ public class DetailController {
                     "name에 술의 이름을 입력하시면 됩니다.")
     public ResponseEntity<List<DetailInformation>> Detail(@RequestBody AlcoholDto alcoholDto) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
             List<DetailInformation> list = alcoholService.DetailPage(alcoholDto.getName());
 
             return ResponseEntity.status(HttpStatus.OK).body(list);
-
     }
 
     @GetMapping("/algorithm")

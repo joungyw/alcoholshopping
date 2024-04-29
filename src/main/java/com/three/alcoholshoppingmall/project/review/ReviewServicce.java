@@ -2,6 +2,10 @@ package com.three.alcoholshoppingmall.project.review;
 
 
 
+import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
+import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
+import com.three.alcoholshoppingmall.project.user.User;
+import com.three.alcoholshoppingmall.project.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,15 +18,18 @@ import java.util.*;
 public class ReviewServicce {
 
     private final ReviewRepository reviewRepository;
+    public final AlcoholRepository alcoholRepository;
+    public final UserRepository userRepository;
 
 
     public List<Review> Reviewlist(String email) {
-        List<Review> list = reviewRepository.findByEmail(email);
+        List<Review> list = reviewRepository.findByUser_Email(email);
         return list;
     }
 
     public List<Review> Review(ReviewDTO reviewDTO) {
-        Optional<Review> check = reviewRepository.findByEmailAndName(reviewDTO.getEmail(), reviewDTO.getName());
+        Alcohol alcoholcheck = alcoholRepository.findByCode(reviewDTO.getAlcohol());
+        Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getAlcohol());
 
         List<Review> list = new ArrayList<>();
         Review review;
@@ -35,12 +42,12 @@ public class ReviewServicce {
             Review updatedReview = reviewRepository.save(existingReview);
             list.add(updatedReview);
         } else {
+            User usercheck = userRepository.findByEmail(reviewDTO.getUser().getEmail());
             review = Review.builder()
-                    .email(reviewDTO.getEmail())
-                    .name(reviewDTO.getName())
+                    .user(usercheck)
+                    .alcohol(alcoholcheck)
                     .writing(reviewDTO.getWriting())
                     .grade(reviewDTO.getGrade())
-                    .marketname(reviewDTO.getMarketname())
                     .picture(reviewDTO.getPicture())
                     .build();
             Review reviewsave = reviewRepository.save(review);
@@ -52,16 +59,17 @@ public class ReviewServicce {
 
     @Transactional
     public List<Review> ReviewDelete(ReviewDTO reviewDTO) {
-        Optional<Review> check = reviewRepository.findByEmailAndName(reviewDTO.getEmail(), reviewDTO.getName());
+        Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getAlcohol());
         if (check.isPresent()) {
-            reviewRepository.deleteByEmailAndName(reviewDTO.getEmail(), reviewDTO.getName());
+            reviewRepository.deleteByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getAlcohol());
         } else {
             throw new NoSuchElementException("해당 리뷰는 존재하지 않습니다.");
         }
         return null;
     }
 
-    }
+
+}
 
 
 

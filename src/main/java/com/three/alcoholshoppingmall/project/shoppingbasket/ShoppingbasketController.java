@@ -30,9 +30,9 @@ public class ShoppingbasketController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        shoppingbasketDTO.setEmail(user.getEmail());
+        shoppingbasketDTO.setUser(user);
 
-        List<Shoppingbasket> list = shoppingbasketService.Shoppinglist(shoppingbasketDTO.getEmail());
+        List<Shoppingbasket> list = shoppingbasketService.Shoppinglist(shoppingbasketDTO.getUser().getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -46,7 +46,7 @@ public class ShoppingbasketController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        shoppingbasketDTO.setEmail(user.getEmail());
+        shoppingbasketDTO.setUser(user);
 
         List<Shoppingbasket> list = shoppingbasketService.Shopping(shoppingbasketDTO);
 
@@ -62,7 +62,7 @@ public class ShoppingbasketController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        shoppingbasketDTO.setEmail(user.getEmail());
+        shoppingbasketDTO.setUser(user);
 
         List<Shoppingbasket> list = shoppingbasketService.Delete(shoppingbasketDTO);
 
@@ -79,7 +79,7 @@ public class ShoppingbasketController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        shoppingbasketDTO.setEmail(user.getEmail());
+        shoppingbasketDTO.setUser(user);
 
         List<Shoppingbasket> list = shoppingbasketService.Put(shoppingbasketDTO);
 

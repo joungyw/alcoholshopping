@@ -1,6 +1,7 @@
 package com.three.alcoholshoppingmall.project.favorites;
 
 
+import com.three.alcoholshoppingmall.project.alcohol.AlcoholDto;
 import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,13 +43,13 @@ private final FavoritesService favoritesService;
     @Operation(summary = "즐겨찾기 등록",
             description = "선택한 술을 즐겨찾기 목록에 등록 하는 기능으로 이미 있는 술일 경우 즐겨 찾기 목록에서 삭제 됩니다." +
                     "email 과 name에 술이름의 입력이 필요 합니다.")
-    public ResponseEntity<List<Favorites>> Favorites(@RequestBody FavoritesDTO favoritesDTO) {
+    public ResponseEntity<List<Favorites>> Favorites(@RequestBody AlcoholDto alcoholDto) {
+
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
-        favoritesDTO.setEmail(user.getEmail());
 
-        List<Favorites> list = favoritesService.Favorites(favoritesDTO);
+        List<Favorites> list = favoritesService.Favorites(alcoholDto.getCode(), user.getEmail());
 
         return  ResponseEntity.status(HttpStatus.OK).body(list);
     }
@@ -57,13 +58,13 @@ private final FavoritesService favoritesService;
     @Operation(summary = "즐겨찾기 삭제",
             description = "즐겨 찾기 목록에서 선택한 술을 지우는 기능입니다." +
                     "email 과 name에 술이름의 입력이 필요 합니다.")
-    public ResponseEntity<List<Favorites>> FavoritesDelete(@RequestBody FavoritesDTO favoritesDTO) {
+    public ResponseEntity<List<Favorites>> FavoritesDelete(@RequestBody AlcoholDto alcoholDto) {
+
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
-        favoritesDTO.setEmail(user.getEmail());
 
-        List<Favorites> list = favoritesService.FavoritesDelete(favoritesDTO);
+        List<Favorites> list = favoritesService.FavoritesDelete(alcoholDto.getCode(), user.getEmail());
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }

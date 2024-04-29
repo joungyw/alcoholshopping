@@ -86,6 +86,7 @@ public class AlcoholController {
 
     public ResponseEntity<List<Alcohol>> MostCategory(@RequestBody AlcoholDto alcoholDto){
 
+
         List<Alcohol> list = eventservice.Mostcategory(alcoholDto.getMaincategory());
 
         return ResponseEntity.status(HttpStatus.OK).body(list);

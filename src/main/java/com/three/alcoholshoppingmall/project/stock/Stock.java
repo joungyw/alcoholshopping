@@ -1,5 +1,8 @@
 package com.three.alcoholshoppingmall.project.stock;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
+import com.three.alcoholshoppingmall.project.market.Market;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,16 +22,20 @@ public class Stock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(title = "주류 ID", description = "table에서 자동으로 생성되는 칼럼입니다.")
-    private Long id;
+    private Long stocknumber;
 
-    @Schema(title = "주류 명", description = "주류의 이름 입니다.")
-    private String name;
+    @Schema(title = "매장의 코드", description = "매장의 코드와 조인된 칼럼입니다.")
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "code", referencedColumnName = "code")
+    private Alcohol alcohol;
 
-    @Schema(title = "판매처 이름", description = "해당 주류를 판매하는 판매처의 이름 입니다.")
-    private String marketname;
 
-    @Schema(title = "주류 가격", description = "해당 주류의 각 판매처의 가격입니다.")
-    private int price;
+    @Schema(title = "술의 코드", description = "술의 코드를 넣는 조인된 칼럼입니다.")
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "marketcode", referencedColumnName = "marketcode")
+    private Market market;
 
     @Schema(title = "재고", description = "해당 주류의 각 판매처의 재고입니다.")
     private int amount;

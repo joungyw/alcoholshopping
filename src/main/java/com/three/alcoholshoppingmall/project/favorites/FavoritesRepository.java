@@ -16,8 +16,8 @@ public interface FavoritesRepository extends JpaRepository<Favorites, Long> {
     @Query(value = "SELECT * FROM favorites WHERE email = :email", nativeQuery = true)
     List<Favorites> MyFavorites(String email);
 
-    Optional<Favorites> findByEmailAndName(String email, String name);
+    Optional<Favorites> findByUser_EmailAndAlcohol_Code(String email, Long code);
 
-    List<Favorites> deleteByEmailAndAndName(String email, String name);
+    List<Favorites> deleteByUser_EmailAndAlcohol_Code(String email, Long code);
 
 }

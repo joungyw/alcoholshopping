@@ -1,6 +1,7 @@
 package com.three.alcoholshoppingmall.project.review;
 
 
+import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
 import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,9 +47,9 @@ public class ReviewController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
-        reviewDTO.setEmail(user.getEmail());
-
+        reviewDTO.setUser(user);
         List<Review> list = reviewServicce.Review(reviewDTO);
+
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -60,8 +61,7 @@ public class ReviewController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
-        reviewDTO.setEmail(user.getEmail());
-
+        reviewDTO.setUser(user);
         List<Review> list = reviewServicce.ReviewDelete(reviewDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
