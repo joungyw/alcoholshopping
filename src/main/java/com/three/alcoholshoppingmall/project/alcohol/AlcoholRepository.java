@@ -2,6 +2,7 @@ package com.three.alcoholshoppingmall.project.alcohol;
 
 
 
+import com.three.alcoholshoppingmall.project.favorites.Favorites;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -170,4 +171,10 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     List<Alcohol> findBySubcategory(String subcategory);
 
     Alcohol findByCode(Long code);
+
+    @Query(value = "SELECT name from alcohol where code = :code" , nativeQuery = true)
+    String name(Long code);
+
+    @Query(value = "SELECT a.name FROM alcohol a JOIN favorites b ON a.code = b.code WHERE b.email = :email", nativeQuery = true)
+    List<String> MyFavorites(String email);
 }

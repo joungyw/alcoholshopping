@@ -23,29 +23,46 @@ public class FavoritesService {
     private final AlcoholRepository alcoholRepository;
     private final UserRepository userRepository;
 
-    public List<Favorites> Favoriteslist(String email) {
+    public List<Favoritesalcohol> Favoriteslist(String email) {
+        List<String> names = alcoholRepository.MyFavorites(email);
 
-        List<Favorites> list = favoritesFRepository.MyFavorites(email);
+        List<Favoritesalcohol> list = new ArrayList<>();
+        for (String name : names) {
+            Favoritesalcohol favoritesalcohol = Favoritesalcohol
+                    .builder()
+                    .name(name)
+                    .build();
+            list.add(favoritesalcohol);
+        }
 
         return list;
     }
 
+
+
     @Transactional
-    public List<Favorites> Favorites(Long code, String email) {
+    public List<Favoritesalcohol> Favorites(Long code, String email) {
         Optional<Favorites> favor = favoritesFRepository.findByUser_EmailAndAlcohol_Code(email,code);
        Alcohol alcohol = alcoholRepository.findByCode(code);
         User user = userRepository.findByEmail(email);
 
-        List<Favorites> list = new ArrayList<>();
+        List<Favoritesalcohol> list = new ArrayList<>();
 
         if (favor.isPresent()) {
             favoritesFRepository.deleteByUser_EmailAndAlcohol_Code(email,code);
         } else {
+            String alcoholname = alcoholRepository.name(code);
+
             Favorites favorites = new Favorites();
             favorites.setUser(user);
             favorites.setAlcohol(alcohol);
-            Favorites savedFavorites = favoritesFRepository.save(favorites);
-            list.add(savedFavorites);
+             favoritesFRepository.save(favorites);
+
+             Favoritesalcohol favoritesalcohol = Favoritesalcohol.builder()
+                     .name(alcoholname)
+                     .build();
+
+             list.add(favoritesalcohol);
         }
         return list;
     }

@@ -15,9 +15,12 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query(value = "SELECT COUNT(*) FROM review WHERE CODE = :code", nativeQuery = true)
     int Reviewcacount(Long code);
 
-    //해당 이메일의 리뷰 보기
-    List<Review> findByUser_Email(String email);
 
+    @Query(value = "SELECT a.name FROM alcohol a JOIN review b ON a.code = b.code WHERE b.email = :email", nativeQuery = true)
+    List<String> names(String email);
+
+
+    Review findByUser_Email(String email);
 
     Optional<Review> findByUser_EmailAndAlcohol_Code(String email, Long code);
 

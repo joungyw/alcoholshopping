@@ -26,13 +26,13 @@ public class ShoppingbasketController {
     @Operation(summary = "장바구니 조회",
             description = "현재 장바구니에 넣은 물건을 조회하는 기능입니다." +
                     "email에 입력이 필요합니다.")
-    public ResponseEntity<List<Shoppingbasket>> Shoppingbasketlist(@RequestBody ShoppingbasketDTO shoppingbasketDTO) {
+    public ResponseEntity<List<Shopping>> Shoppingbasketlist(@RequestBody ShoppingbasketDTO shoppingbasketDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         shoppingbasketDTO.setUser(user);
 
-        List<Shoppingbasket> list = shoppingbasketService.Shoppinglist(shoppingbasketDTO.getUser().getEmail());
+        List<Shopping> list = shoppingbasketService.Shoppinglist(shoppingbasketDTO.getUser().getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -42,13 +42,13 @@ public class ShoppingbasketController {
                     "email과 name에는 술의 이름 " +
                     "marketname 은 판매처 명" +
                     "amount 물건의 수량의 입력이 필요 합니다.")
-    public ResponseEntity<List<Shoppingbasket>> Shopping(@RequestBody ShoppingbasketDTO shoppingbasketDTO) {
+    public ResponseEntity<List<Shopping>> Shopping(@RequestBody ShoppingbasketDTO shoppingbasketDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         shoppingbasketDTO.setUser(user);
 
-        List<Shoppingbasket> list = shoppingbasketService.Shopping(shoppingbasketDTO);
+        List<Shopping> list = shoppingbasketService.Shopping(shoppingbasketDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
@@ -58,13 +58,13 @@ public class ShoppingbasketController {
             description = "해당 재품을 회원의 장바구니에서 뺴는 기능입니다. " +
                     "email과 name에는 술의 이름 " +
                     "marketname 은 판매처 명의 입력이 필요 합니다.")
-    public ResponseEntity<List<Shoppingbasket>> DeleteShopping(@RequestBody ShoppingbasketDTO shoppingbasketDTO) {
+    public ResponseEntity<List<Shopping>> DeleteShopping(@RequestBody ShoppingbasketDTO shoppingbasketDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         shoppingbasketDTO.setUser(user);
 
-        List<Shoppingbasket> list = shoppingbasketService.Delete(shoppingbasketDTO);
+        List<Shopping> list = shoppingbasketService.Delete(shoppingbasketDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
@@ -75,13 +75,13 @@ public class ShoppingbasketController {
                     "email과 name에는 술의 이름 " +
                     "marketname 은 판매처 명" +
                     "amount 물건의 수량의 입력이 필요 합니다.")
-    public ResponseEntity<List<Shoppingbasket>> PutShopping(@RequestBody ShoppingbasketDTO shoppingbasketDTO) {
+    public ResponseEntity<List<Shopping>> PutShopping(@RequestBody ShoppingbasketDTO shoppingbasketDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         shoppingbasketDTO.setUser(user);
 
-        List<Shoppingbasket> list = shoppingbasketService.Put(shoppingbasketDTO);
+        List<Shopping> list = shoppingbasketService.Put(shoppingbasketDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }

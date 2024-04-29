@@ -29,12 +29,12 @@ public class PurchaseController {
     @Operation(summary = "구매내역 중 픽업 보기",
             description = "회원의 구매 내역중 픽업으로 수령을 신청한 제품을 모두 보여줍니다." +
                     "email의 입력이 필요합니다.")
-    public ResponseEntity<List<Purchase>> PICKUP() {
+    public ResponseEntity<List<Purchaseshow>> PICKUP(PurchaseDTO purchaseDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
-
-        List<Purchase> list = purchaseServicce.PICKUPlist(user.getEmail());
+        purchaseDTO.setUser(user);
+        List<Purchaseshow> list = purchaseServicce.PICKUPlist(purchaseDTO);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -42,12 +42,13 @@ public class PurchaseController {
     @Operation(summary = "구매내역 중 배달 보기",
             description = "회원의 구매 내역중 배달로 수령을 신청한 제품을 모두 보여줍니다." +
                     "email의 입력이 필요합니다.")
-    public ResponseEntity<List<Purchase>> DELIVERY() {
+    public ResponseEntity<List<Purchaseshow>> DELIVERY(PurchaseDTO purchaseDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
+        purchaseDTO.setUser(user);
 
-        List<Purchase> list = purchaseServicce.DELIVERYlist(user.getEmail());
+        List<Purchaseshow> list = purchaseServicce.DELIVERYlist(purchaseDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
@@ -57,12 +58,13 @@ public class PurchaseController {
             description = "회원의 구매 내역중 가장 최근에 픽업으로 수령을 신청한 제품을 5개를 보여줍니다." +
                     "email의 입력이 필요합니다.")
 
-    public ResponseEntity<List<Purchase>> PICKUPLIMT() {
+    public ResponseEntity<List<Purchaseshow>> PICKUPLIMT(PurchaseDTO purchaseDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
+        purchaseDTO.setUser(user);
 
-        List<Purchase> list = purchaseServicce.PICKUPlimt(user.getEmail());
+        List<Purchaseshow> list = purchaseServicce.PICKUPlimt(purchaseDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
@@ -72,12 +74,13 @@ public class PurchaseController {
             description = "회원의 구매 내역중 가장 최근에 배달로 수령을 신청한 제품을 5개를 보여줍니다." +
                     "email의 입력이 필요합니다.")
 
-    public ResponseEntity<List<Purchase>> DELIVERYLIMT() {
+    public ResponseEntity<List<Purchaseshow>> DELIVERYLIMT(PurchaseDTO purchaseDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
+        purchaseDTO.setUser(user);
 
-        List<Purchase> list = purchaseServicce.DELIVERYLIMTlimt(user.getEmail());
+        List<Purchaseshow> list = purchaseServicce.DELIVERYLIMTlimt(purchaseDTO);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 

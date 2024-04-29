@@ -34,3 +34,5 @@ logging:
 token:
   jwt:
     secret: asdasdsadasdsadsadsasdadasssdsaadsasddasdasdasadsdsa
+server:
+  port: 8089

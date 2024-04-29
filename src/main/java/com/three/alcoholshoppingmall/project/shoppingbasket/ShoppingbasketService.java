@@ -4,6 +4,7 @@ package com.three.alcoholshoppingmall.project.shoppingbasket;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
 import com.three.alcoholshoppingmall.project.market.MarketRepository;
 import com.three.alcoholshoppingmall.project.purchase.Delivery;
+import com.three.alcoholshoppingmall.project.review.Reviewshow;
 import com.three.alcoholshoppingmall.project.stock.Stock;
 import com.three.alcoholshoppingmall.project.stock.StockRepository;
 import com.three.alcoholshoppingmall.project.user.User;
@@ -27,20 +28,36 @@ public class ShoppingbasketService {
     private final MarketRepository marketRepository;
     private final AlcoholRepository alcoholRepository;
 
-    public List<Shoppingbasket> Shoppinglist(String email) {
+    public List<Shopping> Shoppinglist(String email) {
+        List<Shopping> list = new ArrayList<>();
 
-        List<Shoppingbasket> list = shoppingbasketRepository.findByUser_Email(email);
+        List<Shoppingbasket> shoppingbaskets = shoppingbasketRepository.findByUser_Email(email);
+        List<String> alcoholname = shoppingbasketRepository.alcohol(email);
+        List<String> marketname = shoppingbasketRepository.market(email);
 
-        if (list == null) {
-            return null;
-        } else {
-            return list;
+        for (int i = 0; i < shoppingbaskets.size(); i++) {
+            Shoppingbasket check = shoppingbaskets.get(i);
+            String alcoholName = alcoholname.isEmpty() ? null : alcoholname.get(i);
+            String marketName = marketname.isEmpty() ? null : marketname.get(i);
+
+            if (alcoholName != null && marketName != null) {
+                Shopping shopping = Shopping.builder()
+                        .name(alcoholName)
+                        .marketname(marketName)
+                        .amount(check.getAmount())
+                        .price(check.getPrice())
+                        .build();
+
+                list.add(shopping);
+            }
         }
+        return list;
     }
 
-    public List<Shoppingbasket> Shopping(ShoppingbasketDTO shoppingbasketDTO) {
+
+    public List<Shopping> Shopping(ShoppingbasketDTO shoppingbasketDTO) {
         Shoppingbasket shoppingbasket;
-        List<Shoppingbasket> list = new ArrayList<>();
+        List<Shopping> list = new ArrayList<>();
         Optional<Shoppingbasket> basket = shoppingbasketRepository.findByUser_EmailAndShoppingnumber(shoppingbasketDTO.getUser().getEmail(),shoppingbasketDTO.getStock());
 
         if (basket.isEmpty()) {
@@ -55,8 +72,20 @@ public class ShoppingbasketService {
                     .amount(shoppingbasketDTO.getAmount())
                     .price(totalprice)
                     .build();
-            Shoppingbasket basketsave = shoppingbasketRepository.save(shoppingbasket);
-            list.add(basketsave);
+          shoppingbasketRepository.save(shoppingbasket);
+
+            String alcohol = shoppingbasketRepository.alcoholname(shoppingbasket.getShoppingnumber());
+            String market = shoppingbasketRepository.marketname(shoppingbasket.getShoppingnumber());
+          Shopping shopping = Shopping
+                  .builder()
+                  .name(alcohol)
+                  .marketname(market)
+                  .amount(shoppingbasket.getAmount())
+                  .price(shoppingbasket.getPrice())
+                  .build();
+
+
+            list.add(shopping);
         } else {
             throw new IllegalStateException("이미 장바구니에 있습니다.");
         }
@@ -64,18 +93,38 @@ public class ShoppingbasketService {
     }
 
     @Transactional
-    public List<Shoppingbasket> Delete(ShoppingbasketDTO shoppingbasketDTO) {
+    public List<Shopping> Delete(ShoppingbasketDTO shoppingbasketDTO) {
         Optional<Shoppingbasket> basket = shoppingbasketRepository.findByUser_EmailAndShoppingnumber(shoppingbasketDTO.getUser().getEmail(), shoppingbasketDTO.getShoppingnumber());
         if(basket.isPresent()){
              shoppingbasketRepository.deleteByUser_EmailAndShoppingnumber(shoppingbasketDTO.getUser().getEmail(), shoppingbasketDTO.getShoppingnumber());
         }else {
             throw new IllegalStateException("해당 내용은 장바구니에 없습니다.");
         }
-        List<Shoppingbasket> list = shoppingbasketRepository.findByUser_Email(shoppingbasketDTO.getUser().getEmail());
+        List<Shopping> list = new ArrayList<>();
+        List<Shoppingbasket> shoppingbaskets = shoppingbasketRepository.findByUser_Email(shoppingbasketDTO.getUser().getEmail());
+        List<String> alcoholname = shoppingbasketRepository.alcohol(shoppingbasketDTO.getUser().getEmail());
+        List<String> marketname = shoppingbasketRepository.market(shoppingbasketDTO.getUser().getEmail());
+
+        for (int i = 0; i < shoppingbaskets.size(); i++) {
+            Shoppingbasket check = shoppingbaskets.get(i);
+            String alcoholName = alcoholname.isEmpty() ? null : alcoholname.get(i);
+            String marketName = marketname.isEmpty() ? null : marketname.get(i);
+
+            if (alcoholName != null && marketName != null) {
+                Shopping shopping = Shopping.builder()
+                        .name(alcoholName)
+                        .marketname(marketName)
+                        .amount(check.getAmount())
+                        .price(check.getPrice())
+                        .build();
+
+                list.add(shopping);
+            }
+        }
         return list;
     }
 
-    public List<Shoppingbasket> Put(ShoppingbasketDTO shoppingbasketDTO) {
+    public List<Shopping> Put(ShoppingbasketDTO shoppingbasketDTO) {
         Optional<Shoppingbasket> basket = shoppingbasketRepository.findByUser_EmailAndShoppingnumber(shoppingbasketDTO.getUser().getEmail(), shoppingbasketDTO.getShoppingnumber());
         if(basket.isPresent()){
 
@@ -93,7 +142,27 @@ public class ShoppingbasketService {
         else {
             throw new IllegalStateException("해당 내용은 장바구니에 없습니다.");
         }
-        List<Shoppingbasket> list = shoppingbasketRepository.findByUser_Email(shoppingbasketDTO.getUser().getEmail());
+        List<Shopping> list = new ArrayList<>();
+        List<Shoppingbasket> shoppingbaskets = shoppingbasketRepository.findByUser_Email(shoppingbasketDTO.getUser().getEmail());
+        List<String> alcoholname = shoppingbasketRepository.alcohol(shoppingbasketDTO.getUser().getEmail());
+        List<String> marketname = shoppingbasketRepository.market(shoppingbasketDTO.getUser().getEmail());
+
+        for (int i = 0; i < shoppingbaskets.size(); i++) {
+            Shoppingbasket check = shoppingbaskets.get(i);
+            String alcoholName = alcoholname.isEmpty() ? null : alcoholname.get(i);
+            String marketName = marketname.isEmpty() ? null : marketname.get(i);
+
+            if (alcoholName != null && marketName != null) {
+                Shopping shopping = Shopping.builder()
+                        .name(alcoholName)
+                        .marketname(marketName)
+                        .amount(check.getAmount())
+                        .price(check.getPrice())
+                        .build();
+
+                list.add(shopping);
+            }
+        }
         return list;
 
     }

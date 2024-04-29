@@ -86,11 +86,11 @@ public class AlcoholController {
 
     public ResponseEntity<List<Alcohol>> MostCategory(@RequestBody AlcoholDto alcoholDto){
 
-
         List<Alcohol> list = eventservice.Mostcategory(alcoholDto.getMaincategory());
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
+
     @GetMapping("/newproduct")
     @Operation(summary = "신 제품",
             description = "가장 최근에 나온 제품을 보여 줍니다." +
