@@ -23,6 +23,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(title = "생성 번호", description = "table에서 자동으로 생성되는 칼럼입니다.")
+    @Column(unique = true,nullable = false)
     private Long id;
 
     @Column(nullable = false,unique = true)

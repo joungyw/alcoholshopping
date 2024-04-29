@@ -13,5 +13,10 @@ import java.util.List;
 
 @Repository
 public interface SearchRepository extends JpaRepository<Search, Long> {
+    List<Search> findAllByUserOrderByIdDesc(User user, PageRequest pageable);
 
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO search (email, searchcontents) VALUES (:email, :searchcontents)", nativeQuery = true)
+    void searchsave(String email, String searchcontents);
 }

@@ -20,8 +20,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/favorites")
-
 @Tag(name = "favorites", description = "즐겨찾기 페이지 입니다.")
+@SecurityRequirement(name = "bearerAuth")
 public class FavoritesController {
 
 private final FavoritesService favoritesService;

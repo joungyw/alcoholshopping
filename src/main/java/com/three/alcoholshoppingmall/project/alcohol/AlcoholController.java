@@ -2,6 +2,7 @@ package com.three.alcoholshoppingmall.project.alcohol;
 
 import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,20 +21,6 @@ public class AlcoholController {
 
     private final AlcoholService alcoholService;
     private final Eventservice eventservice;
-
-//    @GetMapping("/mainpage")
-//    @Operation(summary = "메인 페이지 정보",
-//            description = "모든 술의 정보와 가격 평균 평점 리뷰 갯수가 표시됩니다." +
-//                    "따로 입력 값은  필요 없습니다"
-//    )
-//    public ResponseEntity<List<Information>> MainPage() {
-//
-//        List<Information> list = alcoholService.Page();
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(list);
-//    }
-
-
 
     @GetMapping("/pop")
     @Operation(summary = "인기 정렬",
@@ -79,18 +66,18 @@ public class AlcoholController {
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
+
     @PostMapping("/mostcategory")
     @Operation(summary = "주간 많이 팔린 술 카테고리별",
             description = "각 카테고리별로  주간 많이 팔린 술 8개를 각 카테고리별로 보여 줍니다." +
                     "maincategory 에 입력이 필요 합니다. 위스키 ,와인 ,리큐르 ,브렌디 ")
-
     public ResponseEntity<List<Alcohol>> MostCategory(@RequestBody AlcoholDto alcoholDto){
-
 
         List<Alcohol> list = eventservice.Mostcategory(alcoholDto.getMaincategory());
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
+
     @GetMapping("/newproduct")
     @Operation(summary = "신 제품",
             description = "가장 최근에 나온 제품을 보여 줍니다." +
@@ -101,7 +88,4 @@ public class AlcoholController {
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
-
-
-
 }
