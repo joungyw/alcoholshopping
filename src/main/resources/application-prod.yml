@@ -1,7 +1,6 @@
 spring :
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-#    url: jdbc:p6spy:mysql://three-mysql:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
     url: ENC(KIs7XCFqrSgh/yLqxcLgCczO0xaOAdMJzr0ShITr6MDzqfLMSrY8vJZvuRTW1RLm9FIcSppinXeGcm0OhlSbKP9KQfQTEWrW2IJ3FwH/ENBq7O7RgocMEWPIRy9K/LpkEKQpo96eKMs5wdhRqz4Rvo9Y4mdA8z3N3lk8vJaA3tk=)
 
   jpa:
