@@ -1,6 +1,7 @@
 package com.three.alcoholshoppingmall.project.alcohol;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -44,6 +45,7 @@ public class Alcohol {
 
     @Schema(title = "주류 여운", description = "주류의 여운을 넣어주시면 됩니다.")
     private String finish;
+
 
     @Schema(title = "주류 국가", description = "주류의 국가를 넣어주시면 됩니다.")
     private String nation;

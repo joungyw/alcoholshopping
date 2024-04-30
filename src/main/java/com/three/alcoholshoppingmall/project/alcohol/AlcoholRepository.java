@@ -43,13 +43,9 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
 
     List<Alcohol> findByMaincategory(String maincategory); // 대분류로 주류 검색하기
 
+    List<Alcohol> findBySubcategory(String subcategory); // 소분류로 주류 검색하기
+
     List<Alcohol> findByNameContaining(String name);// 이름으로 주류 검색하기
-
-    @Query(value = "select m from Alcohol m where m.maincategory = :maincategory and m.subcategory = :subcategory")
-    List<Alcohol> findByMyCustom(String maincategory, String subcategory); // 대분류와 소분류로 주류 검색하기
-
-    @Query(value = "SELECT distinct subcategory FROM Alcohol WHERE maincategory = :maincategory")
-    List<String> findSubcategoryByMaincategory(String maincategory);// 대분류 클릭 시 소분류 내용 나오게 하기
 
 
     //술 평점
@@ -165,9 +161,6 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "GROUP BY a.code, a.name\n" +
             "ORDER BY COALESCE(MIN(a.price), 0) ASC, a.code ASC", nativeQuery = true)
     List<Integer> minreviewCount();
-
-
-    List<Alcohol> findBySubcategory(String subcategory);
 
     Alcohol findByCode(Long code);
 }

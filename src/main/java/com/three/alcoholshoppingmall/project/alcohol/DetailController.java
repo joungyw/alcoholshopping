@@ -2,6 +2,7 @@ package com.three.alcoholshoppingmall.project.alcohol;
 
 import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/detail")
 @Tag(name = "detail", description = "상세 정보를 보여주는 페이지로 토큰이 필요 합니다.")
+@SecurityRequirement(name = "bearerAuth")
 public class DetailController {
 
     private final AlcoholService alcoholService;

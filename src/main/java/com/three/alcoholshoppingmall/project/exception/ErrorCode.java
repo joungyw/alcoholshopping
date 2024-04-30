@@ -14,6 +14,7 @@ public enum ErrorCode {
     NULLMAINCATEGORY(HttpStatus.NOT_FOUND, "NULLMAINCATEGORY", "해당 대분류가 존재하지 않습니다."),
     NULLSUBCATEGORY(HttpStatus.NOT_FOUND, "NULLSUBCATEGORY", "해당 소분류가 존재하지 않습니다."),
     NOTFOUNDALCOHOL(HttpStatus.NOT_FOUND, "NOTFOUNDALCOHOL", "해당 이름의 주류를 찾을 수 없습니다."),
+    NOTFOUNDRECENT(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 검색 기록을 찾을 수 없습니다."),
 
     // 회원가입 에러 코드
     DUPLEMAIL(HttpStatus.BAD_REQUEST,"EMAILDUPL","이미 가입된 이메일입니다."),
