@@ -19,7 +19,7 @@ public class Alcohol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(title = "주류 code", description = "table에서 자동으로 생성되는 칼럼입니다.")
-    @Column(unique = true,nullable = false)
+    @Column(unique = true,nullable = false, length = 100)
     private Long code;
 
     @Schema(title = "주류 이름", description = "주류 이름을 넣어주시면 됩니다.")
@@ -27,23 +27,27 @@ public class Alcohol {
     private String name;
 
     @Schema(title = "주류 대분류", description = "주류의 대분류를 넣어주시면 됩니다.")
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String maincategory;
 
     @Schema(title = "주류 소분류", description = "주류의 소분류를 넣어주시면 됩니다.")
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String subcategory;
 
     @Schema(title = "주류 도수", description = "주류의 도수을 넣어주시면 됩니다.")
+    @Column(length = 10)
     private String content;
 
     @Schema(title = "주류 향", description = "주류 향을 넣어주시면 됩니다.")
+    @Column(length = 100)
     private String aroma;
 
     @Schema(title = "주류 맛", description = "주류 맛을 넣어주시면 됩니다.")
+    @Column(length = 100)
     private String taste;
 
     @Schema(title = "주류 여운", description = "주류의 여운을 넣어주시면 됩니다.")
+    @Column(length = 100)
     private String finish;
 
     @Schema(title = "주류 국가", description = "주류의 국가를 넣어주시면 됩니다.")

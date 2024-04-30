@@ -48,11 +48,14 @@ public class Purchase {
     private Delivery delivery;
 
     @Enumerated(EnumType.STRING)
-    @Schema(title = "구매, 환불, 교환 여부", description = "구매자의 상품의 상태를 표기 합니다")
+    @Schema(title = "구매, 환불, 교환 여부", description = "회원의 상품의 상태를 표기 합니다")
     private Division division;
 
-    @Schema(title = "주소", description = "구매자의 주소입니다.")
+    @Schema(title = "주소", description = "회원의 주소입니다.")
     private String address;
+
+    @Schema(title = "상세주소", description = "회원의 상세주소 입니다.")
+    private String address2;
 
     @Schema(title = "구매일자", description = "물건을 구매한 날짜 입니다.")
     private LocalDate purchaseday;

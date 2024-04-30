@@ -37,6 +37,7 @@ public class Shoppingbasket {
 
 
     @Schema(title = "amount", description = "해당 물품의 구매 수량입니다.")
+    @Column(nullable = false)
     private  int amount;
 
     @Schema(title = "price", description = "해당 물품들의 총 가격입니다.")

@@ -3,6 +3,7 @@ package com.three.alcoholshoppingmall.project.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,7 +32,7 @@ public class User {
     private String email;
 
     @Schema(title = "nickname", description = "회원의 nickname입니다.")
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String nickname;
 
     @Schema(title = "password", description = "회원의 password입니다.")
@@ -51,11 +52,11 @@ public class User {
     private Gender gender;
 
     @Schema(title = "birthdate", description = "회원의 생년월일 입니다.")
-    @Column(nullable = false)
+    @Column(nullable = false, length = 8)
     private String birthdate;
 
     @Schema(title = "phone", description = "회원의 전화번호 입니다.")
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false,unique = true, length = 20)
     private String phone;
 
     @Schema(title = "withdraw", description = "회원의 탈퇴 입니다.")

@@ -34,11 +34,13 @@ public class Review {
     private User user;
 
     @Schema(title = "리뷰 글", description = "사용자가 작성한 리뷰 글입니다.")
+    @Column(nullable = false, length = 500)
     private String writing;
 
     @Schema(title = "평점", description = "사용자가 매긴 평점 입니다.")
     @Min(value = 0, message = "최소 숫자는 0 입니다.")
     @Max(value = 10, message = "최대 숫자는 10 입니다.")
+    @Column(nullable = false)
     private int grade;
 
     @Schema(title = "사진", description = "리뷰시 올린 사진 입니다.")
