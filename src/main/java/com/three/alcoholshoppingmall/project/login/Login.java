@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @Schema(description = "로그인 클래스")
 public class Login {
 
-    @Schema(description = "이메일", example = "email")
+    @Schema(description = "이메일", example = "이메일")
     private String email;
-    @Schema(description = "비밀번호", example = "password")
+    @Schema(description = "비밀번호", example = "비밀번호")
     private String password;
 }
