@@ -66,7 +66,8 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "GROUP BY a.name", nativeQuery = true)
     List<Integer> Allamount();
 
-    List<Alcohol> findByName(String name);
+    Alcohol findByName(String name);
+
 
     //특정 술의 평점
     @Query(value = "SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade \n" +
@@ -78,51 +79,44 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     @Query(value = "SELECT price FROM alcohol WHERE code= :code", nativeQuery = true)
     int Price(Long code);
 
-    @Query(value = "SELECT price FROM alcohol WHERE name = :name", nativeQuery = true)
-    int Price(String name);
-
 
 
     // 인기순
     @Query(value = "SELECT a.* FROM alcohol a LEFT JOIN (\n" +
-            "    SELECT s.code, COUNT(p.ordernumber) AS total_orders\n" +
-            "    FROM purchase p\n" +
-            "    JOIN shoppingbasket sb ON p.shoppingnumber = sb.shoppingnumber\n" +
-            "    JOIN stock s ON sb.stocknumber = s.stocknumber\n" +
-            "    WHERE YEARWEEK(p.purchaseday) = YEARWEEK(NOW())\n" +
-            "    GROUP BY s.code ) AS p ON a.code = p.code\n" +
-            "ORDER BY COALESCE(total_orders, 0) DESC, a.code ASC", nativeQuery = true)
+            "               SELECT s.code, COUNT(p.ordernumber) AS total_amount\n" +
+            "                FROM purchase p\n" +
+            "                JOIN stock s ON s.stocknumber = p.stocknumber\n" +
+            "                WHERE YEARWEEK(p.purchaseday) = YEARWEEK(NOW())\n" +
+            "                GROUP BY s.code ) AS p ON a.code = p.code\n" +
+            "            ORDER BY COALESCE(total_amount, 0) DESC, a.code ASC", nativeQuery = true)
     List<Alcohol> pop();
 
     // 인기순 평점
-    @Query(value = "SELECT COALESCE(AVG(r.grade), 0) AS avg_rating FROM alcohol a \n" +
-            "LEFT JOIN review r ON a.code = r.code \n" +
+    @Query(value = "SELECT COALESCE(AVG(r.grade), 0) AS avg_rating FROM alcohol a\n" +
+            "LEFT JOIN review r ON a.code = r.code\n" +
             "LEFT JOIN (\n" +
-            "    SELECT s.code, SUM(sb.amount) AS purchase_amount \n" +
-            "    FROM purchase p \n" +
-            "    JOIN shoppingbasket sb ON p.shoppingnumber = sb.shoppingnumber \n" +
-            "    JOIN stock s ON sb.stocknumber = s.stocknumber \n" +
+            "    SELECT s.code, SUM(p.amount) AS total_amount\n" +
+            "    FROM purchase p\n" +
+            "    JOIN stock s ON s.stocknumber = p.stocknumber\n" +
+            "    WHERE YEARWEEK(p.purchaseday) = YEARWEEK(NOW())\n" +
             "    GROUP BY s.code\n" +
-            ") b ON a.code = b.code \n" +
-            "GROUP BY a.code \n" +
-            "ORDER BY COALESCE(MAX(b.purchase_amount), 0) DESC, a.code ASC", nativeQuery = true)
+            ") AS p ON a.code = p.code GROUP BY a.code\n" +
+            "ORDER BY COALESCE(SUM(p.total_amount), 0) DESC, a.code ASC\n", nativeQuery = true)
     List<Double> popratings();
 
-    // 인기순 가격
-
     // 인기순 리뷰 갯수
-    @Query(value = "SELECT COALESCE(COUNT(r.writing), 0) AS review_count \n" +
-            "FROM alcohol a \n" +
-            "LEFT JOIN review r ON a.code = r.code \n" +
+    @Query(value = "SELECT COALESCE(COUNT(r.writing), 0) AS review_count\n" +
+            "FROM alcohol a\n" +
+            "LEFT JOIN review r ON a.code = r.code\n" +
             "LEFT JOIN (\n" +
-            "    SELECT s.code, SUM(sb.amount) AS purchase_amount \n" +
-            "    FROM purchase p \n" +
-            "    JOIN shoppingbasket sb ON p.shoppingnumber = sb.shoppingnumber \n" +
-            "    JOIN stock s ON sb.stocknumber = s.stocknumber \n" +
+            "    SELECT s.code, SUM(p.amount) AS total_amount\n" +
+            "    FROM purchase p\n" +
+            "    JOIN stock s ON s.stocknumber = p.stocknumber\n" +
+            "    WHERE YEARWEEK(p.purchaseday) = YEARWEEK(NOW())\n" +
             "    GROUP BY s.code\n" +
-            ") b ON a.code = b.code \n" +
-            "GROUP BY a.code \n" +
-            "ORDER BY COALESCE(MAX(b.purchase_amount), 0) DESC, a.code ASC", nativeQuery = true)
+            ") AS p ON a.code = p.code\n" +
+            "GROUP BY a.code\n" +
+            "ORDER BY COALESCE(SUM(p.total_amount), 0) DESC, a.code ASC", nativeQuery = true)
     List<Integer> popreviewCount();
 
     // 최대 가격 순 정렬
@@ -136,7 +130,6 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "GROUP BY a.code, a.name\n" +
             "ORDER BY COALESCE(MAX(a.price), 0) DESC, a.code ASC", nativeQuery = true)
     List<Double> maxratings();
-
 
     // 최대 가격 순 정렬시 리뷰 갯수
     @Query(value = "SELECT COALESCE(COUNT(r.writing), 0) AS review_count\n" +
@@ -177,4 +170,8 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
 
     @Query(value = "SELECT a.name FROM alcohol a JOIN favorites b ON a.code = b.code WHERE b.email = :email", nativeQuery = true)
     List<String> MyFavorites(String email);
+
+
+
+
 }

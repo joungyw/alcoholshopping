@@ -28,7 +28,7 @@ private final FavoritesService favoritesService;
     @GetMapping("/list")
     @Operation(summary = "즐겨찾기 목록",
             description = "해당 회원이 즐겨찾기에 등록한 정보를 모두 보여 줍니다." +
-                    "email 입력이 필요 합니다.")
+                    "입력 하실 값은 없습니다.")
     public ResponseEntity<List<Favoritesalcohol>> FavoritesList(){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -43,9 +43,9 @@ private final FavoritesService favoritesService;
     @PostMapping("")
     @Operation(summary = "즐겨찾기 등록",
             description = "선택한 술을 즐겨찾기 목록에 등록 하는 기능으로 이미 있는 술일 경우 즐겨 찾기 목록에서 삭제 됩니다." +
-                    "email 과 name에 술이름의 입력이 필요 합니다.")
+                    "code에 술의 고유 코드의 입력이 필요 합니다." +
+                    "code는 1~50까지 있습니다.")
     public ResponseEntity<List<Favoritesalcohol>> Favorites(@RequestBody AlcoholDto alcoholDto) {
-
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
@@ -58,9 +58,9 @@ private final FavoritesService favoritesService;
     @DeleteMapping("")
     @Operation(summary = "즐겨찾기 삭제",
             description = "즐겨 찾기 목록에서 선택한 술을 지우는 기능입니다." +
-                    "email 과 name에 술이름의 입력이 필요 합니다.")
+                    "code에 술의 고유 코드의 입력이 필요 합니다."+
+                    "code는 1~50까지 있습니다.")
     public ResponseEntity<List<Favorites>> FavoritesDelete(@RequestBody AlcoholDto alcoholDto) {
-
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();

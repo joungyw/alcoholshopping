@@ -27,7 +27,7 @@ public class ShoppingbasketController {
     @GetMapping("")
     @Operation(summary = "장바구니 조회",
             description = "현재 장바구니에 넣은 물건을 조회하는 기능입니다." +
-                    "email에 입력이 필요합니다.")
+                    "입력 하실 값은 없습니다.")
     public ResponseEntity<List<Shopping>> Shoppingbasketlist(@RequestBody ShoppingbasketDTO shoppingbasketDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -41,8 +41,8 @@ public class ShoppingbasketController {
     @PostMapping("")
     @Operation(summary = "장바구니 넣기",
             description = "해당 재품을 회원의 장바구니에 추가하는 기능 입니다. " +
-                    "email과 name에는 술의 이름 " +
-                    "marketname 은 판매처 명" +
+                    "stock에 입력이 필요 합니다." +
+                    "stock은  매장의 코드와 술의 코드가 합쳐진것으로 1~150까지 있습니다." +
                     "amount 물건의 수량의 입력이 필요 합니다.")
     public ResponseEntity<List<Shopping>> Shopping(@RequestBody ShoppingbasketDTO shoppingbasketDTO) {
 
@@ -58,8 +58,8 @@ public class ShoppingbasketController {
     @DeleteMapping("")
     @Operation(summary = "장바구니 빼기",
             description = "해당 재품을 회원의 장바구니에서 뺴는 기능입니다. " +
-                    "email과 name에는 술의 이름 " +
-                    "marketname 은 판매처 명의 입력이 필요 합니다.")
+                    "stock에 입력이 필요 합니다." +
+                    "stock은  매장의 코드와 술의 코드가 합쳐진것으로 1~150까지 있습니다.")
     public ResponseEntity<List<Shopping>> DeleteShopping(@RequestBody ShoppingbasketDTO shoppingbasketDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -74,8 +74,8 @@ public class ShoppingbasketController {
     @PutMapping("")
     @Operation(summary = "장바구니 수정",
             description = "회원의 장바구니에서 선택한 제품의 수량을 수정하는 기능입니다." +
-                    "email과 name에는 술의 이름 " +
-                    "marketname 은 판매처 명" +
+                    "stock에 입력이 필요 합니다." +
+                    "stock은  매장의 코드와 술의 코드가 합쳐진것으로 1~150까지 있습니다." +
                     "amount 물건의 수량의 입력이 필요 합니다.")
     public ResponseEntity<List<Shopping>> PutShopping(@RequestBody ShoppingbasketDTO shoppingbasketDTO) {
 

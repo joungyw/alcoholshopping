@@ -2,6 +2,7 @@ package com.three.alcoholshoppingmall.project.purchase;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.three.alcoholshoppingmall.project.shoppingbasket.Shoppingbasket;
+import com.three.alcoholshoppingmall.project.stock.Stock;
 import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -30,11 +31,17 @@ public class Purchase {
     @JoinColumn(name = "email", referencedColumnName = "email")
     private User user;
 
-    @Schema(title = "장바구니 코드", description = "장바구니 코드와 조인된 칼럼입니다.")
+    @Schema(title = "재고", description = "재고 테이블과 조인된 칼럼입니다.")
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "shoppingnumber", referencedColumnName = "shoppingnumber")
-    private Shoppingbasket shoppingbasket;
+    @JoinColumn(name = "stocknumber", referencedColumnName = "stocknumber")
+    private Stock stock;
+
+    @Schema(title = "amount", description = "해당 물품의 구매 수량입니다.")
+    private  int amount;
+
+    @Schema(title = "price", description = "해당 물품들의 총 가격입니다.")
+    private int price;
 
     @Schema(title = "수령형식", description = "물건을 수령할때 배달인지 픽업인지 구분합니다.")
     @Enumerated(EnumType.STRING)
@@ -49,6 +56,9 @@ public class Purchase {
 
     @Schema(title = "구매일자", description = "물건을 구매한 날짜 입니다.")
     private LocalDate purchaseday;
+
+
+
 
 
 

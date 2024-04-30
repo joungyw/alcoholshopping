@@ -22,22 +22,17 @@ public class PurchaseServicce {
         for (Purchase purchase : check) {
             List<String> alcoholList = purchaseRepository.alcoholspick(purchase.getUser().getEmail());
             List<String> marketList = purchaseRepository.marketspick(purchase.getUser().getEmail());
-            List<Integer> amounts = shoppingbasketRepository.amount(purchase.getShoppingbasket().getShoppingnumber());
-            List<Integer> prices = shoppingbasketRepository.price(purchase.getShoppingbasket().getShoppingnumber());
 
-            int size = Math.min(alcoholList.size(), Math.min(marketList.size(), Math.min(amounts.size(), prices.size())));
-
+            int size = Math.min(alcoholList.size(), marketList.size());
             for (int i = 0; i < size; i++) {
                 String alcoholName = alcoholList.get(i);
                 String marketName = marketList.get(i);
-                int amount = amounts.get(i);
-                int price = prices.get(i);
 
                 Purchaseshow purchaseshow = Purchaseshow.builder()
                         .alcoholname(alcoholName)
                         .marketname(marketName)
-                        .amount(amount)
-                        .price(price)
+                        .amount(purchase.getAmount())
+                        .price(purchase.getPrice())
                         .delivery(purchase.getDelivery())
                         .division(purchase.getDivision())
                         .address(purchase.getAddress())
@@ -47,7 +42,6 @@ public class PurchaseServicce {
                 list.add(purchaseshow);
             }
         }
-
         return list;
     }
 
@@ -58,22 +52,17 @@ public class PurchaseServicce {
         for (Purchase purchase : check) {
             List<String> alcoholList = purchaseRepository.alcoholsdelivery(purchase.getUser().getEmail());
             List<String> marketList = purchaseRepository.marketsdelivery(purchase.getUser().getEmail());
-            List<Integer> amounts = shoppingbasketRepository.amount(purchase.getShoppingbasket().getShoppingnumber());
-            List<Integer> prices = shoppingbasketRepository.price(purchase.getShoppingbasket().getShoppingnumber());
 
-            int size = Math.min(alcoholList.size(), Math.min(marketList.size(), Math.min(amounts.size(), prices.size())));
-
+            int size = Math.min(alcoholList.size(), marketList.size());
             for (int i = 0; i < size; i++) {
                 String alcoholName = alcoholList.get(i);
                 String marketName = marketList.get(i);
-                int amount = amounts.get(i);
-                int price = prices.get(i);
 
                 Purchaseshow purchaseshow = Purchaseshow.builder()
                         .alcoholname(alcoholName)
                         .marketname(marketName)
-                        .amount(amount)
-                        .price(price)
+                        .amount(purchase.getAmount())
+                        .price(purchase.getPrice())
                         .delivery(purchase.getDelivery())
                         .division(purchase.getDivision())
                         .address(purchase.getAddress())
@@ -83,7 +72,6 @@ public class PurchaseServicce {
                 list.add(purchaseshow);
             }
         }
-
         return list;
     }
 
@@ -94,22 +82,17 @@ public class PurchaseServicce {
         for (Purchase purchase : check) {
             List<String> alcoholList = purchaseRepository.alcoholspicklimt(purchase.getUser().getEmail());
             List<String> marketList = purchaseRepository.marketspicklimt(purchase.getUser().getEmail());
-            List<Integer> amounts = shoppingbasketRepository.amount(purchase.getShoppingbasket().getShoppingnumber());
-            List<Integer> prices = shoppingbasketRepository.price(purchase.getShoppingbasket().getShoppingnumber());
 
-            int size = Math.min(alcoholList.size(), Math.min(marketList.size(), Math.min(amounts.size(), prices.size())));
-
+            int size = Math.min(alcoholList.size(), marketList.size());
             for (int i = 0; i < size; i++) {
                 String alcoholName = alcoholList.get(i);
                 String marketName = marketList.get(i);
-                int amount = amounts.get(i);
-                int price = prices.get(i);
 
                 Purchaseshow purchaseshow = Purchaseshow.builder()
                         .alcoholname(alcoholName)
                         .marketname(marketName)
-                        .amount(amount)
-                        .price(price)
+                        .amount(purchase.getAmount())
+                        .price(purchase.getPrice())
                         .delivery(purchase.getDelivery())
                         .division(purchase.getDivision())
                         .address(purchase.getAddress())
@@ -119,7 +102,6 @@ public class PurchaseServicce {
                 list.add(purchaseshow);
             }
         }
-
         return list;
     }
 
@@ -130,22 +112,17 @@ public class PurchaseServicce {
         for (Purchase purchase : check) {
             List<String> alcoholList = purchaseRepository.alcoholsdeliverylimt(purchase.getUser().getEmail());
             List<String> marketList = purchaseRepository.marketsdeliverylimt(purchase.getUser().getEmail());
-            List<Integer> amounts = shoppingbasketRepository.amount(purchase.getShoppingbasket().getShoppingnumber());
-            List<Integer> prices = shoppingbasketRepository.price(purchase.getShoppingbasket().getShoppingnumber());
 
-            int size = Math.min(alcoholList.size(), Math.min(marketList.size(), Math.min(amounts.size(), prices.size())));
-
+            int size = Math.min(alcoholList.size(), marketList.size());
             for (int i = 0; i < size; i++) {
                 String alcoholName = alcoholList.get(i);
                 String marketName = marketList.get(i);
-                int amount = amounts.get(i);
-                int price = prices.get(i);
 
                 Purchaseshow purchaseshow = Purchaseshow.builder()
                         .alcoholname(alcoholName)
                         .marketname(marketName)
-                        .amount(amount)
-                        .price(price)
+                        .amount(purchase.getAmount())
+                        .price(purchase.getPrice())
                         .delivery(purchase.getDelivery())
                         .division(purchase.getDivision())
                         .address(purchase.getAddress())
@@ -155,7 +132,6 @@ public class PurchaseServicce {
                 list.add(purchaseshow);
             }
         }
-
         return list;
     }
 }

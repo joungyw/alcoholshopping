@@ -59,22 +59,15 @@ public class AlcoholService {
 
 
 
-    public List<DetailInformation> DetailPage(String name) {
+    public List<DetailInformation> DetailPage(AlcoholDto alcoholDto) {
 
-        Double ratings = alcoholRepository.Rating(name);
-        int prices = alcoholRepository.Price(name);
-        List<Alcohol> alcohols = alcoholRepository.findByName(name);
+        Double ratings = alcoholRepository.Rating(alcoholDto.getName());
+        int reviewCount = reviewRepository.Reviewcacount(alcoholDto.getName());
 
-
+        Alcohol alcohol = alcoholRepository.findByName(alcoholDto.getName());
         List<DetailInformation> list = new ArrayList<>();
 
-
-
-        for (Alcohol alcohol : alcohols) {
-            int reviewCount = reviewRepository.Reviewcacount(alcohol.getCode());
-
             DetailInformation info = DetailInformation.builder()
-                    .id(alcohol.getCode())
                     .name(alcohol.getName())
                     .maincategory(alcohol.getMaincategory())
                     .subcategory(alcohol.getSubcategory())
@@ -84,20 +77,19 @@ public class AlcoholService {
                     .finish(alcohol.getFinish())
                     .nation(alcohol.getNation())
                     .picture(alcohol.getPicture())
-                    .price(prices)
+                    .price(alcohol.getPrice())
                     .ratingaverage(ratings)
                     .reviewcacount(reviewCount)
                     .build();
 
             list.add(info);
-        }
+
         return list;
     }
 
     public List<DetailInformation> SortType(String tag) {
         List<Alcohol> alcohols;
         List<Double> ratings;
-        List<Integer> prices;
         List<Integer> reviewCount;
 
         if (tag.equals("인기")) {
@@ -122,7 +114,6 @@ public class AlcoholService {
             Integer count = (i < reviewCount.size()) ? reviewCount.get(i) : null;
 
             DetailInformation info = DetailInformation.builder()
-                    .id(alcohol.getCode())
                     .name(alcohol.getName())
                     .maincategory(alcohol.getMaincategory())
                     .subcategory(alcohol.getSubcategory())

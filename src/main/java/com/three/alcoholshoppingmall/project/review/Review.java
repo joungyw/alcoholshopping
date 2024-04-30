@@ -24,13 +24,11 @@ public class Review {
     private Long id;
 
     @Schema(title = "주류 코드", description = "주류의 코드가 조인된 칼럼입니다.")
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "code", referencedColumnName = "code")
     private Alcohol alcohol;
 
     @Schema(title = "회원 이메일", description = "회원의 이메일을 넣는 조인된 칼럼입니다.")
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "email", referencedColumnName = "email")
     private User user;

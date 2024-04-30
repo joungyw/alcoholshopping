@@ -23,20 +23,22 @@ public class ReviewService {
     public final UserRepository userRepository;
 
 
-    public List<Reviewshow> Reviewlist(String email) {
-        List<String> alcoholnames = reviewRepository.names(email);
+    public List<Reviewshow> Reviewlist(ReviewDTO reviewDTO ){
+        List<String> alcoholnames = reviewRepository.names(reviewDTO.getUser().getEmail());
 
-        Review reviewDTO = reviewRepository.findByUser_Email(email);
+        List<Review> reviews = reviewRepository.findByUser_Email(reviewDTO.getUser().getEmail());
 
         List<Reviewshow> list = new ArrayList<>();
-        for (String name : alcoholnames) {
+        for (int i = 0; i < Math.min(alcoholnames.size(), reviews.size()); i++) {
+            String name = alcoholnames.get(i);
+            Review review = reviews.get(i);
 
-                    Reviewshow reviewshow = Reviewshow
+            Reviewshow reviewshow = Reviewshow
                     .builder()
                     .name(name)
-                    .grade(reviewDTO.getGrade())
-                    .writing(reviewDTO.getWriting())
-                    .picture(reviewDTO.getPicture())
+                    .grade(review.getGrade())
+                    .writing(review.getWriting())
+                    .picture(review.getPicture())
                     .build();
 
             list.add(reviewshow);

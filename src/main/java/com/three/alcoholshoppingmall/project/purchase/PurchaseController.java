@@ -29,7 +29,7 @@ public class PurchaseController {
     @GetMapping("/pickup")
     @Operation(summary = "구매내역 중 픽업 보기",
             description = "회원의 구매 내역중 픽업으로 수령을 신청한 제품을 모두 보여줍니다." +
-                    "email의 입력이 필요합니다.")
+                    "입력 하실 값은 없습니다.")
     public ResponseEntity<List<Purchaseshow>> PICKUP(PurchaseDTO purchaseDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -42,7 +42,7 @@ public class PurchaseController {
     @GetMapping("/delivery")
     @Operation(summary = "구매내역 중 배달 보기",
             description = "회원의 구매 내역중 배달로 수령을 신청한 제품을 모두 보여줍니다." +
-                    "email의 입력이 필요합니다.")
+                    "입력 하실 값은 없습니다.")
     public ResponseEntity<List<Purchaseshow>> DELIVERY(PurchaseDTO purchaseDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -57,7 +57,7 @@ public class PurchaseController {
     @GetMapping("/pickuplimt")
     @Operation(summary = "구매내역중 픽업 최근 5개만",
             description = "회원의 구매 내역중 가장 최근에 픽업으로 수령을 신청한 제품을 5개를 보여줍니다." +
-                    "email의 입력이 필요합니다.")
+                    "입력 하실 값은 없습니다.")
 
     public ResponseEntity<List<Purchaseshow>> PICKUPLIMT(PurchaseDTO purchaseDTO) {
 
@@ -73,7 +73,7 @@ public class PurchaseController {
     @GetMapping("/deliverylimt")
     @Operation(summary = "구매내역중 배달 최근 5개만",
             description = "회원의 구매 내역중 가장 최근에 배달로 수령을 신청한 제품을 5개를 보여줍니다." +
-                    "email의 입력이 필요합니다.")
+                    "입력 하실 값은 없습니다.")
 
     public ResponseEntity<List<Purchaseshow>> DELIVERYLIMT(PurchaseDTO purchaseDTO) {
 

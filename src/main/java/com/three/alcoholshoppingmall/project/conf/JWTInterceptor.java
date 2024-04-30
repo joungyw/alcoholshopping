@@ -31,8 +31,6 @@ public class JWTInterceptor implements HandlerInterceptor {
         String token = request.getHeader("Authorization");
 
         if (request.getRequestURI().contains("login") ||
-                request.getRequestURI().contains("main") ||
-                request.getRequestURI().contains("event") ||
                 request.getRequestURI().contains("market") ||
                 request.getRequestURI().contains("anony") ||
                 request.getRequestURI().contains("swagger-ui") ||
