@@ -73,10 +73,10 @@ public class SearchController {
     @PostMapping("/subcategory")
     @Operation(summary = "subcategory로 주류 검색",
             description = "subcategory에 해당하는 주류를 검색합니다. <br>" +
-                    "와인의 subcategory에는 레드 와인, 화이트 와인, 스파클링 와인, 로제 와인 <br>" +
-                    "위스키의 subcategory에는 싱글몰트, 블렌디드, 버번 <br>" +
-                    "브랜디의 subcategory에는 꼬냑, 깔바도스, 아르마냑 <br>" +
-                    "리큐르의 subcategory에는 리큐르를 입력해주세요. <br>" +
+                    "와인의 subcategory에는 레드 와인, 화이트 와인, 스파클링 와인, 로제 와인이 있습니다. <br>" +
+                    "위스키의 subcategory에는 싱글몰트, 블렌디드, 버번이 있습니다. <br>" +
+                    "브랜디의 subcategory에는 꼬냑, 깔바도스, 아르마냑이 있습니다. <br>" +
+                    "리큐르의 subcategory에는 리큐르가 있습니다. <br>" +
                     "와인의 subcategory 입력시에는 띄어쓰기를 유의해주세요. <br>" +
                     "피그마에서 대분류 선택 시 All을 제외한 각각의 subcategory에 사용할 기능입니다.")
     public ResponseEntity<List<MainListDto>> selectBySubCategory(@RequestBody SearchSubCategroyDto searchSubCategroyDto) {
