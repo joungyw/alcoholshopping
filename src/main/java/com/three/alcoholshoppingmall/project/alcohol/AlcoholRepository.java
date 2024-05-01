@@ -19,7 +19,7 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "WHERE YEARWEEK(p.purchaseday) = YEARWEEK(NOW())\n" +
             "GROUP BY s.code) AS p ON a.code = p.code\n" +
             "ORDER BY COALESCE(total_orders, 0) DESC, a.code ASC\n" +
-            "LIMIT 8", nativeQuery = true)
+            "LIMIT 3", nativeQuery = true)
     List<Alcohol> mostsold();
 
 
@@ -31,30 +31,32 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "WHERE YEARWEEK(p.purchaseday) = YEARWEEK(NOW()) GROUP BY s.code\n" +
             ") AS p ON a.code = p.code GROUP BY a.code\n" +
             "ORDER BY COALESCE(MAX(p.total_orders), 0) DESC, a.code ASC\n" +
-            "LIMIT 8",nativeQuery = true)
+            "LIMIT 3",nativeQuery = true)
     List<Double> mostsoldgrade();
 
 
     //랜덤
-    @Query(value = "SELECT * FROM alcohol ORDER BY RAND() LIMIT 8", nativeQuery = true)
+    @Query(value = "SELECT * FROM alcohol ORDER BY RAND() LIMIT 3", nativeQuery = true)
     List<Alcohol> RAND();
 
-    @Query(value = "SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade " +
-            "FROM alcohol a LEFT JOIN review b ON a.code = b.code " +
-            "WHERE a.code = :code " +
-            "GROUP BY a.code", nativeQuery = true)
+    @Query(value = "SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade\n" +
+            "FROM alcohol a\n" +
+            "LEFT JOIN review b ON a.code = b.code\n" +
+            "WHERE a.code = :code\n" +
+            "GROUP BY a.code\n" +
+            "LIMIT 3 ", nativeQuery = true)
     List<Double> Randgrade(Long code);
 
 
 
     //신제품
-    @Query(value = "SELECT * FROM alcohol ORDER BY code DESC LIMIT 8", nativeQuery = true)
+    @Query(value = "SELECT * FROM alcohol ORDER BY code DESC LIMIT 3", nativeQuery = true)
     List<Alcohol> newproduct();
 
     @Query(value = "SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade\n" +
             "FROM alcohol a LEFT JOIN review b ON a.code = b.code\n" +
             "GROUP BY a.code ORDER BY a.code DESC\n" +
-            "LIMIT 8", nativeQuery = true)
+            "LIMIT 3", nativeQuery = true)
     List<Double> newgrade();
 
 
