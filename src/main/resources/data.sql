@@ -213,4 +213,7 @@ INSERT INTO `stock` (`amount`, `code`, `marketcode`) VALUES
                                                          (30, 38, 5),
                                                          (30, 39, 5),
                                                          (30, 40, 5);
+<<<<<<< HEAD
 
+=======
+>>>>>>> main

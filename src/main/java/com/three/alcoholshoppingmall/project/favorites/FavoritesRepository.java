@@ -13,8 +13,7 @@ public interface FavoritesRepository extends JpaRepository<Favorites, Long> {
 
 
     //해당 회원의 즐겨찾기
-    @Query(value = "SELECT * FROM favorites WHERE email = :email", nativeQuery = true)
-    List<Favorites> MyFavorites(String email);
+
 
     Optional<Favorites> findByUser_EmailAndAlcohol_Code(String email, Long code);
 

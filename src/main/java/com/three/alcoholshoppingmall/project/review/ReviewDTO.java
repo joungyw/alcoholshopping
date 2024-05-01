@@ -18,10 +18,12 @@ import lombok.*;
 @AllArgsConstructor
 public class ReviewDTO {
 
+    @JsonIgnore
     private Long id;
 
     private Long alcohol;
 
+    @JsonIgnore
     private User user;
 
     @NotBlank

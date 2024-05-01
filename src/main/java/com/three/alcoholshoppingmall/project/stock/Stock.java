@@ -25,14 +25,12 @@ public class Stock {
     private Long stocknumber;
 
     @Schema(title = "매장의 코드", description = "매장의 코드와 조인된 칼럼입니다.")
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "code", referencedColumnName = "code")
     private Alcohol alcohol;
 
 
     @Schema(title = "술의 코드", description = "술의 코드를 넣는 조인된 칼럼입니다.")
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "marketcode", referencedColumnName = "marketcode")
     private Market market;

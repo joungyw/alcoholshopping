@@ -21,6 +21,7 @@ logging:
   level:
     p6spy: info
 
+
 jasypt:
   encryptor:
     passwrod: ${password}

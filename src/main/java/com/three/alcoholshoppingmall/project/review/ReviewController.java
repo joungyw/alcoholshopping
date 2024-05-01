@@ -23,33 +23,35 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 public class ReviewController {
 
-    private final ReviewServicce reviewServicce;
+    private final ReviewService reviewServicce;
 
     @GetMapping("/list")
     @Operation(summary = "내 리뷰 목록",
             description = "해당 회원이 작성한 리뷰들을 보여 주는 기능입니다." +
-                    "email의 입력이 필요 합니다.")
-    public ResponseEntity<List<Review>> ReviewList(){
+                    "입력 하실 값은 없습니다.")
+    public ResponseEntity<List<Reviewshow>> ReviewList(ReviewDTO reviewDTO){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
+        reviewDTO.setUser(user);
 
-        List<Review> list = reviewServicce.Reviewlist(user.getEmail());
+        List<Reviewshow> list = reviewServicce.Reviewlist(reviewDTO);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @PostMapping("")
     @Operation(summary = "내 리뷰 등록 이미 있는경우 수정",
             description = "해당 술에 리뷰를 남기는 기능으로 이미 해당 술에 리뷰를 남긴경우 글과 평점 사진을 수정 하는 기능입니다." +
-                    "email과 name에 술의 이름, marketname에 판매처의 이름 " +
+                    "alcohol에 술의 고유 코드의 입력이 필요 합니다." +
+                    "코드는 1~50까지 있습니다."+
                     "writing 는 리뷰 글, grade는 평점으로 0~10까지만 입력이 가능합니다." +
                     "picture는 사진으로 사진의 경로가 저장 되며 null로 보내는것도 가능 합니다.")
-    public ResponseEntity<List<Review>> Review(@RequestBody ReviewDTO reviewDTO) {
+    public ResponseEntity<List<Reviewshow>> Review(@RequestBody ReviewDTO reviewDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
         reviewDTO.setUser(user);
-        List<Review> list = reviewServicce.Review(reviewDTO);
+        List<Reviewshow> list = reviewServicce.Review(reviewDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
@@ -57,7 +59,8 @@ public class ReviewController {
     @DeleteMapping("")
     @Operation(summary = "내 리뷰 삭제",
             description = "해당 술에 리뷰를 지우는 기능 입니다." +
-    "email과 name에 술의 이름이 필요 합니다.")
+                    "alcohol에 술의 고유 코드의 입력이 필요 합니다." +
+                    "코드는 1~50까지 있습니다.")
     public ResponseEntity<List<Review>> ReviewDelete(@RequestBody ReviewDTO reviewDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

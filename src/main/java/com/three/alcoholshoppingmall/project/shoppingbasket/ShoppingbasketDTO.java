@@ -17,10 +17,11 @@ import lombok.*;
 @AllArgsConstructor
 public class ShoppingbasketDTO {
 
-
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long shoppingnumber;
 
+    @JsonIgnore
     private User user;
 
     private Long stock;

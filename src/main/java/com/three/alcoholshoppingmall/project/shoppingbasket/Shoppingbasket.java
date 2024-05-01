@@ -22,22 +22,22 @@ public class Shoppingbasket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(title = "shoppingnumber", description = "table에서 자동으로 생성되는 칼럼입니다.")
+    @JsonIgnore
     private Long shoppingnumber;
 
     @Schema(title = "회원 이메일", description = "회원의 이메일을 넣는 조인된 칼럼입니다.")
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "email", referencedColumnName = "email")
     private User user;
 
     @Schema(title = "재고", description = "재고 테이블과 조인된 칼럼입니다.")
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "stocknumber", referencedColumnName = "stocknumber")
     private Stock stock;
 
 
     @Schema(title = "amount", description = "해당 물품의 구매 수량입니다.")
+    @Column(nullable = false)
     private  int amount;
 
     @Schema(title = "price", description = "해당 물품들의 총 가격입니다.")

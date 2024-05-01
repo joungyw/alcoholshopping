@@ -29,6 +29,7 @@ public class Market {
     private String address;
 
     @Schema(title = "매장 전화번호", description = "해당 매장의 전화번호 입니다.")
+    @Column(nullable = false, length = 20)
     private String phonenumber;
 
     @Schema(title = "배달 여부", description = "해당 매장의 배달여부 입니다")
