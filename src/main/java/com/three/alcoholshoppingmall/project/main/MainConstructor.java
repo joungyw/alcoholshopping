@@ -1,6 +1,7 @@
 package com.three.alcoholshoppingmall.project.main;
 
 
+import com.three.alcoholshoppingmall.project.alcohol.AlcoholDto;
 import com.three.alcoholshoppingmall.project.alcohol.Alcoholmain;
 import com.three.alcoholshoppingmall.project.alcohol.Eventservice;
 import com.three.alcoholshoppingmall.project.alcohol.MainListDto;
@@ -37,7 +38,7 @@ public class MainConstructor {
     @Operation(summary = "주간 많이 팔린 제품",
             description = "주간 많이 팔린 술 8개를 보여 줍니다." +
                     "입력 값은 없습니다.")
-    public ResponseEntity<List<Alcoholmain>> Mostsold(){
+    public ResponseEntity<List<Alcoholmain>> Mostsold() {
 
         List<Alcoholmain> list = eventservice.Most();
 
@@ -47,7 +48,7 @@ public class MainConstructor {
     @GetMapping("/rand")
     @Operation(summary = "랜덤 3개",
             description = "랜덤으로 3개의 제품을 보여줍니다. ")
-    public ResponseEntity<List<Alcoholmain>> RAND(){
+    public ResponseEntity<List<Alcoholmain>> RAND() {
 
         List<Alcoholmain> list = eventservice.Rand();
 
@@ -58,7 +59,7 @@ public class MainConstructor {
     @Operation(summary = "신 제품",
             description = "가장 최근에 나온 제품을 보여 줍니다." +
                     "입력 값은 없습니다.")
-    public ResponseEntity<List<Alcoholmain>> NewProduct(){
+    public ResponseEntity<List<Alcoholmain>> NewProduct() {
 
         List<Alcoholmain> list = eventservice.Product();
 
@@ -69,7 +70,7 @@ public class MainConstructor {
     @Operation(summary = "배달 배송을 하는 매장의 판매 물품",
             description = "입력 값은 따로 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Alcoholmain>> DeliveryMarket(){
+    public ResponseEntity<List<Alcoholmain>> DeliveryMarket() {
 
         String type = "Delivery";
         List<Alcoholmain> list = marketService.DeliveryPickup(type);
@@ -81,7 +82,7 @@ public class MainConstructor {
     @Operation(summary = "픽업 하는 매장의 판매 물품",
             description = "입력 값은 따로 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Alcoholmain>> PickupMarket(){
+    public ResponseEntity<List<Alcoholmain>> PickupMarket() {
 
         String type = "pickup";
         List<Alcoholmain> list = marketService.DeliveryPickup(type);
@@ -111,8 +112,8 @@ public class MainConstructor {
             description = "비회원이 검색하는 기능입니다.<br>" +
                     "searchcontents에 name으로 주류를 검색하는 기능입니다.<br>" +
                     "검색을 완료하지 않아도 내용이 나오게 만들었습니다.<br>" +
-                    "비회원 이메일은 anony@anony.anony입니다.<br>"+
-                    "이메일과 searchcontents에 입력값이 필요합니다."+
+                    "비회원 이메일은 anony@anony.anony입니다.<br>" +
+                    "이메일과 searchcontents에 입력값이 필요합니다." +
                     "피그마에서 검색을 하면 검색 기록과 비회원의 이메일이 db에 저장됩니다.")
     public ResponseEntity<List<MainListDto>> NonmemberSearch(@RequestBody NoneMemberSearchDto noneMemberSearchDto) {
         String email = "anony@anony.anony";
@@ -125,11 +126,10 @@ public class MainConstructor {
     @Operation(summary = "최근 검색기록",
             description = "최근 검색 기록을 5개를 출력하게 만들었습니다. <br>" +
                     "피그마에서 검색 창에 검색 시 최근 검색 기록 5개를 뜨게 하는 기능입니다. <br>" +
-                    "입력 값은 필요 없습니다.<br>"+
+                    "입력 값은 필요 없습니다.<br>" +
                     "검색을 하면서 db에 저장되었던 내용을 내림차순으로 5개를 출력하게 하는 기능입니다. <br>")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Search>> recent(
-    ) {
+    public ResponseEntity<List<Search>> recent() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         String email = user.getEmail();
@@ -137,44 +137,29 @@ public class MainConstructor {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @GetMapping("/whiskey")
-    @Operation(summary = "판매하는 위스키 전체",
-            description = "현재 판매하는 위스키를 보여 줍니다.")
-    public ResponseEntity<List<Alcoholmain>> Whiskey(){
+    @PostMapping("/main")
+    @Operation(summary = "메인카테고리에 입력 받으면 그에 맞게 분류해서 보여 줍니다.",
+            description = "maincategory에 와인 위스키 리큐르 브랜디의 중 하나를 입력하시면 됩니다.")
+    public ResponseEntity<List<Alcoholmain>> AlcoholMaincategory(@RequestBody AlcoholDto alcoholDto) {
 
-        String type = "위스키";
-        List<Alcoholmain> list = marketService.Maincategory(type);
-
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(list);
-    }
-    @GetMapping("/wine")
-    @Operation(summary = "판매하는 와인 전체",
-            description = "현재 판매하는 와인를 보여 줍니다.")
-    public ResponseEntity<List<Alcoholmain>> Wine(){
-
-        String type = "와인";
-        List<Alcoholmain> list = marketService.Maincategory(type);
+        List<Alcoholmain> list = marketService.Maincategory(alcoholDto.getMaincategory());
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(list);
     }
-    @GetMapping("/liqueur")
-    @Operation(summary = "판매하는 리큐르 전체",
-            description = "현재 판매하는 리큐르를 보여 줍니다.")
-    public ResponseEntity<List<Alcoholmain>> Liqueur(){
+    @PostMapping("/sub")
+    @Operation(summary = "서브카테고리에 입력 받으면 그에 맞게 분류해서 보여 줍니다.",
+            description = "Subcategory에 값을 입력하시면 됩니다.")
+    public ResponseEntity<List<Alcoholmain>> AlcoholSubcategory(@RequestBody AlcoholDto alcoholDto) {
 
-        String type = "리큐르";
-        List<Alcoholmain> list = marketService.Maincategory(type);
-
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(list);
-    }
-    @GetMapping("/brandy")
-    @Operation(summary = "판매하는 브랜디 전체",
-            description = "현재 판매하는 브랜디를 보여 줍니다.")
-    public ResponseEntity<List<Alcoholmain>> Brandy(){
-
-        String type = "브랜디";
-        List<Alcoholmain> list = marketService.Maincategory(type);
+        List<Alcoholmain> list = marketService.Subcategory(alcoholDto.getSubcategory());
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(list);
     }
+
+
+
+
 }
+
+
+

@@ -28,7 +28,6 @@ public class AlcoholDto {
     private String maincategory;
 
     @Schema(title = "주류 소분류", description = "주류의 소분류를 넣어주시면 됩니다.")
-    @JsonIgnore
     private String subcategory;
 
     @Schema(title = "주류 도수", description = "주류의 도수을 넣어주시면 됩니다.")
@@ -58,4 +57,7 @@ public class AlcoholDto {
     @Schema(title = "주류의 가격", description = "주류의 가격 입니다.")
     @JsonIgnore
     private int price;
+
+    private String type;
+
 }

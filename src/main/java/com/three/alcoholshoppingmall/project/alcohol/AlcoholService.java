@@ -2,9 +2,6 @@ package com.three.alcoholshoppingmall.project.alcohol;
 
 
 
-import com.three.alcoholshoppingmall.project.favorites.Favorites;
-import com.three.alcoholshoppingmall.project.favorites.FavoritesDTO;
-import com.three.alcoholshoppingmall.project.favorites.FavoritesRepository;
 import com.three.alcoholshoppingmall.project.purchase.Purchase;
 import com.three.alcoholshoppingmall.project.purchase.PurchaseRepository;
 import com.three.alcoholshoppingmall.project.review.ReviewRepository;
@@ -87,50 +84,42 @@ public class AlcoholService {
         return list;
     }
 
-    public List<DetailInformation> SortType(String tag) {
+    public List<Alcoholmain> MainType(String maincategory, String tag) {
         List<Alcohol> alcohols;
         List<Double> ratings;
-        List<Integer> reviewCount;
 
-        if (tag.equals("인기")) {
-            alcohols = alcoholRepository.pop();
-            ratings = alcoholRepository.popratings();
-            reviewCount = alcoholRepository.popreviewCount();
-        } else if (tag.equals("최고")) {
-            alcohols = alcoholRepository.max();
-            ratings = alcoholRepository.maxratings();
-            reviewCount = alcoholRepository.maxreviewCount();
-        } else {
-            alcohols = alcoholRepository.min();
-            ratings = alcoholRepository.minratings();
-            reviewCount = alcoholRepository.minreviewCount();
+        switch (tag) {
+            case "인기":
+                alcohols = alcoholRepository.popmain(maincategory);
+                ratings = alcoholRepository.popratingsmain(maincategory);
+                break;
+            case "높은 가격":
+                alcohols = alcoholRepository.maxmain(maincategory);
+                ratings = alcoholRepository.maxratingsmain(maincategory);
+                break;
+            case "낮은 가격":
+                alcohols = alcoholRepository.minmain(maincategory);
+                ratings = alcoholRepository.minratingsmain(maincategory);
+                break;
+            default:
+                throw new IllegalArgumentException("유효하지 않은 정렬 태그입니다.");
         }
-
-        List<DetailInformation> list = new ArrayList<>();
+        List<Alcoholmain> list = new ArrayList<>();
 
         for (int i = 0; i < alcohols.size(); i++) {
             Alcohol alcohol = alcohols.get(i);
             Double grade = (i < ratings.size()) ? ratings.get(i) : null;
-            Integer count = (i < reviewCount.size()) ? reviewCount.get(i) : null;
 
-            DetailInformation info = DetailInformation.builder()
+            Alcoholmain alcoholmain = Alcoholmain
+                    .builder()
                     .code(alcohol.getCode())
                     .name(alcohol.getName())
-                    .maincategory(alcohol.getMaincategory())
-                    .subcategory(alcohol.getSubcategory())
-                    .content(alcohol.getContent())
-                    .aroma(alcohol.getAroma())
-                    .taste(alcohol.getTaste())
-                    .finish(alcohol.getFinish())
-                    .nation(alcohol.getNation())
-                    .picture(alcohol.getPicture())
                     .price(alcohol.getPrice())
+                    .picture(alcohol.getPicture())
                     .ratingaverage(grade)
-                    .reviewcacount(count)
                     .build();
 
-
-            list.add(info);
+            list.add(alcoholmain);
         }
 
         return list;
@@ -175,4 +164,44 @@ public class AlcoholService {
     }
 
 
+    public List<Alcoholmain> SubType(String subcategory, String type) {
+        List<Alcohol> alcohols;
+        List<Double> ratings;
+
+        switch (type) {
+            case "인기":
+                alcohols = alcoholRepository.popsub(subcategory);
+                ratings = alcoholRepository.popratingssub(subcategory);
+                break;
+            case "높은 가격":
+                alcohols = alcoholRepository.maxsub(subcategory);
+                ratings = alcoholRepository.maxratingssub(subcategory);
+                break;
+            case "낮은 가격":
+                alcohols = alcoholRepository.minsub(subcategory);
+                ratings = alcoholRepository.minratingssub(subcategory);
+                break;
+            default:
+                throw new IllegalArgumentException("유효하지 않은 정렬 태그입니다.");
+        }
+        List<Alcoholmain> list = new ArrayList<>();
+
+        for (int i = 0; i < alcohols.size(); i++) {
+            Alcohol alcohol = alcohols.get(i);
+            Double grade = (i < ratings.size()) ? ratings.get(i) : null;
+
+            Alcoholmain alcoholmain = Alcoholmain
+                    .builder()
+                    .code(alcohol.getCode())
+                    .name(alcohol.getName())
+                    .price(alcohol.getPrice())
+                    .picture(alcohol.getPicture())
+                    .ratingaverage(grade)
+                    .build();
+
+            list.add(alcoholmain);
+        }
+
+        return list;
+    }
 }

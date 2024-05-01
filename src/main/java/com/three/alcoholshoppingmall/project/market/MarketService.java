@@ -51,11 +51,37 @@ public class MarketService {
         return list;
     }
 
-    public List<Alcoholmain> Maincategory(String type) {
+    public List<Alcoholmain> Maincategory(String maincategory) {
 
 
-        List<Alcohol> alcohols = alcoholRepository.Maincategoryalcohols(type);
-        List<Double> gaverages = alcoholRepository.Maincategorygaverages(type);
+        List<Alcohol> alcohols = alcoholRepository.Maincategoryalcohols(maincategory);
+        List<Double> gaverages = alcoholRepository.Maincategorygaverages(maincategory);
+
+        List<Alcoholmain> list = new ArrayList<>();
+        int size = Math.min(alcohols.size(), gaverages.size());
+        for (int i = 0; i < size; i++) {
+            Alcohol alcohol = alcohols.get(i);
+            Double gaverage = gaverages.get(i);
+
+            Alcoholmain alcoholmain = Alcoholmain
+                    .builder()
+                    .code(alcohol.getCode())
+                    .name(alcohol.getName())
+                    .picture(alcohol.getPicture())
+                    .price(alcohol.getPrice())
+                    .ratingaverage(gaverage)
+                    .build();
+
+            list.add(alcoholmain);
+        }
+
+        return list;
+    }
+
+    public List<Alcoholmain> Subcategory(String subcategory) {
+
+        List<Alcohol> alcohols = alcoholRepository.Subcategoryalcohols(subcategory);
+        List<Double> gaverages = alcoholRepository.Subcategorygaverages(subcategory);
 
         List<Alcoholmain> list = new ArrayList<>();
         int size = Math.min(alcohols.size(), gaverages.size());
