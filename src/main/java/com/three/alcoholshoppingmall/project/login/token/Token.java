@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "토큰 클래스")
 public class Token {
 
     @Schema(description = "액세스 토큰")
