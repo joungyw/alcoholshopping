@@ -189,9 +189,11 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     String name(Long code);
 
     @Query(value = "SELECT a.name FROM alcohol a JOIN favorites b ON a.code = b.code WHERE b.email = :email", nativeQuery = true)
-    List<String> MyFavorites(String email);
+    List<String> MyFavoritesname(String email);
+    @Query(value = "SELECT a.code FROM alcohol a JOIN favorites b ON a.code = b.code WHERE b.email = :email", nativeQuery = true)
+    List<Long> MyFavoritescode(String email);
 
-
-
+    @Query(value = "SELECT a.picture FROM alcohol a JOIN favorites b ON a.code = b.code WHERE b.email = :email", nativeQuery = true)
+    List<String> MyFavoritespicture(String email);
 
 }

@@ -7,7 +7,12 @@ import lombok.Data;
 @Builder
 public class Favoritesalcohol {
 
+
+    private Long code;
+
     private String name;
+
+    private String picture;
 
 
 }
