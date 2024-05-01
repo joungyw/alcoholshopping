@@ -35,7 +35,6 @@ public class User {
     private String nickname;
 
     @Schema(title = "password", description = "회원의 password입니다.")
-    @Column(nullable = false)
     private String password;
 
     @Schema(title = "address", description = "회원의 주소 입니다.")

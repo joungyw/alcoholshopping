@@ -1,6 +1,7 @@
 package com.three.alcoholshoppingmall.project.login.token;
 
 
+import com.three.alcoholshoppingmall.project.login.kakao.KakaoUser;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,4 +19,6 @@ public class Token {
     private String access_token;
     @Schema(description = "리프레쉬 토큰")
     private String refresh_token;
+
+    private KakaoUser kakaoUser;
 }
