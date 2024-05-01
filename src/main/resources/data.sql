@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> main
-
 INSERT INTO `alcohol` ( `aroma`, `content`, `finish`, `maincategory`, `name`, `nation`, `picture`, `subcategory`, `taste`, `price`) VALUES
                                                                                                                                         ( '메이플, 꿀, 코코아, 구운 과일', '46', '모카, 술타니스, 다크 베리, 풍부한', '위스키', '벤리악 12년 700ml', '스코틀랜드', '/path/to/alcohol/storage/01', '싱글몰트', '체리, 구운 오렌지, 헤이즐넛, 건포도', 50000),
                                                                                                                                         ( '과일, 꽃, 서양 배, 오크 ', '40', '달콤한, 부드러운, 스파이시', '위스키', '글렌피딕 12년 700ml', '스코틀랜드', '/path/to/alcohol/storage/02', '싱글몰트', '과일, 몰트, 버터스카치', 60000),
@@ -216,14 +211,4 @@ INSERT INTO `stock` (`amount`, `code`, `marketcode`) VALUES
                                                          (30, 37, 5),
                                                          (30, 38, 5),
                                                          (30, 39, 5),
-<<<<<<< HEAD
                                                          (30, 40, 5);
-<<<<<<< HEAD
-
-=======
->>>>>>> main
-=======
->>>>>>> main
-=======
-                                                         (30, 40, 5);
->>>>>>> main
