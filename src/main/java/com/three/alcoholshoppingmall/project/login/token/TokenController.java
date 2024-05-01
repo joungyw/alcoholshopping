@@ -17,13 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("token")
-@Tag(name = "TokenController",description = "토큰 관련 함수")
 public class TokenController {
 
     @PostMapping("userinfo")
-    @Operation(summary = "유저 정보",description = "유저 정보 가져오는 함수")
     public ResponseEntity<User> userInfo(){
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         User user = (User) authentication.getPrincipal();
