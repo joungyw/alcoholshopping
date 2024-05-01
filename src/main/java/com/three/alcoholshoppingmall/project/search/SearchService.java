@@ -52,6 +52,7 @@ public class SearchService {
                         .code(alcohol.getCode())
                         .name(alcohol.getName())
                         .price(alcohol.getPrice())
+                        .picture(alcohol.getPicture())
                         .ratingaverage(ratings.get(i))
                         .build();
                 searchDetails.add(mainListDto);
