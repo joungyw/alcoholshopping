@@ -1,7 +1,12 @@
 package com.three.alcoholshoppingmall.project.login.kakao;
 
 
+import com.three.alcoholshoppingmall.project.exception.BizException;
+import com.three.alcoholshoppingmall.project.exception.ErrorCode;
 import com.three.alcoholshoppingmall.project.login.token.Token;
+import com.three.alcoholshoppingmall.project.user.User;
+import com.three.alcoholshoppingmall.project.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,7 +18,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 @Service
+@RequiredArgsConstructor
 public class KakaoLoginService {
+
+    private final UserRepository userRepository;
 
     // 인가코드로 accesstoken 받는 함수
     public Token userAuthToken(String token) {
@@ -22,7 +30,7 @@ public class KakaoLoginService {
 
         bodys.add("grant_type","authorization_code");
         bodys.add("client_id","94b443da7db84c565579d43ba563dd3f");
-        bodys.add("redirect_uri","http://localhost:3000/auth");
+        bodys.add("redirect_uri","http://localhost:3000/kakaoinfo");
         bodys.add("code",token);
 
         HttpHeaders headers = new HttpHeaders();
@@ -41,22 +49,23 @@ public class KakaoLoginService {
 
         JSONObject jsonObject = new JSONObject(responseEntity.getBody());
 
-        userAccessToken(jsonObject.getString("access_token"));
-
         Token tokens = Token.builder()
                 .access_token(jsonObject.getString("access_token"))
                 .refresh_token(jsonObject.getString("refresh_token"))
+                .kakaoUser(null)
                 .build();
 
-        return tokens;
+        Token checkToken = userAccessToken(tokens);
+
+        return checkToken;
     }
 
     // accesstoken으로 이메일/닉네임 받는 함수
-    public void userAccessToken(String accessToken){
+    public Token userAccessToken(Token tokens){
 
         HttpHeaders headers = new HttpHeaders();
 
-        headers.add("Authorization","Bearer " + accessToken);
+        headers.add("Authorization","Bearer " + tokens.getAccess_token());
 
         HttpEntity<String> entity = new HttpEntity(headers);
 
@@ -77,5 +86,25 @@ public class KakaoLoginService {
         System.out.println("=============================================");
         System.out.println(jsonObject.get("email"));
         System.out.println("=============================================");
+
+        User dbuser = userRepository.findByEmail(jsonObject.get("email").toString());
+
+        if(dbuser != null){
+            Token token = Token.builder()
+                    .access_token(tokens.getAccess_token())
+                    .refresh_token(tokens.getRefresh_token())
+                    .kakaoUser(KakaoUser.builder()
+                            .nickname(dbuser.getNickname())
+                            .phone(dbuser.getPhone())
+                            .birthdate(dbuser.getBirthdate())
+                            .gender(dbuser.getGender())
+                            .address(dbuser.getAddress())
+                            .address2(dbuser.getAddress2())
+                            .build())
+                    .build();
+            return token;
+        }
+
+        return tokens;
     }
 }

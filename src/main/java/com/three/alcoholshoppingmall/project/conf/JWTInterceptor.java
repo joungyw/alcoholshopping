@@ -33,6 +33,7 @@ public class JWTInterceptor implements HandlerInterceptor {
         if (request.getRequestURI().contains("login") ||
                 request.getRequestURI().contains("market") ||
                 request.getRequestURI().contains("anony") ||
+                request.getRequestURI().contains("kakao") ||
                 request.getRequestURI().contains("swagger-ui") ||
                 request.getRequestURI().contains("alcohol") ||
                 request.getRequestURI().contains("v3")) {
