@@ -8,6 +8,7 @@ import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.three.alcoholshoppingmall.project.exception.ErrorCode.*;
@@ -88,30 +90,32 @@ public class SearchController {
         User user = (User) authentication.getPrincipal();
         List<Search> list = searchService.searchDelete(user.getEmail(), searchDeleteDto.getId());
         return ResponseEntity.status(HttpStatus.OK).body(list);
-
     }
 
-//    @PostMapping("/maincategory")
-//    @Operation(summary = "maincategory로 주류 검색",
-//            description = "maincategory에 해당하는 주류를 검색합니다. <br>" +
-//                    "maincategory에는 와인, 위스키, 브랜디, 리큐르가 있습니다, 이 중 하나를 입력해주세요. <br>" +
-//                    "피그마에서 maincategory 선택 시 subcategory 부분 All에 사용할 기능입니다.")
-//    public ResponseEntity<List<SearchMainCategoryDto>> selectByMainCategory(@RequestBody SearchMainCategoryDto searchMainCategoryDto) {
-//        List<Alcohol> list = alcoholRepository.findByMaincategory(searchMainCategoryDto.getMaincategory());
-//        if (list.isEmpty()) {
-//            throw new BizException(NULLMAINCATEGORY);
-//        }else{
-//            SearchMainCategory searchMainCategory = SearchMainCategory.builder()
-//                    .code(searchMainCategoryDto.getCode())
-//                    .name(searchMainCategoryDto.getName())
-//                    .price(searchMainCategoryDto.getPrice())
-//                    .ratingaverage(searchMainCategoryDto.getRatingaverage())
-//                    .picture(searchMainCategoryDto.getPicture())
-//                    .build();
-//            list.add(searchMainCategory);
-//        }
-//        return ResponseEntity.status(HttpStatus.OK).body(list);
-//    }
+@PostMapping("/maincategory")
+@Operation(summary = "maincategory로 주류 검색",
+        description = "maincategory에 해당하는 주류를 검색합니다. <br>" +
+                "maincategory에는 와인, 위스키, 브랜디, 리큐르가 있습니다, 이 중 하나를 입력해주세요. <br>" +
+                "피그마에서 maincategory 선택 시 subcategory 부분 All에 사용할 기능입니다.")
+public ResponseEntity<List<MainListDto>> selectByMainCategory(@RequestBody SearchMainCategoryDto searchMainCategoryDto) {
+    List<Alcohol> alcoholList = alcoholRepository.findByMaincategory(searchMainCategoryDto.getMaincategory());
+    if (alcoholList.isEmpty()) {
+        throw new BizException(NULLMAINCATEGORY);
+    }
+    List<MainListDto> list = new ArrayList<>();
+    for (Alcohol alcohol : alcoholList) {
+        MainListDto mainListDto = MainListDto.builder()
+                .code(alcohol.getCode())
+                .name(alcohol.getName())
+                .price(alcohol.getPrice())
+                .ratingaverage(alcoholRepository.Rating(alcohol.getName()))
+                .picture(alcohol.getPicture())
+                .build();
+        list.add(mainListDto);
+    }
+    return ResponseEntity.status(HttpStatus.OK).body(list);
+}
+
 
     @PostMapping("/subcategory")
     @Operation(summary = "subcategory로 주류 검색",
@@ -129,5 +133,6 @@ public class SearchController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
+
 }
 
