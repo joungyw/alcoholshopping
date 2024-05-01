@@ -224,4 +224,21 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "WHERE d.delivery = :type\n" +
             "GROUP BY a.code ORDER BY a.code",nativeQuery = true)
     List<Double> Markeratingaverage(String type);
+
+
+
+    @Query(value = "SELECT * FROM alcohol \n" +
+            "WHERE maincategory = :type\n" +
+            "ORDER BY code",nativeQuery = true)
+    List<Alcohol> Maincategoryalcohols(String type);
+
+
+
+    @Query(value = "SELECT COALESCE(AVG(b.grade), 0) AS ratingaverage\n" +
+            "            FROM alcohol a \n" +
+            "            LEFT JOIN review b ON a.code = b.code \n" +
+            "            LEFT JOIN stock c ON a.code = c.code \n" +
+            "            WHERE a.maincategory = :type\n" +
+            "            GROUP BY a.code ORDER BY a.code",nativeQuery = true)
+    List<Double> Maincategorygaverages(String type);
 }

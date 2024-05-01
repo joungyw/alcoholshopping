@@ -50,4 +50,31 @@ public class MarketService {
 
         return list;
     }
+
+    public List<Alcoholmain> Maincategory(String type) {
+
+
+        List<Alcohol> alcohols = alcoholRepository.Maincategoryalcohols(type);
+        List<Double> gaverages = alcoholRepository.Maincategorygaverages(type);
+
+        List<Alcoholmain> list = new ArrayList<>();
+        int size = Math.min(alcohols.size(), gaverages.size());
+        for (int i = 0; i < size; i++) {
+            Alcohol alcohol = alcohols.get(i);
+            Double gaverage = gaverages.get(i);
+
+            Alcoholmain alcoholmain = Alcoholmain
+                    .builder()
+                    .code(alcohol.getCode())
+                    .name(alcohol.getName())
+                    .picture(alcohol.getPicture())
+                    .price(alcohol.getPrice())
+                    .ratingaverage(gaverage)
+                    .build();
+
+            list.add(alcoholmain);
+        }
+
+        return list;
+    }
 }

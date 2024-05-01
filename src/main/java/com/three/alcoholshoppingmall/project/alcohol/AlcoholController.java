@@ -56,35 +56,5 @@ public class AlcoholController {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @GetMapping("/most")
-    @Operation(summary = "주간 많이 팔린 제품",
-            description = "주간 많이 팔린 술 8개를 보여 줍니다." +
-                    "입력 값은 없습니다.")
-    public ResponseEntity<List<Alcoholmain>> Mostsold(){
 
-        List<Alcoholmain> list = eventservice.Most();
-
-        return ResponseEntity.status(HttpStatus.OK).body(list);
-    }
-
-    @GetMapping("/rand")
-    @Operation(summary = "랜덤 8개",
-            description = "랜덤으로 8개의 제품을 보여줍니다. ")
-    public ResponseEntity<List<Alcoholmain>> RAND(){
-
-        List<Alcoholmain> list = eventservice.Rand();
-
-        return ResponseEntity.status(HttpStatus.OK).body(list);
-    }
-
-    @GetMapping("/newproduct")
-    @Operation(summary = "신 제품",
-            description = "가장 최근에 나온 제품을 보여 줍니다." +
-                    "입력 값은 없습니다.")
-    public ResponseEntity<List<Alcoholmain>> NewProduct(){
-
-        List<Alcoholmain> list = eventservice.Product();
-
-        return ResponseEntity.status(HttpStatus.OK).body(list);
-    }
 }
