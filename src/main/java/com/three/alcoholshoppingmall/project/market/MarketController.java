@@ -2,6 +2,7 @@ package com.three.alcoholshoppingmall.project.market;
 
 
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholDto;
+import com.three.alcoholshoppingmall.project.alcohol.Alcoholmain;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,5 +40,33 @@ List<Market> list = marketService.Marketlist(alcoholDto.getCode());
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(list);
     }
+
+    @GetMapping("/delivery")
+    @Operation(summary = "배달 배송을 하는 매장의 판매 물품",
+            description = "입력 값은 따로 없습니다.")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<List<Alcoholmain>> DeliveryMarket(){
+
+        String type = "Delivery";
+        List<Alcoholmain> list = marketService.DeliveryPickup(type);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(list);
+    }
+    @GetMapping("/pickup")
+    @Operation(summary = "픽업 하는 매장의 판매 물품",
+            description = "입력 값은 따로 없습니다.")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<List<Alcoholmain>> PickupMarket(){
+
+        String type = "pickup";
+        List<Alcoholmain> list = marketService.DeliveryPickup(type);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(list);
+    }
+
+
+
+
+
 
 }

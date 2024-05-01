@@ -198,4 +198,23 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     @Query(value = "SELECT a.picture FROM alcohol a JOIN favorites b ON a.code = b.code WHERE b.email = :email", nativeQuery = true)
     List<String> MyFavoritespicture(String email);
 
+
+    @Query(value = "SELECT a.*\n" +
+            "FROM alcohol a\n" +
+            "LEFT JOIN stock b ON a.code = b.code\n" +
+            "LEFT JOIN market c ON c.marketcode = b.marketcode\n" +
+            "WHERE c.delivery = :type\n" +
+            "GROUP BY a.code ORDER BY a.code",nativeQuery = true)
+    List<Alcohol> Markettype(String type);
+
+
+
+    @Query(value = "SELECT COALESCE(AVG(b.grade), 0) AS ratingaverage\n" +
+            "FROM alcohol a \n" +
+            "LEFT JOIN review b ON a.code = b.code \n" +
+            "LEFT JOIN stock c ON a.code = c.code \n" +
+            "LEFT JOIN market d ON c.marketcode = d.marketcode\n" +
+            "WHERE d.delivery = :type\n" +
+            "GROUP BY a.code ORDER BY a.code",nativeQuery = true)
+    List<Double> Markeratingaverage(String type);
 }
