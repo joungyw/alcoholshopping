@@ -14,33 +14,53 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
 
     //가장 많이 팔린 술 8개
     @Query(value = "SELECT a.* FROM alcohol a LEFT JOIN (\n" +
-            "    SELECT s.code, COUNT(p.ordernumber) AS total_orders\n" +
-            "    FROM purchase p\n" +
-            "    JOIN shoppingbasket sb ON p.shoppingnumber = sb.shoppingnumber\n" +
-            "    JOIN stock s ON sb.stocknumber = s.stocknumber\n" +
-            "    WHERE YEARWEEK(p.purchaseday) = YEARWEEK(NOW())\n" +
-            "    GROUP BY s.code ) AS p ON a.code = p.code\n" +
+            "SELECT s.code, COUNT(p.ordernumber) AS total_orders\n" +
+            "FROM purchase p JOIN stock s ON p.stocknumber = s.stocknumber\n" +
+            "WHERE YEARWEEK(p.purchaseday) = YEARWEEK(NOW())\n" +
+            "GROUP BY s.code) AS p ON a.code = p.code\n" +
             "ORDER BY COALESCE(total_orders, 0) DESC, a.code ASC\n" +
             "LIMIT 8", nativeQuery = true)
     List<Alcohol> mostsold();
 
-    @Query(value = "SELECT a.*, COALESCE(p.total_orders, 0) AS total_orders\n" +
-            "FROM alcohol a \n" +
-            "LEFT JOIN (\n" +
-            "    SELECT s.code, COUNT(p.ordernumber) AS total_orders\n" +
-            "    FROM purchase p\n" +
-            "    JOIN shoppingbasket sb ON p.shoppingnumber = sb.shoppingnumber\n" +
-            "    JOIN stock s ON sb.stocknumber = s.stocknumber\n" +
-            "    JOIN alcohol a ON s.code = a.code\n" +
-            "    GROUP BY s.code \n" +
-            ") AS p ON a.code = p.code\n" +
-            "WHERE a.maincategory = :maincategory\n" +
-            "ORDER BY COALESCE(p.total_orders, 0) DESC, a.code ASC \n" +
-            "LIMIT 8", nativeQuery = true)
-    List<Alcohol> most(String maincategory);
 
+    //가장 많이 팔린술의 평점
+    @Query(value = "SELECT  ROUND(COALESCE(AVG(r.grade), 0), 1) AS average_grade\n" +
+            "FROM alcohol a LEFT JOIN review r ON a.code = r.code\n" +
+            "LEFT JOIN (SELECT s.code, COUNT(p.ordernumber) AS total_orders\n" +
+            "FROM purchase p JOIN stock s ON p.stocknumber = s.stocknumber\n" +
+            "WHERE YEARWEEK(p.purchaseday) = YEARWEEK(NOW()) GROUP BY s.code\n" +
+            ") AS p ON a.code = p.code GROUP BY a.code\n" +
+            "ORDER BY COALESCE(MAX(p.total_orders), 0) DESC, a.code ASC\n" +
+            "LIMIT 8",nativeQuery = true)
+    List<Double> mostsoldgrade();
+
+
+    //랜덤
+    @Query(value = "SELECT * FROM alcohol ORDER BY RAND() LIMIT 8", nativeQuery = true)
+    List<Alcohol> RAND();
+
+    @Query(value = "SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade " +
+            "FROM alcohol a LEFT JOIN review b ON a.code = b.code " +
+            "WHERE a.code = :code " +
+            "GROUP BY a.code", nativeQuery = true)
+    List<Double> Randgrade(Long code);
+
+
+
+    //신제품
     @Query(value = "SELECT * FROM alcohol ORDER BY code DESC LIMIT 8", nativeQuery = true)
-    List<Alcohol> newproduct(); //신제품
+    List<Alcohol> newproduct();
+
+    @Query(value = "SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade\n" +
+            "FROM alcohol a LEFT JOIN review b ON a.code = b.code\n" +
+            "GROUP BY a.code ORDER BY a.code DESC\n" +
+            "LIMIT 8", nativeQuery = true)
+    List<Double> newgrade();
+
+
+
+
+
 
     List<Alcohol> findByMaincategory(String maincategory); // 대분류로 주류 검색하기
 

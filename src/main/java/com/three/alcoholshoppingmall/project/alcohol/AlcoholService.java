@@ -58,7 +58,6 @@ public class AlcoholService {
 //    }
 
 
-
     public List<DetailInformation> DetailPage(AlcoholDto alcoholDto) {
 
         Double ratings = alcoholRepository.Rating(alcoholDto.getName());
@@ -67,23 +66,23 @@ public class AlcoholService {
         Alcohol alcohol = alcoholRepository.findByName(alcoholDto.getName());
         List<DetailInformation> list = new ArrayList<>();
 
-            DetailInformation info = DetailInformation.builder()
-                    .code(alcohol.getCode())
-                    .name(alcohol.getName())
-                    .maincategory(alcohol.getMaincategory())
-                    .subcategory(alcohol.getSubcategory())
-                    .content(alcohol.getContent())
-                    .aroma(alcohol.getAroma())
-                    .taste(alcohol.getTaste())
-                    .finish(alcohol.getFinish())
-                    .nation(alcohol.getNation())
-                    .picture(alcohol.getPicture())
-                    .price(alcohol.getPrice())
-                    .ratingaverage(ratings)
-                    .reviewcacount(reviewCount)
-                    .build();
+        DetailInformation info = DetailInformation.builder()
+                .code(alcohol.getCode())
+                .name(alcohol.getName())
+                .maincategory(alcohol.getMaincategory())
+                .subcategory(alcohol.getSubcategory())
+                .content(alcohol.getContent())
+                .aroma(alcohol.getAroma())
+                .taste(alcohol.getTaste())
+                .finish(alcohol.getFinish())
+                .nation(alcohol.getNation())
+                .picture(alcohol.getPicture())
+                .price(alcohol.getPrice())
+                .ratingaverage(ratings)
+                .reviewcacount(reviewCount)
+                .build();
 
-            list.add(info);
+        list.add(info);
 
         return list;
     }
@@ -137,23 +136,43 @@ public class AlcoholService {
         return list;
     }
 
-    public List<Alcohol> Algorithm(String email) {
-
+    public List<Alcoholmain> Algorithm(String email) {
         Optional<Purchase> check = purchaseRepository.findByEmail(email);
 
+        List<Alcohol> alcohols;
         if (check.isPresent()) {
-
             String aroma = algorithmRepository.Aroma(email);
             String taste = algorithmRepository.Taste(email);
             String finish = algorithmRepository.Finish(email);
-
-            List<Alcohol> list = algorithmRepository.personalalgorithm( aroma, taste, finish);
-
-
-            return list;
+            alcohols = algorithmRepository.personalalgorithm(aroma, taste, finish);
         } else {
-            List<Alcohol> list = alcoholRepository.mostsold();
-            return list;
+            alcohols = alcoholRepository.mostsold();
         }
+
+        List<Double> gaverages = alcoholRepository.mostsoldgrade();
+
+        return mapAlcoholsToAlcoholMains(alcohols, gaverages);
     }
+
+    private List<Alcoholmain> mapAlcoholsToAlcoholMains(List<Alcohol> alcohols, List<Double> gaverages) {
+        List<Alcoholmain> list = new ArrayList<>();
+        int size = Math.min(alcohols.size(), gaverages.size());
+        for (int i = 0; i < size; i++) {
+            Alcohol alcohol = alcohols.get(i);
+            Double gaverage = gaverages.get(i);
+
+            Alcoholmain alcoholmain = Alcoholmain.builder()
+                    .code(alcohol.getCode())
+                    .name(alcohol.getName())
+                    .picture(alcohol.getPicture())
+                    .price(alcohol.getPrice())
+                    .ratingaverage(gaverage)
+                    .build();
+
+            list.add(alcoholmain);
+        }
+        return list;
+    }
+
+
 }

@@ -39,7 +39,7 @@ public class Review {
 
     @Schema(title = "평점", description = "사용자가 매긴 평점 입니다.")
     @Min(value = 0, message = "최소 숫자는 0 입니다.")
-    @Max(value = 10, message = "최대 숫자는 10 입니다.")
+    @Max(value = 5, message = "최대 숫자는 5 입니다.")
     @Column(nullable = false)
     private int grade;
 
