@@ -52,6 +52,14 @@ public interface AlgorithmRepository extends JpaRepository<Alcohol, Long> {
     @Query(value = "SELECT DISTINCT * FROM alcohol " +
             "WHERE (aroma LIKE CONCAT('%', :aroma, '%') OR taste LIKE CONCAT('%', :taste, '%') OR finish LIKE CONCAT('%', :finish, '%')) " +
             "LIMIT 8", nativeQuery = true)
-    List<Alcohol> personalalgorithm( String aroma, String taste, String finish);
+   List<Alcohol> personalalgorithm( String aroma, String taste, String finish);
+
+
+    @Query(value = "SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade " +
+            "FROM alcohol a LEFT JOIN review b ON a.code = b.code " +
+            "WHERE a.code = :code " +
+            "GROUP BY a.code", nativeQuery = true)
+    List<Double> algorithmgrade(Long code);
+
 
 }

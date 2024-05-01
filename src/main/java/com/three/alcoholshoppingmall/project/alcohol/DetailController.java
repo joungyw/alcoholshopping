@@ -39,13 +39,13 @@ public class DetailController {
             description = "회원의 구매정보를 토대로 술을 추천 합니다. 구매 정보가 없을 경우 많이 팔린 술 8개를 추천 합니다." +
                     "입력 하실 값은 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Alcohol>> MemberAlgorithm() {
+    public ResponseEntity<List<Alcoholmain>> MemberAlgorithm() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             User user = (User)authentication.getPrincipal();
 
-            List<Alcohol> list =  alcoholService.Algorithm(user.getEmail());
+            List<Alcoholmain> list =  alcoholService.Algorithm(user.getEmail());
             return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 }

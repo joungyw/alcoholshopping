@@ -8,6 +8,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Entity
@@ -39,12 +43,16 @@ public class Review {
 
     @Schema(title = "평점", description = "사용자가 매긴 평점 입니다.")
     @Min(value = 0, message = "최소 숫자는 0 입니다.")
-    @Max(value = 10, message = "최대 숫자는 10 입니다.")
+    @Max(value = 5, message = "최대 숫자는 5 입니다.")
     @Column(nullable = false)
     private int grade;
 
     @Schema(title = "사진", description = "리뷰시 올린 사진 입니다.")
     private String picture;
+
+    @Schema(title = "createDate", description = "리뷰 생성일자 입니다.")
+    @CreationTimestamp
+    private LocalDate createDate;
 
 
 }

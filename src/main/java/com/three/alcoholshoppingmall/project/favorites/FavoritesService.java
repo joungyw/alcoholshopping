@@ -24,13 +24,18 @@ public class FavoritesService {
     private final UserRepository userRepository;
 
     public List<Favoritesalcohol> Favoriteslist(String email) {
-        List<String> names = alcoholRepository.MyFavorites(email);
+        List<String> names = alcoholRepository.MyFavoritesname(email);
+        List<Long> codes = alcoholRepository.MyFavoritescode(email);
+        List<String> pictures = alcoholRepository.MyFavoritespicture(email);
 
         List<Favoritesalcohol> list = new ArrayList<>();
-        for (String name : names) {
+        int size = Math.min(names.size(), Math.min(codes.size(), pictures.size()));
+        for (int i = 0; i < size; i++) {
             Favoritesalcohol favoritesalcohol = Favoritesalcohol
                     .builder()
-                    .name(name)
+                    .code(codes.get(i))
+                    .name(names.get(i))
+                    .picture(pictures.get(i))
                     .build();
             list.add(favoritesalcohol);
         }
@@ -51,21 +56,22 @@ public class FavoritesService {
         if (favor.isPresent()) {
             favoritesFRepository.deleteByUser_EmailAndAlcohol_Code(email,code);
         } else {
-            String alcoholname = alcoholRepository.name(code);
-
             Favorites favorites = new Favorites();
             favorites.setUser(user);
             favorites.setAlcohol(alcohol);
              favoritesFRepository.save(favorites);
 
              Favoritesalcohol favoritesalcohol = Favoritesalcohol.builder()
-                     .name(alcoholname)
+                     .code(alcohol.getCode())
+                     .name(alcohol.getName())
+                     .picture(alcohol.getPicture())
                      .build();
 
              list.add(favoritesalcohol);
         }
         return list;
     }
+
     @Transactional
     public List<Favorites> FavoritesDelete(Long code, String email) {
         Optional<Favorites> favor = favoritesFRepository.findByUser_EmailAndAlcohol_Code(email,code);

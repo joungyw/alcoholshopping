@@ -2,6 +2,7 @@ package com.three.alcoholshoppingmall.project.market;
 
 
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholDto;
+import com.three.alcoholshoppingmall.project.alcohol.Alcoholmain;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,5 +40,11 @@ List<Market> list = marketService.Marketlist(alcoholDto.getCode());
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(list);
     }
+
+
+
+
+
+
 
 }

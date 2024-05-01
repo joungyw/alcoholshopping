@@ -9,6 +9,9 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -31,8 +34,9 @@ public class ReviewDTO {
 
     @NotBlank
     @Min(value = 0, message = "최소 숫자는 0 입니다.")
-    @Max(value = 10, message = "최대 숫자는 10 입니다.")
+    @Max(value = 5, message = "최대 숫자는 5 입니다.")
     private int grade;
 
     private String picture;
+
 }

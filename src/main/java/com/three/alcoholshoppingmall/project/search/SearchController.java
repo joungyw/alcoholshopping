@@ -33,53 +33,6 @@ public class SearchController {
     private final AlcoholRepository alcoholRepository;
     private final SearchService searchService;
 
-    @PostMapping("/contents") // 회원 검색
-    @Operation(summary = "회원일 때 검색, name으로 주류를 검색",
-            description = "회원이 검색하는 기능입니다. <br>" +
-                    "searchcontents에 name으로 주류를 검색하는 기능입니다. <br>" +
-                    "검색을 완료하지 않아도 내용이 나오게 만들었습니다. <br>" +
-                    "피그마에서 검색을 하면 검색 기록과 회원의 이메일이 db에 저장됩니다.")
-    @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<MainListDto>> memberSearch(@RequestBody MemberSearchDto memberSearchDto) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email;
-        User user = (User) authentication.getPrincipal();
-        email = user.getEmail();
-        List<MainListDto> list = searchService.memberSearch(memberSearchDto.getSearchcontents(), email);
-        return ResponseEntity.status(HttpStatus.OK).body(list);
-    }
-
-    @PostMapping("/anony/contents")
-    @Operation(summary = "비회원일 때 검색, name으로 주류를 검색",
-            description = "비회원이 검색하는 기능입니다.<br>" +
-                    "searchcontents에 name으로 주류를 검색하는 기능입니다.<br>" +
-                    "검색을 완료하지 않아도 내용이 나오게 만들었습니다.<br>" +
-                    "비회원 이메일은 anony@anony.anony입니다.<br>"+
-                    "이메일과 searchcontents에 입력값이 필요합니다."+
-                    "피그마에서 검색을 하면 검색 기록과 비회원의 이메일이 db에 저장됩니다.")
-    public ResponseEntity<List<MainListDto>> NonmemberSearch(@RequestBody NoneMemberSearchDto noneMemberSearchDto) {
-        String email = "anony@anony.anony";
-        List<MainListDto> list = searchService.memberSearch(noneMemberSearchDto.getSearchcontents(), email);
-        return ResponseEntity.status(HttpStatus.OK).body(list);
-    }
-
-
-    @GetMapping("/recent")
-    @Operation(summary = "최근 검색기록",
-            description = "최근 검색 기록을 5개를 출력하게 만들었습니다. <br>" +
-                    "피그마에서 검색 창에 검색 시 최근 검색 기록 5개를 뜨게 하는 기능입니다. <br>" +
-                    "입력 값은 필요 없습니다.<br>"+
-                    "검색을 하면서 db에 저장되었던 내용을 내림차순으로 5개를 출력하게 하는 기능입니다. <br>")
-    @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Search>> recent(
-    ) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        String email = user.getEmail();
-        List<Search> list = searchService.recentSearch(email);
-        return ResponseEntity.status(HttpStatus.OK).body(list);
-    }
 
     @DeleteMapping("/delete")
     @Operation(summary = "회원의 검색 기록 삭제", description = "회원의 검색 기록을 삭제하는 기능입니다.<br>" +
