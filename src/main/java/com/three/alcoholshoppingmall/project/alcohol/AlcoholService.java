@@ -68,6 +68,7 @@ public class AlcoholService {
         List<DetailInformation> list = new ArrayList<>();
 
             DetailInformation info = DetailInformation.builder()
+                    .code(alcohol.getCode())
                     .name(alcohol.getName())
                     .maincategory(alcohol.getMaincategory())
                     .subcategory(alcohol.getSubcategory())
@@ -114,6 +115,7 @@ public class AlcoholService {
             Integer count = (i < reviewCount.size()) ? reviewCount.get(i) : null;
 
             DetailInformation info = DetailInformation.builder()
+                    .code(alcohol.getCode())
                     .name(alcohol.getName())
                     .maincategory(alcohol.getMaincategory())
                     .subcategory(alcohol.getSubcategory())

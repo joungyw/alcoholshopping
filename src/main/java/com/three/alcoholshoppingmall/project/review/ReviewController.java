@@ -29,6 +29,7 @@ public class ReviewController {
     @Operation(summary = "내 리뷰 목록",
             description = "해당 회원이 작성한 리뷰들을 보여 주는 기능입니다." +
                     "입력 하실 값은 없습니다.")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Reviewshow>> ReviewList(ReviewDTO reviewDTO){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -46,6 +47,7 @@ public class ReviewController {
                     "코드는 1~50까지 있습니다."+
                     "writing 는 리뷰 글, grade는 평점으로 0~10까지만 입력이 가능합니다." +
                     "picture는 사진으로 사진의 경로가 저장 되며 null로 보내는것도 가능 합니다.")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Reviewshow>> Review(@RequestBody ReviewDTO reviewDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -61,6 +63,7 @@ public class ReviewController {
             description = "해당 술에 리뷰를 지우는 기능 입니다." +
                     "alcohol에 술의 고유 코드의 입력이 필요 합니다." +
                     "코드는 1~50까지 있습니다.")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Review>> ReviewDelete(@RequestBody ReviewDTO reviewDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
