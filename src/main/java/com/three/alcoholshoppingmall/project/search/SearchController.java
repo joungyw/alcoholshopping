@@ -2,6 +2,7 @@ package com.three.alcoholshoppingmall.project.search;
 
 import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
+import com.three.alcoholshoppingmall.project.alcohol.MainListDto;
 import com.three.alcoholshoppingmall.project.exception.BizException;
 import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,13 +38,13 @@ public class SearchController {
                     "검색을 완료하지 않아도 내용이 나오게 만들었습니다. <br>" +
                     "피그마에서 검색을 하면 검색 기록과 회원의 이메일이 db에 저장됩니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<SearchDetail>> memberSearch(@RequestBody MemberSearchDto memberSearchDto) {
+    public ResponseEntity<List<MainListDto>> memberSearch(@RequestBody MemberSearchDto memberSearchDto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email;
         User user = (User) authentication.getPrincipal();
         email = user.getEmail();
-        List<SearchDetail> list = searchService.memberSearch(memberSearchDto.getSearchcontents(), email);
+        List<MainListDto> list = searchService.memberSearch(memberSearchDto.getSearchcontents(), email);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -55,9 +56,9 @@ public class SearchController {
                     "비회원 이메일은 anony@anony.anony입니다.<br>"+
                     "이메일과 searchcontents에 입력값이 필요합니다."+
                     "피그마에서 검색을 하면 검색 기록과 비회원의 이메일이 db에 저장됩니다.")
-    public ResponseEntity<List<SearchDetail>> NonmemberSearch(@RequestBody NoneMemberSearchDto noneMemberSearchDto) {
+    public ResponseEntity<List<MainListDto>> NonmemberSearch(@RequestBody NoneMemberSearchDto noneMemberSearchDto) {
         String email = "anony@anony.anony";
-        List<SearchDetail> list = searchService.memberSearch(noneMemberSearchDto.getSearchcontents(), email);
+        List<MainListDto> list = searchService.memberSearch(noneMemberSearchDto.getSearchcontents(), email);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 

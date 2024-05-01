@@ -49,7 +49,8 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
 
 
     //술 평점
-    @Query(value = "SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade \n" +
+    @Query(value = "SELECT " +
+            "ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade \n" +
             "FROM alcohol a LEFT JOIN review b ON a.code = b.code \n" +
             "GROUP BY a.code", nativeQuery = true)
     List<Double> Ratingaverage();
@@ -68,6 +69,19 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "FROM alcohol a LEFT JOIN review b ON a.code = b.code \n" +
             "WHERE a.name = :name GROUP BY a.name\n", nativeQuery = true)
     Double Rating(String name);
+
+    @Query(value = "SELECT\n" +
+            "        ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade \n" +
+            "\t\t  ,a.name,a.price,a.code\n" +
+            "    FROM\n" +
+            "        alcohol a \n" +
+            "    LEFT OUTER JOIN\n" +
+            "        review b \n" +
+            "            ON a.code = b.code  \n" +
+            "    GROUP BY\n" +
+            "        a.name,a.price,a.code\n" +
+            "\tHAVING a.name LIKE :name", nativeQuery = true)
+    List<Double> RatingList(String name);
 
     //특정 술의 가격
     @Query(value = "SELECT price FROM alcohol WHERE code= :code", nativeQuery = true)

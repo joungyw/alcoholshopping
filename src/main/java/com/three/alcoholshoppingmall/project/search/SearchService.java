@@ -2,8 +2,8 @@ package com.three.alcoholshoppingmall.project.search;
 
 import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
+import com.three.alcoholshoppingmall.project.alcohol.MainListDto;
 import com.three.alcoholshoppingmall.project.exception.BizException;
-import com.three.alcoholshoppingmall.project.review.ReviewRepository;
 import com.three.alcoholshoppingmall.project.user.User;
 import com.three.alcoholshoppingmall.project.user.UserRepository;
 import jakarta.transaction.Transactional;
@@ -27,9 +27,10 @@ public class SearchService {
     private final UserRepository userRepository;
 
     @Transactional
-    public List<SearchDetail> memberSearch(String searchcontents, String email) {
-        System.out.println("여기로 오나");
-        Double ratings = alcoholRepository.Rating(searchcontents);
+    public List<MainListDto> memberSearch(String searchcontents, String email) {
+        System.out.println("여기로 오나"+searchcontents);
+        List<Double> ratings = alcoholRepository.RatingList("%"+searchcontents+"%");
+        System.out.println(ratings);
         List<Alcohol> list = alcoholRepository.findByNameContaining(searchcontents);
         System.out.println(searchcontents);
         searchRepository.searchsave(email, searchcontents);
@@ -43,17 +44,17 @@ public class SearchService {
         if (searchcontents.length() <= 1) {
             throw new BizException(SEARCHCLENGTH);
         } else {
-            List<SearchDetail> searchDetails = new ArrayList<>();
+            List<MainListDto> searchDetails = new ArrayList<>();
 
-            for (Alcohol alcohol : list) {
-
-                SearchDetail searchDetail = SearchDetail.builder()
+            for (int i=0; i<ratings.size();i++) {
+                Alcohol alcohol = list.get(0);
+                MainListDto mainListDto = MainListDto.builder()
                         .code(alcohol.getCode())
                         .name(alcohol.getName())
                         .price(alcohol.getPrice())
-                        .ratingaverage(ratings)
+                        .ratingaverage(ratings.get(i))
                         .build();
-                searchDetails.add(searchDetail);
+                searchDetails.add(mainListDto);
 
 
             }
