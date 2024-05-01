@@ -91,18 +91,27 @@ public class SearchController {
 
     }
 
-    @PostMapping("/maincategory")
-    @Operation(summary = "maincategory로 주류 검색",
-            description = "maincategory에 해당하는 주류를 검색합니다. <br>" +
-                    "maincategory에는 와인, 위스키, 브랜디, 리큐르가 있습니다, 이 중 하나를 입력해주세요. <br>" +
-                    "피그마에서 maincategory 선택 시 subcategory 부분 All에 사용할 기능입니다.")
-    public ResponseEntity<List<Alcohol>> selectByMainCategory(@RequestBody SearchMainCategoryDto searchMainCategoryDto) {
-        List<Alcohol> list = alcoholRepository.findByMaincategory(searchMainCategoryDto.getMaincategory());
-        if (list.isEmpty()) {
-            throw new BizException(NULLMAINCATEGORY);
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(list);
-    }
+//    @PostMapping("/maincategory")
+//    @Operation(summary = "maincategory로 주류 검색",
+//            description = "maincategory에 해당하는 주류를 검색합니다. <br>" +
+//                    "maincategory에는 와인, 위스키, 브랜디, 리큐르가 있습니다, 이 중 하나를 입력해주세요. <br>" +
+//                    "피그마에서 maincategory 선택 시 subcategory 부분 All에 사용할 기능입니다.")
+//    public ResponseEntity<List<SearchMainCategoryDto>> selectByMainCategory(@RequestBody SearchMainCategoryDto searchMainCategoryDto) {
+//        List<Alcohol> list = alcoholRepository.findByMaincategory(searchMainCategoryDto.getMaincategory());
+//        if (list.isEmpty()) {
+//            throw new BizException(NULLMAINCATEGORY);
+//        }else{
+//            SearchMainCategory searchMainCategory = SearchMainCategory.builder()
+//                    .code(searchMainCategoryDto.getCode())
+//                    .name(searchMainCategoryDto.getName())
+//                    .price(searchMainCategoryDto.getPrice())
+//                    .ratingaverage(searchMainCategoryDto.getRatingaverage())
+//                    .picture(searchMainCategoryDto.getPicture())
+//                    .build();
+//            list.add(searchMainCategory);
+//        }
+//        return ResponseEntity.status(HttpStatus.OK).body(list);
+//    }
 
     @PostMapping("/subcategory")
     @Operation(summary = "subcategory로 주류 검색",
@@ -114,7 +123,6 @@ public class SearchController {
                     "와인의 subcategory 입력시에는 띄어쓰기를 유의해주세요. <br>" +
                     "피그마에서 대분류 선택 시 All을 제외한 각각의 subcategory에 사용할 기능입니다.")
     public ResponseEntity<List<Alcohol>> selectBySubCategory(@RequestBody SearchSubCategroyDto searchSubCategroyDto) {
-        System.out.println(searchSubCategroyDto);
         List<Alcohol> list = alcoholRepository.findBySubcategory(searchSubCategroyDto.getSubcategory());
         if (list.isEmpty()) {
             throw new BizException(NULLSUBCATEGORY);
