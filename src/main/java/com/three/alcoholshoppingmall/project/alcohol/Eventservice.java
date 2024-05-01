@@ -29,6 +29,7 @@ public class Eventservice {
             return list;
         }
 
+        //신제품
     public List<Alcohol> Product() {
         List<Alcohol> list =  alcoholRepository.newproduct();
 
