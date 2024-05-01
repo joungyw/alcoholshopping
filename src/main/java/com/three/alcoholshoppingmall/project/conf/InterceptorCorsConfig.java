@@ -18,11 +18,8 @@ public class InterceptorCorsConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
-<<<<<<< HEAD
-                .excludePathPatterns("/login", "/create", "/market", "/swagger", "/search/anony/contents","/search/subcategory");
-=======
-                .excludePathPatterns("/login", "/create", "/market", "/swagger", "/search/anony/contents", "/alcohol");
->>>>>>> main
+                .excludePathPatterns("/login", "/create", "/market", "/swagger", "/search/anony/contents","/search/subcategory","/alcohol");
+
     }
 
     @Override
