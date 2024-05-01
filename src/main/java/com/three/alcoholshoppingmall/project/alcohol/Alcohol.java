@@ -50,6 +50,7 @@ public class Alcohol {
     @Column(length = 100)
     private String finish;
 
+
     @Schema(title = "주류 국가", description = "주류의 국가를 넣어주시면 됩니다.")
     private String nation;
 

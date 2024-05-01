@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -19,4 +20,9 @@ public interface SearchRepository extends JpaRepository<Search, Long> {
     @Modifying
     @Query(value = "INSERT INTO search (email, searchcontents) VALUES (:email, :searchcontents)", nativeQuery = true)
     void searchsave(String email, String searchcontents);
+
+
+    Optional<Search> findByUser_EmailAndId(String email, Long id);
+
+    List<Search> deleteByUser_EmailAndId(String email, Long id);
 }
