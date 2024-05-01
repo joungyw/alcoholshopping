@@ -3,6 +3,10 @@ package com.three.alcoholshoppingmall.project.alcohol;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.*;
 
 @Getter
@@ -12,6 +16,10 @@ import lombok.*;
 @AllArgsConstructor
 @Schema(description = "상세 페이지용 정보저장 클래스")
 public class DetailInformation {
+
+
+    @Schema(title = "주류 code", description = "table에서 자동으로 생성되는 칼럼입니다.")
+    private Long code;
 
     @Schema(title = "주류 이름", description = "주류 이름을 넣어주시면 됩니다.")
     private String name;
