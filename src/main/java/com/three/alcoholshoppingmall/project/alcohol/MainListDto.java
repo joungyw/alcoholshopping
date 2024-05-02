@@ -14,4 +14,5 @@ public class MainListDto {
     private String name;
     private int price;
     private Long code;
+    private String picture;
 }
