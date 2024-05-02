@@ -23,22 +23,31 @@ import java.time.LocalDate;
 public class PurchaseDTO {
 
 
+    @JsonIgnore
     private Long ordernumber;
 
+    @JsonIgnore
     private User user;
 
+    @JsonIgnore
     private Long stock;
 
+    @JsonIgnore
     private int amount;
 
+    @JsonIgnore
     private int price;
 
+    @JsonIgnore
     private Delivery delivery;
 
+    @JsonIgnore
     private Division division;
-    
+
+    @JsonIgnore
     private String address;
 
+    @JsonIgnore
     private LocalDate purchaseday;
 
 }

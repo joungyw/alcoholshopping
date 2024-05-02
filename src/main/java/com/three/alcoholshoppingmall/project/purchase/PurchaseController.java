@@ -5,7 +5,6 @@ import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,7 @@ import java.util.List;
 public class PurchaseController {
 
 
-    private final PurchaseServicce purchaseServicce;
+    private final PurchaseService purchaseServicce;
 
 
     @GetMapping("/pickup")
@@ -31,12 +30,13 @@ public class PurchaseController {
             description = "회원의 구매 내역중 픽업으로 수령을 신청한 제품을 모두 보여줍니다." +
                     "입력 하실 값은 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Purchaseshow>> PICKUP(PurchaseDTO purchaseDTO) {
+    public ResponseEntity<List<Purchaseshow>> PICKUP() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
-        purchaseDTO.setUser(user);
-        List<Purchaseshow> list = purchaseServicce.PICKUPlist(purchaseDTO);
+
+
+        List<Purchaseshow> list = purchaseServicce.PICKUPlist(user.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -45,13 +45,13 @@ public class PurchaseController {
             description = "회원의 구매 내역중 배달로 수령을 신청한 제품을 모두 보여줍니다." +
                     "입력 하실 값은 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Purchaseshow>> DELIVERY(PurchaseDTO purchaseDTO) {
+    public ResponseEntity<List<Purchaseshow>> DELIVERY() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
-        purchaseDTO.setUser(user);
 
-        List<Purchaseshow> list = purchaseServicce.DELIVERYlist(purchaseDTO);
+
+        List<Purchaseshow> list = purchaseServicce.DELIVERYlist(user.getEmail());
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
@@ -61,13 +61,13 @@ public class PurchaseController {
             description = "회원의 구매 내역중 가장 최근에 픽업으로 수령을 신청한 제품을 5개를 보여줍니다." +
                     "입력 하실 값은 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Purchaseshow>> PICKUPLIMT(PurchaseDTO purchaseDTO) {
+    public ResponseEntity<List<Purchaseshow>> PICKUPLIMT() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
-        purchaseDTO.setUser(user);
 
-        List<Purchaseshow> list = purchaseServicce.PICKUPlimt(purchaseDTO);
+
+        List<Purchaseshow> list = purchaseServicce.PICKUPlimt(user.getEmail());
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
@@ -77,13 +77,12 @@ public class PurchaseController {
             description = "회원의 구매 내역중 가장 최근에 배달로 수령을 신청한 제품을 5개를 보여줍니다." +
                     "입력 하실 값은 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Purchaseshow>> DELIVERYLIMT(PurchaseDTO purchaseDTO) {
+    public ResponseEntity<List<Purchaseshow>> DELIVERYLIMT() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
-        purchaseDTO.setUser(user);
 
-        List<Purchaseshow> list = purchaseServicce.DELIVERYLIMTlimt(purchaseDTO);
+        List<Purchaseshow> list = purchaseServicce.DELIVERYLIMTlimt(user.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 

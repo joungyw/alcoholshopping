@@ -20,7 +20,7 @@ import java.util.List;
 public class AlcoholController {
 
     private final AlcoholService alcoholService;
-    @GetMapping("/mian")
+    @GetMapping("/main")
     @Operation(summary = "메인 카테고리를 정렬하는 기능 입니다.",
             description = "Type에 인기, 높은 가격, 낮은 가격이라 입력 받으면" +
                     "maincategory의 정렬을 바꾸어 줍니다.")

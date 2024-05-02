@@ -4,6 +4,8 @@ package com.three.alcoholshoppingmall.project.review;
 
 import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
+import com.three.alcoholshoppingmall.project.exception.BizException;
+import com.three.alcoholshoppingmall.project.exception.ErrorCode;
 import com.three.alcoholshoppingmall.project.favorites.Favoritesalcohol;
 import com.three.alcoholshoppingmall.project.user.User;
 import com.three.alcoholshoppingmall.project.user.UserRepository;
@@ -105,7 +107,7 @@ public class ReviewService {
         if (check.isPresent()) {
             reviewRepository.deleteByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getAlcohol());
         } else {
-            throw new NoSuchElementException("해당 리뷰는 존재하지 않습니다.");
+            throw new BizException(ErrorCode.NOTFOUNDREVIEW);
         }
         return null;
     }

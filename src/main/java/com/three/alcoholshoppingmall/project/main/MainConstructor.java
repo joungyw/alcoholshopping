@@ -101,6 +101,7 @@ public class MainConstructor {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email;
+        System.out.println(authentication.getPrincipal());
         User user = (User) authentication.getPrincipal();
         email = user.getEmail();
         List<MainListDto> list = searchService.memberSearch(memberSearchDto.getSearchcontents(), email);

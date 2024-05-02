@@ -2,6 +2,8 @@ package com.three.alcoholshoppingmall.project.alcohol;
 
 
 
+import com.three.alcoholshoppingmall.project.exception.BizException;
+import com.three.alcoholshoppingmall.project.exception.ErrorCode;
 import com.three.alcoholshoppingmall.project.purchase.Purchase;
 import com.three.alcoholshoppingmall.project.purchase.PurchaseRepository;
 import com.three.alcoholshoppingmall.project.review.ReviewRepository;
@@ -84,11 +86,10 @@ public class AlcoholService {
         return list;
     }
 
-    public List<Alcoholmain> MainType(String maincategory, String tag) {
+    public List<Alcoholmain> MainType(String maincategory, String type) {
         List<Alcohol> alcohols;
         List<Double> ratings;
-
-        switch (tag) {
+        switch (type) {
             case "인기":
                 alcohols = alcoholRepository.popmain(maincategory);
                 ratings = alcoholRepository.popratingsmain(maincategory);
@@ -102,16 +103,16 @@ public class AlcoholService {
                 ratings = alcoholRepository.minratingsmain(maincategory);
                 break;
             default:
-                throw new IllegalArgumentException("유효하지 않은 정렬 태그입니다.");
+                throw new BizException(ErrorCode.ERRORTYPE);
         }
+
         List<Alcoholmain> list = new ArrayList<>();
 
         for (int i = 0; i < alcohols.size(); i++) {
             Alcohol alcohol = alcohols.get(i);
             Double grade = (i < ratings.size()) ? ratings.get(i) : null;
 
-            Alcoholmain alcoholmain = Alcoholmain
-                    .builder()
+            Alcoholmain alcoholmain = Alcoholmain.builder()
                     .code(alcohol.getCode())
                     .name(alcohol.getName())
                     .price(alcohol.getPrice())
@@ -124,6 +125,7 @@ public class AlcoholService {
 
         return list;
     }
+
 
     public List<Alcoholmain> Algorithm(String email) {
         Optional<Purchase> check = purchaseRepository.findByEmail(email);
@@ -182,7 +184,7 @@ public class AlcoholService {
                 ratings = alcoholRepository.minratingssub(subcategory);
                 break;
             default:
-                throw new IllegalArgumentException("유효하지 않은 정렬 태그입니다.");
+                throw new BizException(ErrorCode.ERRORTYPE);
         }
         List<Alcoholmain> list = new ArrayList<>();
 

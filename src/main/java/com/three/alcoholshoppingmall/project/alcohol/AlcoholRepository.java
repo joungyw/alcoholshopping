@@ -84,7 +84,7 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "        review b \n" +
             "            ON a.code = b.code  \n" +
             "    GROUP BY\n" +
-            "        a.name,a.price,a.code\n" +
+            "       a.picture,a.name,a.price,a.code\n" +
             "\tHAVING a.name LIKE :name", nativeQuery = true)
     List<Double> RatingList(String name);
 
