@@ -61,7 +61,7 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
 
     List<Alcohol> findByMaincategory(String maincategory); // 대분류로 주류 검색하기
 
-    List<Alcohol> findBySubcategory(String subcategory); // 소분류로 주류 검색하기
+    List<Alcohol> findBySubcategoryOrMaincategory(String subcategory,String maincategory); // 소분류로 주류 검색하기
 
     List<Alcohol> findByNameContaining(String name);// 이름으로 주류 검색하기
 
@@ -84,7 +84,7 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "        review b \n" +
             "            ON a.code = b.code  \n" +
             "    GROUP BY\n" +
-            "       a.picture,a.name,a.price,a.code\n" +
+            "       a.name,a.price,a.code\n" +
             "\tHAVING a.name LIKE :name", nativeQuery = true)
     List<Double> RatingList(String name);
 
@@ -258,4 +258,9 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
 
 
 
+    @Query(value = "SELECT ROUND(COALESCE(AVG(b.grade),0),1)" +
+            "AS average_grade, a.price, a.code, a.name, a.picture from alcohol a " +
+            "left join review b on a.code = b.code where a.maincategory = ':maincategory' or a.subcategory = 'subcategory' " +
+            "group by a.code", nativeQuery = true)
+    List<Double> CategoryList(String category);
 }
