@@ -61,7 +61,7 @@ public class SearchController {
                         .code(alcohol.getCode())
                         .name(alcohol.getName())
                         .price(alcohol.getPrice())
-                        .ratingaverage(alcoholRepository.Rating(alcohol.getName()))
+                        .ratingaverage(alcoholRepository.Rating(alcohol.getCode()))
                         .picture(alcohol.getPicture())
                         .build();
                 list.add(mainListDto);
@@ -90,7 +90,7 @@ public class SearchController {
                         .code(alcohol.getCode())
                         .name(alcohol.getName())
                         .price(alcohol.getPrice())
-                        .ratingaverage(alcoholRepository.Rating(alcohol.getName()))
+                        .ratingaverage(alcoholRepository.Rating(alcohol.getCode()))
                         .picture(alcohol.getPicture())
                         .build();
                 list.add(mainListDto);

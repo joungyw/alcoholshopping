@@ -4,9 +4,13 @@ package com.three.alcoholshoppingmall.project.alcohol;
 
 import com.three.alcoholshoppingmall.project.exception.BizException;
 import com.three.alcoholshoppingmall.project.exception.ErrorCode;
+import com.three.alcoholshoppingmall.project.market.Market;
+import com.three.alcoholshoppingmall.project.market.MarketRepository;
+import com.three.alcoholshoppingmall.project.market.Marketinfo;
 import com.three.alcoholshoppingmall.project.purchase.Purchase;
 import com.three.alcoholshoppingmall.project.purchase.PurchaseRepository;
 import com.three.alcoholshoppingmall.project.review.ReviewRepository;
+import com.three.alcoholshoppingmall.project.stock.StockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +27,8 @@ public class AlcoholService {
     private final ReviewRepository reviewRepository;
     private final AlgorithmRepository algorithmRepository;
     private final PurchaseRepository purchaseRepository;
+    private final MarketRepository marketRepository;
+    private final StockRepository stockRepository;
 
 //    public List<Information> Page() {
 //        List<Double> rating = alcoholRepository.Ratingaverage();
@@ -59,10 +65,10 @@ public class AlcoholService {
 
     public List<DetailInformation> DetailPage(AlcoholDto alcoholDto) {
 
-        Double ratings = alcoholRepository.Rating(alcoholDto.getName());
-        int reviewCount = reviewRepository.Reviewcacount(alcoholDto.getName());
+        Double ratings = alcoholRepository.Rating(alcoholDto.getCode());
+        int reviewCount = reviewRepository.Reviewcacount(alcoholDto.getCode());
 
-        Alcohol alcohol = alcoholRepository.findByName(alcoholDto.getName());
+        Alcohol alcohol = alcoholRepository.findByCode(alcoholDto.getCode());
         List<DetailInformation> list = new ArrayList<>();
 
         DetailInformation info = DetailInformation.builder()
@@ -205,5 +211,35 @@ public class AlcoholService {
         }
 
         return list;
+    }
+
+    public List<Marketinfo> MarketDetail(AlcoholDto alcoholDto) {
+
+        List<Market> market = marketRepository.marketlist(alcoholDto.getCode());
+        List<Integer> number = stockRepository.code(alcoholDto.getCode());
+
+        List<Marketinfo> list = new ArrayList<>();
+
+        for (int i = 0; i <  market.size(); i++) {
+            Market marketcode = market.get(i);
+            int code = number.get(i);
+
+            Marketinfo marketinfo = Marketinfo
+                    .builder()
+                    .marketcode(marketcode.getMarketcode())
+                    .marketname(marketcode.getMarketname())
+                    .address(marketcode.getAddress())
+                    .phonenumber(marketcode.getPhonenumber())
+                    .delivery(marketcode.getDelivery())
+                    .stocknumber(code)
+                    .opentime(marketcode.getOpentime())
+                    .closetime(marketcode.getClosetime())
+                    .build();
+
+
+            list.add(marketinfo);
+        }
+        return list;
+
     }
 }
