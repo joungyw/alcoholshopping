@@ -115,4 +115,12 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             "ORDER BY c.purchaseday DESC, c.ordernumber DESC LIMIT 5", nativeQuery = true)
     List<String> marketsdeliverylimt(String email);
 
+
+    @Query(value = "SELECT a.* FROM purchase a\n" +
+            "LEFT JOIN stock b ON a.stocknumber = b.stocknumber\n" +
+            "LEFT JOIN alcohol c ON b.code = c.code\n" +
+            "LEFT JOIN review d ON c.code = d.code\n" +
+            "LEFT JOIN market e ON b.marketcode = e.marketcode\n" +
+            "WHERE a.email = :email and d.code IS NULL",nativeQuery = true)
+    List<Purchase> purchasereview(String email);
 }

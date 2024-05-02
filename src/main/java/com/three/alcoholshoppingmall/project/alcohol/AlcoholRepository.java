@@ -66,14 +66,14 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     List<Alcohol> findByNameContaining(String name);// 이름으로 주류 검색하기
 
 
-    Alcohol findByName(String name);
+    Alcohol findByCode(Long code);
 
 
     //특정 술의 평점
     @Query(value = "SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade \n" +
             "FROM alcohol a LEFT JOIN review b ON a.code = b.code \n" +
-            "WHERE a.name = :name GROUP BY a.name\n", nativeQuery = true)
-    Double Rating(String name);
+            "WHERE a.code = :code GROUP BY a.name\n", nativeQuery = true)
+    Double Rating(Long code);
 
     @Query(value = "SELECT\n" +
             "        ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade \n" +
@@ -113,7 +113,6 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "GROUP BY a.code\n" +
             "ORDER BY COALESCE(SUM(p.total_amount), 0) DESC, a.code ASC", nativeQuery = true)
     List<Double> popratingsmain(String maincategory);
-
 
     // 최대 가격 순 정렬
     @Query(value = "SELECT * FROM alcohol where maincategory = :maincategory ORDER BY price DESC, code ASC", nativeQuery = true)
@@ -185,15 +184,6 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
 
 
 
-
-
-
-
-
-
-
-    Alcohol findByCode(Long code);
-
     @Query(value = "SELECT name from alcohol where code = :code" , nativeQuery = true)
     String name(Long code);
 
@@ -258,9 +248,20 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
 
 
 
+<<<<<<< HEAD
     @Query(value = "SELECT ROUND(COALESCE(AVG(b.grade),0),1)" +
             "AS average_grade, a.price, a.code, a.name, a.picture from alcohol a " +
             "left join review b on a.code = b.code where a.maincategory = ':maincategory' or a.subcategory = 'subcategory' " +
             "group by a.code", nativeQuery = true)
     List<Double> CategoryList(String category);
+=======
+
+    @Query(value = "SELECT c.* FROM purchase a\n" +
+            "LEFT JOIN stock b ON a.stocknumber = b.stocknumber\n" +
+            "LEFT JOIN alcohol c ON b.code = c.code\n" +
+            "LEFT JOIN review d ON c.code = d.code\n" +
+            "LEFT JOIN market e ON b.marketcode = e.marketcode\n" +
+            "WHERE a.email = :email and d.code IS NULL", nativeQuery = true)
+    List<Alcohol> alcoholreview(String email);
+>>>>>>> main
 }
