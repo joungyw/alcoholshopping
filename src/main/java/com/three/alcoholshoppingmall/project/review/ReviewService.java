@@ -7,6 +7,10 @@ import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
 import com.three.alcoholshoppingmall.project.exception.BizException;
 import com.three.alcoholshoppingmall.project.exception.ErrorCode;
 import com.three.alcoholshoppingmall.project.favorites.Favoritesalcohol;
+import com.three.alcoholshoppingmall.project.market.Market;
+import com.three.alcoholshoppingmall.project.market.MarketRepository;
+import com.three.alcoholshoppingmall.project.purchase.Purchase;
+import com.three.alcoholshoppingmall.project.purchase.PurchaseRepository;
 import com.three.alcoholshoppingmall.project.user.User;
 import com.three.alcoholshoppingmall.project.user.UserRepository;
 import jakarta.transaction.Transactional;
@@ -21,11 +25,12 @@ import java.util.*;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-    public final AlcoholRepository alcoholRepository;
-    public final UserRepository userRepository;
+    private final AlcoholRepository alcoholRepository;
+    private final UserRepository userRepository;
+    private final MarketRepository marketRepository;
+    private final PurchaseRepository purchaseRepository;
 
-
-    public List<Reviewshow> Reviewlist(ReviewDTO reviewDTO ){
+    public List<Reviewshow> Reviewlist(ReviewDTO reviewDTO) {
         List<String> alcoholnames = reviewRepository.names(reviewDTO.getUser().getEmail());
 
         List<Review> reviews = reviewRepository.findByUser_Email(reviewDTO.getUser().getEmail());
@@ -113,8 +118,34 @@ public class ReviewService {
     }
 
 
-}
+    public List<ReviewCheck> Cherklist(String email) {
+        List<ReviewCheck> list = new ArrayList<>();
 
+        List<Alcohol> alcohol = alcoholRepository.alcoholreview(email);
+        List<Market> market = marketRepository.marketreview(email);
+        List<Purchase> purchase = purchaseRepository.purchasereview(email);
+
+
+        for (int i = 0; i < alcohol.size(); i++) {
+            Alcohol alcohols = alcohol.get(i);
+            Market markets = market.get(i);
+            Purchase purchases = purchase.get(i);
+
+            ReviewCheck reviewCheck = ReviewCheck
+                    .builder()
+                    .code(alcohols.getCode())
+                    .name(alcohols.getName())
+                    .marketname(markets.getMarketname())
+                    .delivery(markets.getDelivery())
+                    .purchaseday(purchases.getPurchaseday())
+                    .build();
+            list.add(reviewCheck);
+        }
+        return list;
+
+
+    }
+}
 
 
 

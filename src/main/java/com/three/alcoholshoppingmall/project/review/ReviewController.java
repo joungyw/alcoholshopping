@@ -30,10 +30,10 @@ public class ReviewController {
             description = "해당 회원이 작성한 리뷰들을 보여 주는 기능입니다." +
                     "입력 하실 값은 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Reviewshow>> ReviewList(ReviewDTO reviewDTO){
+    public ResponseEntity<List<Reviewshow>> ReviewList(ReviewDTO reviewDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User)authentication.getPrincipal();
+        User user = (User) authentication.getPrincipal();
         reviewDTO.setUser(user);
 
         List<Reviewshow> list = reviewServicce.Reviewlist(reviewDTO);
@@ -44,14 +44,14 @@ public class ReviewController {
     @Operation(summary = "내 리뷰 등록 이미 있는경우 수정",
             description = "해당 술에 리뷰를 남기는 기능으로 이미 해당 술에 리뷰를 남긴경우 글과 평점 사진을 수정 하는 기능입니다." +
                     "alcohol에 술의 고유 코드의 입력이 필요 합니다." +
-                    "코드는 1~50까지 있습니다."+
+                    "코드는 1~50까지 있습니다." +
                     "writing 는 리뷰 글, grade는 평점으로 0~10까지만 입력이 가능합니다." +
                     "picture는 사진으로 사진의 경로가 저장 되며 null로 보내는것도 가능 합니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Reviewshow>> Review(@RequestBody ReviewDTO reviewDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User)authentication.getPrincipal();
+        User user = (User) authentication.getPrincipal();
         reviewDTO.setUser(user);
         List<Reviewshow> list = reviewServicce.Review(reviewDTO);
 
@@ -67,11 +67,25 @@ public class ReviewController {
     public ResponseEntity<List<Review>> ReviewDelete(@RequestBody ReviewDTO reviewDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User)authentication.getPrincipal();
+        User user = (User) authentication.getPrincipal();
         reviewDTO.setUser(user);
         List<Review> list = reviewServicce.ReviewDelete(reviewDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
+
+    @GetMapping("/check")
+    @Operation(summary = "리뷰 가능한 제품 확인",
+            description = "리뷰 작성이 가능한 제품을 확이하는 기능 입니다." +
+                    "입력 값은 필요 없습니다.")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<List<ReviewCheck>> Cherk() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        List<ReviewCheck> list = reviewServicce.Cherklist(user.getEmail());
+
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
 }
