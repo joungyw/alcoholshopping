@@ -30,44 +30,29 @@ public interface ShoppingbasketRepository extends JpaRepository<Shoppingbasket, 
     List<String> market(String email);
 
 
-@Query(value = "SELECT a.name \n" +
-        "        FROM alcohol a \n" +
-        "        JOIN stock b ON a.code = b.code\n" +
-        "        JOIN shoppingbasket c ON b.stocknumber = c.stocknumber\n" +
-        "        WHERE c.shoppingnumber = :shoppingnumber",nativeQuery = true)
-    String alcoholname(Long shoppingnumber);
+@Query(value = "SELECT NAME from alcohol WHERE CODE = :code",nativeQuery = true)
+    String alcoholname(Long code);
 
-    @Query(value = "SELECT a.marketname \n" +
-            "        FROM market a \n" +
-            "        JOIN stock b ON a.marketcode = b.marketcode\n" +
-            "        JOIN shoppingbasket c ON b.stocknumber = c.stocknumber\n" +
-            "        WHERE c.shoppingnumber = :shoppingnumber",nativeQuery = true)
-    String marketname(Long shoppingnumber);
+    @Query(value = "SELECT marketname from market WHERE marketcode= :marketcode",nativeQuery = true)
+    String marketname(Long marketcode);
 
 
 
 
     //해당 매장에서 해당 술을 장바구니에 넣었는지
-    Optional<Shoppingbasket> findByUser_EmailAndShoppingnumber(String email, Long shoppingnumber);
+    Optional<Shoppingbasket> findByUser_EmailAndStock_Stocknumber(String email, Long stock);
 
-    void deleteByUser_EmailAndShoppingnumber(String email, Long shoppingnumber);
+    void deleteByUser_EmailAndStock_Stocknumber(String email, Long stock);
 
 
     //장바구니의 물품 번호 추출
-    @Query(value = "SELECT stocknumber FROM shoppingbasket WHERE shoppingnumber = :shoppingnumber",nativeQuery = true)
-    Long numbercheck(Long shoppingnumber);
+    @Query(value = "SELECT stocknumber FROM shoppingbasket WHERE stocknumber = :stocknumber",nativeQuery = true)
+    Long numbercheck(Long stocknumber);
 
 
-    @Query(value = "SELECT a.amount\n" +
-            "FROM shoppingbasket a \n" +
-            "JOIN purchase b ON a.shoppingnumber = b.shoppingnumber\n" +
-            "WHERE a.shoppingnumber = :shoppingnumber",nativeQuery = true)
-    List<Integer> amount(Long shoppingnumber);
+    @Query(value = "SELECT amount FROM shoppingbasket WHERE email = :email AND stocknumber = :stocknumber",nativeQuery = true)
+    int amount(String email, Long stocknumber);
 
-    @Query(value = "SELECT a.price\n" +
-            "FROM shoppingbasket a \n" +
-            "JOIN purchase b ON a.shoppingnumber = b.shoppingnumber\n" +
-            "WHERE a.shoppingnumber = :shoppingnumber",nativeQuery = true)
-    List<Integer> price(Long shoppingnumber);
+
 
 }

@@ -29,13 +29,13 @@ public class ShoppingbasketController {
             description = "현재 장바구니에 넣은 물건을 조회하는 기능입니다." +
                     "입력 하실 값은 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Shopping>> Shoppingbasketlist(@RequestBody ShoppingbasketDTO shoppingbasketDTO) {
+    public ResponseEntity<List<Shopping>> Shoppingbasketlist() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        shoppingbasketDTO.setUser(user);
 
-        List<Shopping> list = shoppingbasketService.Shoppinglist(shoppingbasketDTO.getUser().getEmail());
+
+        List<Shopping> list = shoppingbasketService.Shoppinglist(user.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 

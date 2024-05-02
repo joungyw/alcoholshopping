@@ -30,6 +30,7 @@ public class SearchService {
     public List<MainListDto> memberSearch(String searchcontents, String email) {
         List<Double> ratings = alcoholRepository.RatingList("%" + searchcontents + "%");
         List<Alcohol> list = alcoholRepository.findByNameContaining(searchcontents);
+
         searchRepository.searchsave(email, searchcontents);
         if (searchcontents.isEmpty()) {
             throw new BizException(NULLSEARCH);
@@ -43,7 +44,7 @@ public class SearchService {
             List<MainListDto> searchDetails = new ArrayList<>();
 
             for (int i = 0; i < ratings.size(); i++) {
-                Alcohol alcohol = list.get(0);
+                Alcohol alcohol = list.get(i);
                 MainListDto mainListDto = MainListDto.builder()
                         .code(alcohol.getCode())
                         .name(alcohol.getName())

@@ -103,9 +103,7 @@ public class MainConstructor {
         String email;
         System.out.println(authentication.getPrincipal());
         User user = (User) authentication.getPrincipal();
-        System.out.println("2222222222222222222222");
         email = user.getEmail();
-        System.out.println("3333333333333");
         List<MainListDto> list = searchService.memberSearch(memberSearchDto.getSearchcontents(), email);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }

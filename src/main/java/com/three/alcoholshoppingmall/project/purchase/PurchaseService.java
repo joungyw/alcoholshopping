@@ -13,14 +13,14 @@ public class PurchaseService {
     private final PurchaseRepository purchaseRepository;
     private final ShoppingbasketRepository shoppingbasketRepository;
 
-    public List<Purchaseshow> PICKUPlist(PurchaseDTO purchaseDTO) {
+    public List<Purchaseshow> PICKUPlist(String email) {
         List<Purchaseshow> list = new ArrayList<>();
 
-        List<Purchase> check = purchaseRepository.Pickuplist(purchaseDTO.getUser().getEmail());
+        List<Purchase> check = purchaseRepository.Pickuplist(email);
 
         for (Purchase purchase : check) {
-            List<String> alcoholList = purchaseRepository.alcoholspick(purchase.getUser().getEmail());
-            List<String> marketList = purchaseRepository.marketspick(purchase.getUser().getEmail());
+            List<String> alcoholList = purchaseRepository.alcoholspick(email);
+            List<String> marketList = purchaseRepository.marketspick(email);
 
             int size = Math.min(alcoholList.size(), marketList.size());
             for (int i = 0; i < size; i++) {
@@ -44,13 +44,13 @@ public class PurchaseService {
         return list;
     }
 
-    public List<Purchaseshow> DELIVERYlist(PurchaseDTO purchaseDTO) {
+    public List<Purchaseshow> DELIVERYlist(String email) {
         List<Purchaseshow> list = new ArrayList<>();
 
-        List<Purchase> check = purchaseRepository.Deliverylist(purchaseDTO.getUser().getEmail());
+        List<Purchase> check = purchaseRepository.Deliverylist(email);
         for (Purchase purchase : check) {
-            List<String> alcoholList = purchaseRepository.alcoholsdelivery(purchase.getUser().getEmail());
-            List<String> marketList = purchaseRepository.marketsdelivery(purchase.getUser().getEmail());
+            List<String> alcoholList = purchaseRepository.alcoholsdelivery(email);
+            List<String> marketList = purchaseRepository.marketsdelivery(email);
 
             int size = Math.min(alcoholList.size(), marketList.size());
             for (int i = 0; i < size; i++) {
@@ -74,13 +74,13 @@ public class PurchaseService {
         return list;
     }
 
-    public List<Purchaseshow> PICKUPlimt(PurchaseDTO purchaseDTO) {
+    public List<Purchaseshow> PICKUPlimt(String email) {
         List<Purchaseshow> list = new ArrayList<>();
 
-        List<Purchase> check = purchaseRepository.Pickuplimt(purchaseDTO.getUser().getEmail());
+        List<Purchase> check = purchaseRepository.Pickuplimt(email);
         for (Purchase purchase : check) {
-            List<String> alcoholList = purchaseRepository.alcoholspicklimt(purchase.getUser().getEmail());
-            List<String> marketList = purchaseRepository.marketspicklimt(purchase.getUser().getEmail());
+            List<String> alcoholList = purchaseRepository.alcoholspicklimt(email);
+            List<String> marketList = purchaseRepository.marketspicklimt(email);
 
             int size = Math.min(alcoholList.size(), marketList.size());
             for (int i = 0; i < size; i++) {
@@ -104,13 +104,13 @@ public class PurchaseService {
         return list;
     }
 
-    public List<Purchaseshow> DELIVERYLIMTlimt(PurchaseDTO purchaseDTO) {
+    public List<Purchaseshow> DELIVERYLIMTlimt(String email) {
         List<Purchaseshow> list = new ArrayList<>();
 
-        List<Purchase> check = purchaseRepository.Deliverylimt(purchaseDTO.getUser().getEmail());
+        List<Purchase> check = purchaseRepository.Deliverylimt(email);
         for (Purchase purchase : check) {
-            List<String> alcoholList = purchaseRepository.alcoholsdeliverylimt(purchase.getUser().getEmail());
-            List<String> marketList = purchaseRepository.marketsdeliverylimt(purchase.getUser().getEmail());
+            List<String> alcoholList = purchaseRepository.alcoholsdeliverylimt(email);
+            List<String> marketList = purchaseRepository.marketsdeliverylimt(email);
 
             int size = Math.min(alcoholList.size(), marketList.size());
             for (int i = 0; i < size; i++) {

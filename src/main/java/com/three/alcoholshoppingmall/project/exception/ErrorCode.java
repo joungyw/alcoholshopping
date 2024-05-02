@@ -35,6 +35,19 @@ public enum ErrorCode {
     // 로그인 에러 코드
     CHECKEMAILPASSWORD(HttpStatus.NOT_FOUND,"CHECKEMAILPASSWORD","이메일과 비밀번호를 확인해 주세요."),
 
+
+
+    //해당 정보를 가진 장바구니가 없을떄
+    NOTFOUNDSHPPING(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 내용은 장바구니에 없습니다."),
+
+    //즐겨 찾기 삭제시 없는 내용인경우
+    NOTFOUNDFAVORITES(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 내용은 즐겨 찾기 목록에 없습니다."),
+
+    //리뷰 삭제시 없는 내용인경우
+    NOTFOUNDREVIEW(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 내용의 리뷰는 존재하지 않습니다."),
+
+    //주류 정렬시 에러코드
+    ERRORTYPE(HttpStatus.BAD_REQUEST,"EMAILDUPL","유효하지 않은 정렬 태그입니다."),
 ;
     private HttpStatus httpStatus;
     private String errorCode;
