@@ -3,6 +3,8 @@ package com.three.alcoholshoppingmall.project.favorites;
 
 import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
+import com.three.alcoholshoppingmall.project.exception.BizException;
+import com.three.alcoholshoppingmall.project.exception.ErrorCode;
 import com.three.alcoholshoppingmall.project.user.User;
 import com.three.alcoholshoppingmall.project.user.UserRepository;
 import jakarta.transaction.Transactional;
@@ -78,7 +80,7 @@ public class FavoritesService {
         if (favor.isPresent()) {
             favoritesFRepository.deleteByUser_EmailAndAlcohol_Code(email,code);
         } else {
-            throw new NoSuchElementException("해당 즐겨 찾기는 목록에 없습니다.");
+            throw new BizException(ErrorCode.NOTFOUNDFAVORITES);
         }
         return null;
     }
