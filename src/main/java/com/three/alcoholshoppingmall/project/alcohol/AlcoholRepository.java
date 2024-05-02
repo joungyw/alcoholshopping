@@ -248,14 +248,6 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
 
 
 
-<<<<<<< HEAD
-    @Query(value = "SELECT ROUND(COALESCE(AVG(b.grade),0),1)" +
-            "AS average_grade, a.price, a.code, a.name, a.picture from alcohol a " +
-            "left join review b on a.code = b.code where a.maincategory = ':maincategory' or a.subcategory = 'subcategory' " +
-            "group by a.code", nativeQuery = true)
-    List<Double> CategoryList(String category);
-=======
-
     @Query(value = "SELECT c.* FROM purchase a\n" +
             "LEFT JOIN stock b ON a.stocknumber = b.stocknumber\n" +
             "LEFT JOIN alcohol c ON b.code = c.code\n" +
@@ -263,5 +255,4 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "LEFT JOIN market e ON b.marketcode = e.marketcode\n" +
             "WHERE a.email = :email and d.code IS NULL", nativeQuery = true)
     List<Alcohol> alcoholreview(String email);
->>>>>>> main
 }
