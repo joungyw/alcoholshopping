@@ -37,6 +37,7 @@ public class JWTInterceptor implements HandlerInterceptor {
                 request.getRequestURI().contains("main") ||
                 request.getRequestURI().contains("swagger-ui") ||
                 request.getRequestURI().contains("alcohol") ||
+                request.getRequestURI().contains("images") ||
                 request.getRequestURI().contains("sub") ||
                 request.getRequestURI().contains("v3")) {
 
