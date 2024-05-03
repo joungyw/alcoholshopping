@@ -1,6 +1,5 @@
 package com.three.alcoholshoppingmall.project.purchase;
 
-import com.three.alcoholshoppingmall.project.shoppingbasket.Shoppingbasket;
 import com.three.alcoholshoppingmall.project.shoppingbasket.ShoppingbasketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,7 +9,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PurchaseServicce {
+public class PurchaseService {
     private final PurchaseRepository purchaseRepository;
     private final ShoppingbasketRepository shoppingbasketRepository;
 

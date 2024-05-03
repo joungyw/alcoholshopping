@@ -5,7 +5,6 @@ import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,7 @@ import java.util.List;
 public class PurchaseController {
 
 
-    private final PurchaseServicce purchaseServicce;
+    private final PurchaseService purchaseServicce;
 
 
     @GetMapping("/pickup")
