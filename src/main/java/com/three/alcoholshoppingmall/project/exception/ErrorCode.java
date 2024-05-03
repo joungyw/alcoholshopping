@@ -11,8 +11,7 @@ public enum ErrorCode {
     NULLSEARCH(HttpStatus.NOT_FOUND, "NULLSEARCH","검색기록은 공백일 수 없습니다."),
     SEARCHCLENGTH(HttpStatus.BAD_REQUEST, "SEARCHLENGTH", "검색 기록은 두 글자 이상 입력해야합니다."),
     NULLRECENT(HttpStatus.NOT_FOUND,"NULLRECENT", "최근 검색기록이 존재하지 않습니다."),
-    NULLMAINCATEGORY(HttpStatus.NOT_FOUND, "NULLMAINCATEGORY", "해당 대분류가 존재하지 않습니다."),
-    NULLSUBCATEGORY(HttpStatus.NOT_FOUND, "NULLSUBCATEGORY", "해당 소분류가 존재하지 않습니다."),
+    NULLCATEGORY(HttpStatus.NOT_FOUND, "NULLCATEGORY", "해당 카테고리가 존재하지 않습니다."),
     NOTFOUNDALCOHOL(HttpStatus.NOT_FOUND, "NOTFOUNDALCOHOL", "해당 이름의 주류를 찾을 수 없습니다."),
     NOTFOUNDRECENT(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 검색 기록을 찾을 수 없습니다."),
 
