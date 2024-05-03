@@ -72,14 +72,4 @@ public class SearchService {
 
     }
 
-    @Transactional
-    public List<Search> searchDelete(String email, Long id) {
-        Optional<Search> optionalSearch = searchRepository.findByUser_EmailAndId(email, id);
-        if (optionalSearch.isPresent()) {
-            searchRepository.deleteByUser_EmailAndId(email, id);
-        } else {
-            throw new BizException(NOTFOUNDRECENT);
-        }
-        return null;
-    }
 }
