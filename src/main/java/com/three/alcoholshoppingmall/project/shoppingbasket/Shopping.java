@@ -18,4 +18,6 @@ public class Shopping {
 
     private int price;
 
+    private String picture;
+
 }

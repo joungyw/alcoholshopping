@@ -6,6 +6,7 @@ import com.three.alcoholshoppingmall.project.exception.BizException;
 import com.three.alcoholshoppingmall.project.exception.ErrorCode;
 import com.three.alcoholshoppingmall.project.market.MarketRepository;
 import com.three.alcoholshoppingmall.project.purchase.Delivery;
+import com.three.alcoholshoppingmall.project.purchase.PurchaseRepository;
 import com.three.alcoholshoppingmall.project.review.Reviewshow;
 import com.three.alcoholshoppingmall.project.stock.Stock;
 import com.three.alcoholshoppingmall.project.stock.StockRepository;
@@ -27,7 +28,7 @@ public class ShoppingbasketService {
     private final ShoppingbasketRepository shoppingbasketRepository;
     private final StockRepository stockRepository;
     private final UserRepository userRepository;
-    private final MarketRepository marketRepository;
+    private final PurchaseRepository purchaseRepository;
     private final AlcoholRepository alcoholRepository;
 
     public List<Shopping> Shoppinglist(String email) {
@@ -36,11 +37,13 @@ public class ShoppingbasketService {
         List<Shoppingbasket> shoppingbaskets = shoppingbasketRepository.findByUser_Email(email);
         List<String> alcoholname = shoppingbasketRepository.alcohol(email);
         List<String> marketname = shoppingbasketRepository.market(email);
+        List<String> Picture = purchaseRepository.Picture(email);
 
         for (int i = 0; i < shoppingbaskets.size(); i++) {
             Shoppingbasket check = shoppingbaskets.get(i);
             String alcoholName = alcoholname.isEmpty() ? null : alcoholname.get(i);
             String marketName = marketname.isEmpty() ? null : marketname.get(i);
+            String picturecode = Picture.isEmpty() ? null : Picture.get(i);
 
             if (alcoholName != null && marketName != null) {
                 Shopping shopping = Shopping.builder()
@@ -48,6 +51,7 @@ public class ShoppingbasketService {
                         .marketname(marketName)
                         .amount(check.getAmount())
                         .price(check.getPrice())
+                        .picture(picturecode)
                         .build();
 
                 list.add(shopping);
@@ -78,12 +82,15 @@ public class ShoppingbasketService {
 
             String alcohol = shoppingbasketRepository.alcoholname(shoppingbasket.getStock().getAlcohol().getCode());
             String market = shoppingbasketRepository.marketname(shoppingbasket.getStock().getMarket().getMarketcode());
+            String Picture = shoppingbasketRepository.pictur(shoppingbasket.getStock().getAlcohol().getCode());
+
           Shopping shopping = Shopping
                   .builder()
                   .name(alcohol)
                   .marketname(market)
                   .amount(shoppingbasket.getAmount())
                   .price(shoppingbasket.getPrice())
+                  .picture(Picture)
                   .build();
 
             list.add(shopping);
@@ -93,7 +100,7 @@ public class ShoppingbasketService {
 
             String alcohols = shoppingbasketRepository.alcoholname(stockcheck.getAlcohol().getCode());
             String market = shoppingbasketRepository.marketname(stockcheck.getMarket().getMarketcode());
-
+            String Picture = shoppingbasketRepository.pictur(stockcheck.getAlcohol().getCode());
 
             int alcoholprice = alcoholRepository.Price(stockcheck.getAlcohol().getCode());
             int Beforeamount = shoppingbasketRepository.amount(shoppingbasketDTO.getUser().getEmail(), shoppingbasketDTO.getStock());
@@ -111,6 +118,7 @@ public class ShoppingbasketService {
                     .marketname(market)
                     .amount(plusamount)
                     .price(plusPrice)
+                    .picture(Picture)
                     .build();
 
             list.add(shopping);
@@ -133,11 +141,14 @@ public class ShoppingbasketService {
         List<Shoppingbasket> shoppingbaskets = shoppingbasketRepository.findByUser_Email(shoppingbasketDTO.getUser().getEmail());
         List<String> alcoholname = shoppingbasketRepository.alcohol(shoppingbasketDTO.getUser().getEmail());
         List<String> marketname = shoppingbasketRepository.market(shoppingbasketDTO.getUser().getEmail());
+        List<String> Picture = purchaseRepository.Picture(shoppingbasketDTO.getUser().getEmail());
+
 
         for (int i = 0; i < shoppingbaskets.size(); i++) {
             Shoppingbasket check = shoppingbaskets.get(i);
             String alcoholName = alcoholname.isEmpty() ? null : alcoholname.get(i);
             String marketName = marketname.isEmpty() ? null : marketname.get(i);
+            String picturecode = Picture.isEmpty() ? null : Picture.get(i);
 
             if (alcoholName != null && marketName != null) {
                 Shopping shopping = Shopping.builder()
@@ -145,6 +156,7 @@ public class ShoppingbasketService {
                         .marketname(marketName)
                         .amount(check.getAmount())
                         .price(check.getPrice())
+                        .picture(picturecode)
                         .build();
 
                 list.add(shopping);
@@ -174,11 +186,13 @@ public class ShoppingbasketService {
         List<Shoppingbasket> shoppingbaskets = shoppingbasketRepository.findByUser_Email(shoppingbasketDTO.getUser().getEmail());
         List<String> alcoholname = shoppingbasketRepository.alcohol(shoppingbasketDTO.getUser().getEmail());
         List<String> marketname = shoppingbasketRepository.market(shoppingbasketDTO.getUser().getEmail());
+        List<String> Picture = purchaseRepository.Picture(shoppingbasketDTO.getUser().getEmail());
 
         for (int i = 0; i < shoppingbaskets.size(); i++) {
             Shoppingbasket check = shoppingbaskets.get(i);
             String alcoholName = alcoholname.isEmpty() ? null : alcoholname.get(i);
             String marketName = marketname.isEmpty() ? null : marketname.get(i);
+            String picturecode = Picture.isEmpty() ? null : Picture.get(i);
 
             if (alcoholName != null && marketName != null) {
                 Shopping shopping = Shopping.builder()
@@ -186,6 +200,7 @@ public class ShoppingbasketService {
                         .marketname(marketName)
                         .amount(check.getAmount())
                         .price(check.getPrice())
+                        .picture(picturecode)
                         .build();
 
                 list.add(shopping);

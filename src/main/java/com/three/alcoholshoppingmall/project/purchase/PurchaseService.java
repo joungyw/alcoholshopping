@@ -18,12 +18,14 @@ public class PurchaseService {
         List<Purchase> check = purchaseRepository.Pickuplist(email);
         List<String> alcoholList = purchaseRepository.alcoholspick(email);
         List<String> marketList = purchaseRepository.marketspick(email);
+        List<String> PictureList = purchaseRepository.Picture(email);
 
         for (int j = 0; j < check.size(); j++) {
             Purchase purchase = check.get(j);
 
             String alcoholName = alcoholList.get(j % alcoholList.size());
             String marketName = marketList.get(j % marketList.size());
+            String alcoholpicture = PictureList.get(j % PictureList.size());
 
             Purchaseshow purchaseshow = Purchaseshow.builder()
                     .alcoholname(alcoholName)
@@ -34,11 +36,11 @@ public class PurchaseService {
                     .division(purchase.getDivision())
                     .address(purchase.getAddress())
                     .purchaseday(purchase.getPurchaseday())
+                    .picture(alcoholpicture)
                     .build();
 
             list.add(purchaseshow);
         }
-
         return list;
     }
 
@@ -47,12 +49,14 @@ public class PurchaseService {
         List<Purchase> check = purchaseRepository.Deliverylist(email);
         List<String> alcoholList = purchaseRepository.alcoholsdelivery(email);
         List<String> marketList = purchaseRepository.marketsdelivery(email);
+        List<String> PictureList = purchaseRepository.Picture(email);
 
         for (int j = 0; j < check.size(); j++) {
             Purchase purchase = check.get(j);
 
             String alcoholName = alcoholList.get(j % alcoholList.size());
             String marketName = marketList.get(j % marketList.size());
+            String alcoholpicture = PictureList.get(j % PictureList.size());
 
             Purchaseshow purchaseshow = Purchaseshow.builder()
                     .alcoholname(alcoholName)
@@ -63,6 +67,7 @@ public class PurchaseService {
                     .division(purchase.getDivision())
                     .address(purchase.getAddress())
                     .purchaseday(purchase.getPurchaseday())
+                    .picture(alcoholpicture)
                     .build();
 
             list.add(purchaseshow);
@@ -75,12 +80,14 @@ public class PurchaseService {
         List<Purchase> check = purchaseRepository.Pickuplimt(email);
         List<String> alcoholList = purchaseRepository.alcoholspicklimt(email);
         List<String> marketList = purchaseRepository.marketspicklimt(email);
+        List<String> PictureList = purchaseRepository.Picture(email);
 
         for (int j = 0; j < check.size(); j++) {
             Purchase purchase = check.get(j);
 
             String alcoholName = alcoholList.get(j % alcoholList.size());
             String marketName = marketList.get(j % marketList.size());
+            String alcoholpicture = PictureList.get(j % PictureList.size());
 
             Purchaseshow purchaseshow = Purchaseshow.builder()
                     .alcoholname(alcoholName)
@@ -91,6 +98,7 @@ public class PurchaseService {
                     .division(purchase.getDivision())
                     .address(purchase.getAddress())
                     .purchaseday(purchase.getPurchaseday())
+                    .picture(alcoholpicture)
                     .build();
 
             list.add(purchaseshow);
@@ -103,12 +111,14 @@ public class PurchaseService {
         List<Purchase> check = purchaseRepository.Deliverylimt(email);
         List<String> alcoholList = purchaseRepository.alcoholsdeliverylimt(email);
         List<String> marketList = purchaseRepository.marketsdeliverylimt(email);
+        List<String> PictureList = purchaseRepository.Picture(email);
 
         for (int j = 0; j < check.size(); j++) {
             Purchase purchase = check.get(j);
 
             String alcoholName = alcoholList.get(j % alcoholList.size());
             String marketName = marketList.get(j % marketList.size());
+            String alcoholpicture = PictureList.get(j % PictureList.size());
 
             Purchaseshow purchaseshow = Purchaseshow.builder()
                     .alcoholname(alcoholName)
@@ -119,6 +129,7 @@ public class PurchaseService {
                     .division(purchase.getDivision())
                     .address(purchase.getAddress())
                     .purchaseday(purchase.getPurchaseday())
+                    .picture(alcoholpicture)
                     .build();
 
             list.add(purchaseshow);

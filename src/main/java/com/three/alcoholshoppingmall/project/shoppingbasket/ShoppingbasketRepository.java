@@ -54,5 +54,7 @@ public interface ShoppingbasketRepository extends JpaRepository<Shoppingbasket, 
     int amount(String email, Long stocknumber);
 
 
-
+    @Query(value = "SELECT picture FROM alcohol\n" +
+            "WHERE CODE = :code",nativeQuery = true)
+    String pictur(Long code);
 }

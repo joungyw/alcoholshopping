@@ -5,10 +5,14 @@ import com.three.alcoholshoppingmall.project.exception.BizException;
 import com.three.alcoholshoppingmall.project.exception.ErrorCode;
 import com.three.alcoholshoppingmall.project.user.User;
 import com.three.alcoholshoppingmall.project.user.UserDto;
+import com.three.alcoholshoppingmall.project.user.UserSub;
 import com.three.alcoholshoppingmall.project.user.WithdrawStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -56,5 +60,22 @@ public class LoginService {
                 .gender(userDto.getGender())
                 .withdrawStatus(WithdrawStatus.N)
                 .build());
+    }
+
+    public List<UserSub> SUB(String email) {
+
+        User user = loginRepository.findByEmail(email);
+
+        List<UserSub> list = new ArrayList<>();
+        UserSub userSub = UserSub
+                .builder()
+                .nickname(user.getNickname())
+                .address(user.getAddress())
+                .address2(user.getAddress2())
+                .build();
+
+        list.add(userSub);
+
+        return list;
     }
 }

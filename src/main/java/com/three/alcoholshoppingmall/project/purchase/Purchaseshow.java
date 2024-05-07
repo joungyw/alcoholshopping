@@ -27,4 +27,7 @@ public class Purchaseshow {
     private String address;
 
     private LocalDate purchaseday;
+
+    private String picture;
+
 }
