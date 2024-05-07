@@ -26,12 +26,4 @@ public class KakaoLoginController {
 
         return ResponseEntity.status(HttpStatus.OK).body(tokens);
     }
-
-    @PostMapping("create")
-    public ResponseEntity<Token> kakaoCreate(@RequestBody KakaoUser kakaoUser){
-
-        
-        return null;
-    }
-
 }
