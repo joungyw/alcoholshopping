@@ -36,7 +36,7 @@ public class MainConstructor {
 
     @GetMapping("/most")
     @Operation(summary = "주간 많이 팔린 제품",
-            description = "주간 많이 팔린 술 8개를 보여 줍니다." +
+            description = "주간 많이 팔린 술 3개를 보여 줍니다." +
                     "입력 값은 없습니다.")
     public ResponseEntity<List<Alcoholmain>> Mostsold() {
 
@@ -138,24 +138,7 @@ public class MainConstructor {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @PostMapping("/main")
-    @Operation(summary = "메인카테고리에 입력 받으면 그에 맞게 분류해서 보여 줍니다.",
-            description = "maincategory에 와인 위스키 리큐르 브랜디의 중 하나를 입력하시면 됩니다.")
-    public ResponseEntity<List<Alcoholmain>> AlcoholMaincategory(@RequestBody AlcoholDto alcoholDto) {
 
-        List<Alcoholmain> list = marketService.Maincategory(alcoholDto.getMaincategory());
-
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(list);
-    }
-    @PostMapping("/sub")
-    @Operation(summary = "서브카테고리에 입력 받으면 그에 맞게 분류해서 보여 줍니다.",
-            description = "Subcategory에 값을 입력하시면 됩니다.")
-    public ResponseEntity<List<Alcoholmain>> AlcoholSubcategory(@RequestBody AlcoholDto alcoholDto) {
-
-        List<Alcoholmain> list = marketService.Subcategory(alcoholDto.getSubcategory());
-
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(list);
-    }
 
 
 

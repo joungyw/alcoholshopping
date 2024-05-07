@@ -30,38 +30,6 @@ public class AlcoholService {
     private final MarketRepository marketRepository;
     private final StockRepository stockRepository;
 
-//    public List<Information> Page() {
-//        List<Double> rating = alcoholRepository.Ratingaverage();
-//        List<Integer> allamount = alcoholRepository.Allamount();
-//        List<Alcohol> alcohols = alcoholRepository.findAll();
-//        List<Information> list = new ArrayList<>();
-//
-//        for (int i = 0; i < alcohols.size(); i++) {
-//            Alcohol alcohol = alcohols.get(i);
-//            Double grade = (i < rating.size()) ? rating.get(i) : null;
-//            Integer amount = (i < allamount.size()) ? allamount.get(i) : null;
-//
-//            Information info = Information.builder()
-//                    .id(alcohol.getCode())
-//                    .name(alcohol.getName())
-//                    .maincategory(alcohol.getMaincategory())
-//                    .subcategory(alcohol.getSubcategory())
-//                    .content(alcohol.getContent())
-//                    .aroma(alcohol.getAroma())
-//                    .taste(alcohol.getTaste())
-//                    .finish(alcohol.getFinish())
-//                    .nation(alcohol.getNation())
-//                    .picture(alcohol.getPicture())
-//                    .grade(grade)
-//                    .price(alcohol.getPrice())
-//                    .amount(amount)
-//                    .build();
-//
-//            list.add(info);
-//        }
-//        return list;
-//    }
-
 
     public List<DetailInformation> DetailPage(AlcoholDto alcoholDto) {
 

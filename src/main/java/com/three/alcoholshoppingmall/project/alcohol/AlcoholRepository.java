@@ -92,8 +92,6 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     @Query(value = "SELECT price FROM alcohol WHERE code= :code", nativeQuery = true)
     int Price(Long code);
 
-
-
     // 인기순
     @Query(value = "SELECT a.*  FROM alcohol a \n" +
             "LEFT JOIN (SELECT s.code, COUNT(p.ordernumber) AS total_amount \n" +
@@ -214,38 +212,6 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "WHERE d.delivery = :type\n" +
             "GROUP BY a.code ORDER BY a.code",nativeQuery = true)
     List<Double> Markeratingaverage(String type);
-
-
-
-    @Query(value = "SELECT * FROM alcohol \n" +
-            "WHERE maincategory = :maincategory\n" +
-            "ORDER BY code",nativeQuery = true)
-    List<Alcohol> Maincategoryalcohols(String maincategory);
-
-
-
-    @Query(value = "SELECT COALESCE(AVG(b.grade), 0) AS ratingaverage\n" +
-            "            FROM alcohol a \n" +
-            "            LEFT JOIN review b ON a.code = b.code \n" +
-            "            LEFT JOIN stock c ON a.code = c.code \n" +
-            "            WHERE a.maincategory = :maincategory\n" +
-            "            GROUP BY a.code ORDER BY a.code",nativeQuery = true)
-    List<Double> Maincategorygaverages(String maincategory);
-
-
-    @Query(value = "SELECT * FROM alcohol \n" +
-            "WHERE subcategory = :subcategory\n" +
-            "ORDER BY code",nativeQuery = true)
-    List<Alcohol> Subcategoryalcohols(String subcategory);
-
-    @Query(value = "SELECT COALESCE(AVG(b.grade), 0) AS ratingaverage\n" +
-            "            FROM alcohol a \n" +
-            "            LEFT JOIN review b ON a.code = b.code \n" +
-            "            LEFT JOIN stock c ON a.code = c.code \n" +
-            "            WHERE a.subcategory = :subcategory\n" +
-            "            GROUP BY a.code ORDER BY a.code",nativeQuery = true)
-    List<Double> Subcategorygaverages(String subcategory);
-
 
 
     @Query(value = "SELECT c.* FROM purchase a\n" +

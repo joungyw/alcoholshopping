@@ -55,11 +55,4 @@ public interface AlgorithmRepository extends JpaRepository<Alcohol, Long> {
    List<Alcohol> personalalgorithm( String aroma, String taste, String finish);
 
 
-    @Query(value = "SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade " +
-            "FROM alcohol a LEFT JOIN review b ON a.code = b.code " +
-            "WHERE a.code = :code " +
-            "GROUP BY a.code", nativeQuery = true)
-    List<Double> algorithmgrade(Long code);
-
-
 }
