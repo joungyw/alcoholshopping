@@ -103,8 +103,8 @@ public class AlcoholService {
 
     public List<Alcoholmain> Algorithm(String email) {
         Optional<Purchase> check = purchaseRepository.findByEmail(email);
-
         List<Alcohol> alcohols;
+
         if (check.isPresent()) {
             String aroma = algorithmRepository.Aroma(email);
             String taste = algorithmRepository.Taste(email);

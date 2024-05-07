@@ -55,8 +55,8 @@ public class ReviewService {
 
 
     public List<Reviewshow> Review(ReviewDTO reviewDTO) {
-        Alcohol alcoholcheck = alcoholRepository.findByCode(reviewDTO.getAlcohol());
-        Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getAlcohol());
+        Alcohol alcoholcheck = alcoholRepository.findByCode(reviewDTO.getCode());
+        Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getCode());
 
         List<Reviewshow> list = new ArrayList<>();
         Review review;
@@ -69,7 +69,7 @@ public class ReviewService {
             reviewRepository.save(existingReview);
 
 
-            String alcoholname = alcoholRepository.name(reviewDTO.getAlcohol());
+            String alcoholname = alcoholRepository.name(reviewDTO.getCode());
             Reviewshow reviewshow = Reviewshow
                     .builder()
                     .name(alcoholname)
@@ -90,7 +90,7 @@ public class ReviewService {
                     .build();
             reviewRepository.save(review);
 
-            String alcoholname = alcoholRepository.name(reviewDTO.getAlcohol());
+            String alcoholname = alcoholRepository.name(reviewDTO.getCode());
             Reviewshow reviewshow = Reviewshow
                     .builder()
                     .name(alcoholname)
@@ -108,9 +108,9 @@ public class ReviewService {
 
     @Transactional
     public List<Review> ReviewDelete(ReviewDTO reviewDTO) {
-        Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getAlcohol());
+        Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getCode());
         if (check.isPresent()) {
-            reviewRepository.deleteByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getAlcohol());
+            reviewRepository.deleteByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getCode());
         } else {
             throw new BizException(ErrorCode.NOTFOUNDREVIEW);
         }
