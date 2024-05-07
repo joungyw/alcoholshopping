@@ -19,7 +19,6 @@ public class PurchaseService {
         List<String> alcoholList = purchaseRepository.alcoholspick(email);
         List<String> marketList = purchaseRepository.marketspick(email);
 
-
         for (int j = 0; j < check.size(); j++) {
             Purchase purchase = check.get(j);
 
@@ -42,7 +41,6 @@ public class PurchaseService {
 
         return list;
     }
-
 
     public List<Purchaseshow> DELIVERYlist(String email) {
         List<Purchaseshow> list = new ArrayList<>();
@@ -69,7 +67,6 @@ public class PurchaseService {
 
             list.add(purchaseshow);
         }
-
         return list;
     }
 
@@ -98,7 +95,6 @@ public class PurchaseService {
 
             list.add(purchaseshow);
         }
-
         return list;
     }
 

@@ -18,7 +18,7 @@ import org.hibernate.annotations.DynamicInsert;
 public class AlcoholDto {
 
 
-    @Schema(title = "주류 code", description = "table에서 자동으로 생성되는 칼럼입니다.")
+    @Schema(title = "주류 code", description = "table에서 자동으로 생성되는 칼럼입니다.",example = "주류의 코드입니다.")
     private Long code;
 
     @Schema(title = "주류 이름", description = "주류 이름을 넣어주시면 됩니다.")
