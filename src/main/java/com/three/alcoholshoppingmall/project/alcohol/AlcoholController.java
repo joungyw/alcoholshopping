@@ -36,9 +36,7 @@ public class AlcoholController {
             description = "Type에 인기, 높은 가격, 낮은 가격이라 입력 받으면" +
                     "subcategoryy의 정렬을 바꾸어 줍니다.")
     public ResponseEntity<List<Alcoholmain>> SubOrder(@RequestBody AlcoholDto alcoholDto) {
-
         List<Alcoholmain> list = alcoholService.SubType(alcoholDto.getSubcategory(), alcoholDto.getType());
-
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 

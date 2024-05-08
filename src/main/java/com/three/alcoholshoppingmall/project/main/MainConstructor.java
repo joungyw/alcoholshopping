@@ -135,10 +135,10 @@ public class MainConstructor {
 
     @GetMapping("/recent")
     @Operation(summary = "최근 검색기록",
-            description = "최근 검색 기록을 5개를 출력하게 만들었습니다. <br>" +
-                    "메인페이지에서 검색창에 검색 시 최근 검색 기록 5개를 뜨게 하는 기능입니다. <br>" +
+            description = "최근 검색 기록을 3개를 출력하게 만들었습니다. <br>" +
+                    "메인페이지에서 검색창에 검색 시 최근 검색 기록 3개를 뜨게 하는 기능입니다. <br>" +
                     "입력 값은 필요 없습니다.<br>" +
-                    "검색을 하면서 db에 저장되었던 내용을 내림차순으로 5개를 출력하게 하는 기능입니다. <br>" +
+                    "검색을 하면서 db에 저장되었던 내용을 내림차순으로 3개를 출력하게 하는 기능입니다. <br>" +
                     "회원의 검색 기록이 없으면 NULLRECENT, 최근 검색기록이 존재하지 않습니다라고 에러코드가 뜹니다."
     )
     @SecurityRequirement(name = "bearerAuth")
