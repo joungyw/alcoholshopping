@@ -53,8 +53,6 @@ public class SearchService {
                         .ratingaverage(ratings.get(i))
                         .build();
                 searchDetails.add(mainListDto);
-
-
             }
             return searchDetails;
         }
