@@ -53,8 +53,6 @@ public class SearchService {
                         .ratingaverage(ratings.get(i))
                         .build();
                 searchDetails.add(mainListDto);
-
-
             }
             return searchDetails;
         }
@@ -62,8 +60,7 @@ public class SearchService {
 
     public List<Search> recentSearch(String email) {
         User dbUser = userRepository.findByEmail(email);
-
-        List<Search> list = searchRepository.findAllByUserOrderByIdDesc(dbUser, PageRequest.of(0, 5));
+        List<Search> list = searchRepository.findAllByUserOrderByIdDesc(dbUser, PageRequest.of(0, 3));
         if (list.isEmpty()) {
             throw new BizException(NULLRECENT);
         } else {
@@ -72,14 +69,4 @@ public class SearchService {
 
     }
 
-    @Transactional
-    public List<Search> searchDelete(String email, Long id) {
-        Optional<Search> optionalSearch = searchRepository.findByUser_EmailAndId(email, id);
-        if (optionalSearch.isPresent()) {
-            searchRepository.deleteByUser_EmailAndId(email, id);
-        } else {
-            throw new BizException(NOTFOUNDRECENT);
-        }
-        return null;
-    }
 }

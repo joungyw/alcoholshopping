@@ -13,7 +13,6 @@ public enum ErrorCode {
     NULLRECENT(HttpStatus.NOT_FOUND,"NULLRECENT", "최근 검색기록이 존재하지 않습니다."),
     NULLCATEGORY(HttpStatus.NOT_FOUND, "NULLCATEGORY", "해당 카테고리가 존재하지 않습니다."),
     NOTFOUNDALCOHOL(HttpStatus.NOT_FOUND, "NOTFOUNDALCOHOL", "해당 이름의 주류를 찾을 수 없습니다."),
-    NOTFOUNDRECENT(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 검색 기록을 찾을 수 없습니다."),
 
     // 회원가입 에러 코드
     DUPLEMAIL(HttpStatus.BAD_REQUEST,"EMAILDUPL","이미 가입된 이메일입니다."),
@@ -46,8 +45,8 @@ public enum ErrorCode {
     NOTFOUNDREVIEW(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 내용의 리뷰는 존재하지 않습니다."),
 
     //주류 정렬시 에러코드
-    ERRORTYPE(HttpStatus.BAD_REQUEST,"EMAILDUPL","유효하지 않은 정렬 태그입니다."),
-;
+    ERRORTYPE(HttpStatus.BAD_REQUEST,"EMAILDUPL","유효하지 않은 정렬 태그입니다.");
+
     private HttpStatus httpStatus;
     private String errorCode;
     private String message;
