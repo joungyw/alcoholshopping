@@ -34,6 +34,7 @@ public class JWTInterceptor implements HandlerInterceptor {
                 request.getRequestURI().contains("market") ||
                 request.getRequestURI().contains("anony") ||
                 request.getRequestURI().contains("kakao") ||
+                request.getRequestURI().contains("images") ||
                 request.getRequestURI().contains("swagger-ui") ||
                 request.getRequestURI().contains("alcohol") ||
                 request.getRequestURI().contains("images") ||
@@ -43,6 +44,7 @@ public class JWTInterceptor implements HandlerInterceptor {
                 request.getRequestURI().contains("main/rand") ||
                 request.getRequestURI().contains("main/newproduct") ||
                 request.getRequestURI().contains("main/most") ||
+                request.getRequestURI().contains("search/category") ||
                 request.getRequestURI().contains("v3")){
             return true;
         }
