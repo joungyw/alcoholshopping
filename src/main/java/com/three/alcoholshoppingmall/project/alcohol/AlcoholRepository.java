@@ -25,15 +25,10 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "FROM alcohol a LEFT JOIN ( SELECT s.code, COUNT(p.ordernumber) AS total_orders\n" +
             "FROM purchase p JOIN stock s ON p.stocknumber = s.stocknumber \n" +
             "WHERE YEARWEEK(p.purchaseday) = YEARWEEK(NOW()) GROUP BY s.code\n" +
-<<<<<<< HEAD
-            ") AS p ON a.code = p.code GROUP BY a.code\n" +
-            "ORDER BY COALESCE(MAX(p.total_orders), 0) DESC, a.code ASC\n" +
-            "LIMIT 3", nativeQuery = true)
-=======
             ") AS p ON a.code = p.code LEFT JOIN review r ON a.code = r.code\n" +
             "GROUP BY a.code ORDER BY COALESCE(MAX(p.total_orders), 0) DESC, a.code ASC\n" +
             "LIMIT 3",nativeQuery = true)
->>>>>>> 영웅
+
     List<Double> mostsoldgrade();
 
 
@@ -92,10 +87,7 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     @Query(value = "SELECT price FROM alcohol WHERE code= :code", nativeQuery = true)
     int Price(Long code);
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 영웅
     // 인기순
     @Query(value = "SELECT a.*  FROM alcohol a \n" +
             "LEFT JOIN (SELECT s.code, COUNT(p.ordernumber) AS total_amount \n" +

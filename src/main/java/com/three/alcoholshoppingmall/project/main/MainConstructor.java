@@ -152,8 +152,7 @@ public class MainConstructor {
         List<Search> list = searchService.recentSearch(email);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
-<<<<<<< HEAD
-=======
+
 
     @GetMapping("/user")
     @Operation(summary = "회원의 닉네임 주소",
@@ -168,7 +167,7 @@ List<UserSub> list = loginService.SUB(email);
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
->>>>>>> 영웅
+
 }
 
 
