@@ -55,11 +55,9 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "GROUP BY a.code ORDER BY a.code DESC\n" +
             "LIMIT 3", nativeQuery = true)
     List<Double> newgrade();
+    
 
-
-    List<Alcohol> findByMaincategory(String maincategory); // 대분류로 주류 검색하기
-
-    List<Alcohol> findBySubcategoryOrMaincategory(String subcategory, String maincategory); // 소분류로 주류 검색하기
+    List<Alcohol> findBySubcategoryOrMaincategory(String subcategory, String maincategory); // 카테고리(소분류나 대분류)로 주류 검색하기
 
     List<Alcohol> findByNameContaining(String name);// 이름으로 주류 검색하기
 
