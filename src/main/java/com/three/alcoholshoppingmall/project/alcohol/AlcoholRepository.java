@@ -10,26 +10,30 @@ import java.util.List;
 @Repository
 public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
 
-    //가장 많이 팔린 술 8개
-    @Query(value = "SELECT a.* FROM alcohol a LEFT JOIN (\n" +
-            "SELECT s.code, COUNT(p.ordernumber) AS total_orders\n" +
-            "FROM purchase p JOIN stock s ON p.stocknumber = s.stocknumber\n" +
-            "WHERE YEARWEEK(p.purchaseday) = YEARWEEK(NOW())\n" +
-            "GROUP BY s.code) AS p ON a.code = p.code\n" +
-            "ORDER BY COALESCE(total_orders, 0) DESC, a.code ASC\n" +
+    //가장 많이 팔린 술 3개
+    @Query(value = "SELECT a.* FROM alcohol a LEFT JOIN ( SELECT s.code\n" +
+            "FROM purchase p JOIN stock s ON p.stocknumber = s.stocknumber \n" +
+            "WHERE YEARWEEK(p.purchaseday) = YEARWEEK(NOW()) GROUP BY s.code\n" +
+            ") AS p ON a.code = p.code GROUP BY a.code, a.price \n" +
+            "ORDER BY COUNT(p.code) DESC, a.code ASC \n" +
             "LIMIT 3", nativeQuery = true)
     List<Alcohol> mostsold();
 
 
     //가장 많이 팔린술의 평점
-    @Query(value = "SELECT  ROUND(COALESCE(AVG(r.grade), 0), 1) AS average_grade\n" +
-            "FROM alcohol a LEFT JOIN review r ON a.code = r.code\n" +
-            "LEFT JOIN (SELECT s.code, COUNT(p.ordernumber) AS total_orders\n" +
-            "FROM purchase p JOIN stock s ON p.stocknumber = s.stocknumber\n" +
+    @Query(value = "SELECT ROUND(COALESCE(AVG(r.grade), 0), 1) AS average_grade\n" +
+            "FROM alcohol a LEFT JOIN ( SELECT s.code, COUNT(p.ordernumber) AS total_orders\n" +
+            "FROM purchase p JOIN stock s ON p.stocknumber = s.stocknumber \n" +
             "WHERE YEARWEEK(p.purchaseday) = YEARWEEK(NOW()) GROUP BY s.code\n" +
+<<<<<<< HEAD
             ") AS p ON a.code = p.code GROUP BY a.code\n" +
             "ORDER BY COALESCE(MAX(p.total_orders), 0) DESC, a.code ASC\n" +
             "LIMIT 3", nativeQuery = true)
+=======
+            ") AS p ON a.code = p.code LEFT JOIN review r ON a.code = r.code\n" +
+            "GROUP BY a.code ORDER BY COALESCE(MAX(p.total_orders), 0) DESC, a.code ASC\n" +
+            "LIMIT 3",nativeQuery = true)
+>>>>>>> 영웅
     List<Double> mostsoldgrade();
 
 
@@ -88,7 +92,10 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     @Query(value = "SELECT price FROM alcohol WHERE code= :code", nativeQuery = true)
     int Price(Long code);
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 영웅
     // 인기순
     @Query(value = "SELECT a.*  FROM alcohol a \n" +
             "LEFT JOIN (SELECT s.code, COUNT(p.ordernumber) AS total_amount \n" +

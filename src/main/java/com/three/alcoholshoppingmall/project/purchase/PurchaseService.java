@@ -15,121 +15,124 @@ public class PurchaseService {
 
     public List<Purchaseshow> PICKUPlist(String email) {
         List<Purchaseshow> list = new ArrayList<>();
-
         List<Purchase> check = purchaseRepository.Pickuplist(email);
+        List<String> alcoholList = purchaseRepository.alcoholspick(email);
+        List<String> marketList = purchaseRepository.marketspick(email);
+        List<String> PictureList = purchaseRepository.Picture(email);
 
-        for (Purchase purchase : check) {
-            List<String> alcoholList = purchaseRepository.alcoholspick(email);
-            List<String> marketList = purchaseRepository.marketspick(email);
+        for (int j = 0; j < check.size(); j++) {
+            Purchase purchase = check.get(j);
 
-            int size = Math.min(alcoholList.size(), marketList.size());
-            for (int i = 0; i < size; i++) {
-                String alcoholName = alcoholList.get(i);
-                String marketName = marketList.get(i);
+            String alcoholName = alcoholList.get(j % alcoholList.size());
+            String marketName = marketList.get(j % marketList.size());
+            String alcoholpicture = PictureList.get(j % PictureList.size());
 
-                Purchaseshow purchaseshow = Purchaseshow.builder()
-                        .alcoholname(alcoholName)
-                        .marketname(marketName)
-                        .amount(purchase.getAmount())
-                        .price(purchase.getPrice())
-                        .delivery(purchase.getDelivery())
-                        .division(purchase.getDivision())
-                        .address(purchase.getAddress())
-                        .purchaseday(purchase.getPurchaseday())
-                        .build();
+            Purchaseshow purchaseshow = Purchaseshow.builder()
+                    .alcoholname(alcoholName)
+                    .marketname(marketName)
+                    .amount(purchase.getAmount())
+                    .price(purchase.getPrice())
+                    .delivery(purchase.getDelivery())
+                    .division(purchase.getDivision())
+                    .address(purchase.getAddress())
+                    .purchaseday(purchase.getPurchaseday())
+                    .picture(alcoholpicture)
+                    .build();
 
-                list.add(purchaseshow);
-            }
+            list.add(purchaseshow);
         }
         return list;
     }
 
     public List<Purchaseshow> DELIVERYlist(String email) {
         List<Purchaseshow> list = new ArrayList<>();
-
         List<Purchase> check = purchaseRepository.Deliverylist(email);
-        for (Purchase purchase : check) {
-            List<String> alcoholList = purchaseRepository.alcoholsdelivery(email);
-            List<String> marketList = purchaseRepository.marketsdelivery(email);
+        List<String> alcoholList = purchaseRepository.alcoholsdelivery(email);
+        List<String> marketList = purchaseRepository.marketsdelivery(email);
+        List<String> PictureList = purchaseRepository.Picture(email);
 
-            int size = Math.min(alcoholList.size(), marketList.size());
-            for (int i = 0; i < size; i++) {
-                String alcoholName = alcoholList.get(i);
-                String marketName = marketList.get(i);
+        for (int j = 0; j < check.size(); j++) {
+            Purchase purchase = check.get(j);
 
-                Purchaseshow purchaseshow = Purchaseshow.builder()
-                        .alcoholname(alcoholName)
-                        .marketname(marketName)
-                        .amount(purchase.getAmount())
-                        .price(purchase.getPrice())
-                        .delivery(purchase.getDelivery())
-                        .division(purchase.getDivision())
-                        .address(purchase.getAddress())
-                        .purchaseday(purchase.getPurchaseday())
-                        .build();
+            String alcoholName = alcoholList.get(j % alcoholList.size());
+            String marketName = marketList.get(j % marketList.size());
+            String alcoholpicture = PictureList.get(j % PictureList.size());
 
-                list.add(purchaseshow);
-            }
+            Purchaseshow purchaseshow = Purchaseshow.builder()
+                    .alcoholname(alcoholName)
+                    .marketname(marketName)
+                    .amount(purchase.getAmount())
+                    .price(purchase.getPrice())
+                    .delivery(purchase.getDelivery())
+                    .division(purchase.getDivision())
+                    .address(purchase.getAddress())
+                    .purchaseday(purchase.getPurchaseday())
+                    .picture(alcoholpicture)
+                    .build();
+
+            list.add(purchaseshow);
         }
         return list;
     }
 
     public List<Purchaseshow> PICKUPlimt(String email) {
         List<Purchaseshow> list = new ArrayList<>();
-
         List<Purchase> check = purchaseRepository.Pickuplimt(email);
-        for (Purchase purchase : check) {
-            List<String> alcoholList = purchaseRepository.alcoholspicklimt(email);
-            List<String> marketList = purchaseRepository.marketspicklimt(email);
+        List<String> alcoholList = purchaseRepository.alcoholspicklimt(email);
+        List<String> marketList = purchaseRepository.marketspicklimt(email);
+        List<String> PictureList = purchaseRepository.Picture(email);
 
-            int size = Math.min(alcoholList.size(), marketList.size());
-            for (int i = 0; i < size; i++) {
-                String alcoholName = alcoholList.get(i);
-                String marketName = marketList.get(i);
+        for (int j = 0; j < check.size(); j++) {
+            Purchase purchase = check.get(j);
 
-                Purchaseshow purchaseshow = Purchaseshow.builder()
-                        .alcoholname(alcoholName)
-                        .marketname(marketName)
-                        .amount(purchase.getAmount())
-                        .price(purchase.getPrice())
-                        .delivery(purchase.getDelivery())
-                        .division(purchase.getDivision())
-                        .address(purchase.getAddress())
-                        .purchaseday(purchase.getPurchaseday())
-                        .build();
+            String alcoholName = alcoholList.get(j % alcoholList.size());
+            String marketName = marketList.get(j % marketList.size());
+            String alcoholpicture = PictureList.get(j % PictureList.size());
 
-                list.add(purchaseshow);
-            }
+            Purchaseshow purchaseshow = Purchaseshow.builder()
+                    .alcoholname(alcoholName)
+                    .marketname(marketName)
+                    .amount(purchase.getAmount())
+                    .price(purchase.getPrice())
+                    .delivery(purchase.getDelivery())
+                    .division(purchase.getDivision())
+                    .address(purchase.getAddress())
+                    .purchaseday(purchase.getPurchaseday())
+                    .picture(alcoholpicture)
+                    .build();
+
+            list.add(purchaseshow);
         }
         return list;
     }
 
     public List<Purchaseshow> DELIVERYLIMTlimt(String email) {
         List<Purchaseshow> list = new ArrayList<>();
-
         List<Purchase> check = purchaseRepository.Deliverylimt(email);
-        for (Purchase purchase : check) {
-            List<String> alcoholList = purchaseRepository.alcoholsdeliverylimt(email);
-            List<String> marketList = purchaseRepository.marketsdeliverylimt(email);
+        List<String> alcoholList = purchaseRepository.alcoholsdeliverylimt(email);
+        List<String> marketList = purchaseRepository.marketsdeliverylimt(email);
+        List<String> PictureList = purchaseRepository.Picture(email);
 
-            int size = Math.min(alcoholList.size(), marketList.size());
-            for (int i = 0; i < size; i++) {
-                String alcoholName = alcoholList.get(i);
-                String marketName = marketList.get(i);
+        for (int j = 0; j < check.size(); j++) {
+            Purchase purchase = check.get(j);
 
-                Purchaseshow purchaseshow = Purchaseshow.builder()
-                        .alcoholname(alcoholName)
-                        .marketname(marketName)
-                        .amount(purchase.getAmount())
-                        .price(purchase.getPrice())
-                        .delivery(purchase.getDelivery())
-                        .division(purchase.getDivision())
-                        .address(purchase.getAddress())
-                        .purchaseday(purchase.getPurchaseday())
-                        .build();
+            String alcoholName = alcoholList.get(j % alcoholList.size());
+            String marketName = marketList.get(j % marketList.size());
+            String alcoholpicture = PictureList.get(j % PictureList.size());
 
-                list.add(purchaseshow);
-            }
+            Purchaseshow purchaseshow = Purchaseshow.builder()
+                    .alcoholname(alcoholName)
+                    .marketname(marketName)
+                    .amount(purchase.getAmount())
+                    .price(purchase.getPrice())
+                    .delivery(purchase.getDelivery())
+                    .division(purchase.getDivision())
+                    .address(purchase.getAddress())
+                    .purchaseday(purchase.getPurchaseday())
+                    .picture(alcoholpicture)
+                    .build();
+
+            list.add(purchaseshow);
         }
         return list;
     }

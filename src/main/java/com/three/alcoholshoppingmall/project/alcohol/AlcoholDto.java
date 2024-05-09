@@ -18,16 +18,19 @@ import org.hibernate.annotations.DynamicInsert;
 public class AlcoholDto {
 
 
-    @Schema(title = "주류 code", description = "table에서 자동으로 생성되는 칼럼입니다.")
+    @Schema(title = "주류 code", description = "table에서 자동으로 생성되는 칼럼입니다.",example = "주류의 코드입니다.")
     private Long code;
 
     @Schema(title = "주류 이름", description = "주류 이름을 넣어주시면 됩니다.")
+    @JsonIgnore
     private String name;
 
     @Schema(title = "주류 대분류", description = "주류의 대분류를 넣어주시면 됩니다.")
+    @JsonIgnore
     private String maincategory;
 
     @Schema(title = "주류 소분류", description = "주류의 소분류를 넣어주시면 됩니다.")
+    @JsonIgnore
     private String subcategory;
 
     @Schema(title = "주류 도수", description = "주류의 도수을 넣어주시면 됩니다.")
@@ -58,6 +61,6 @@ public class AlcoholDto {
     @JsonIgnore
     private int price;
 
-    private String type;
+
 
 }

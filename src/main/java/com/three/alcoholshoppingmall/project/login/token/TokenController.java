@@ -19,12 +19,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("token")
 public class TokenController {
 
-    @PostMapping("userinfo")
-    public ResponseEntity<User> userInfo(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        User user = (User) authentication.getPrincipal();
-
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
-    }
 }

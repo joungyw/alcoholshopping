@@ -118,4 +118,16 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             "LEFT JOIN market e ON b.marketcode = e.marketcode\n" +
             "WHERE a.email = :email and d.code IS NULL", nativeQuery = true)
     List<Purchase> purchasereview(String email);
+
+
+
+    @Query(value = "SELECT a.picture FROM alcohol a\n" +
+            "JOIN stock b on  a.code = b.code\n" +
+            "JOIN purchase c ON b.stocknumber = c.stocknumber\n" +
+            "WHERE c.email = :email", nativeQuery = true)
+    List<String> Picture(String email);
+
+
+
+
 }

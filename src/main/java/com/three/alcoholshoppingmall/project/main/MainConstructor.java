@@ -5,12 +5,14 @@ import com.three.alcoholshoppingmall.project.alcohol.AlcoholDto;
 import com.three.alcoholshoppingmall.project.alcohol.Alcoholmain;
 import com.three.alcoholshoppingmall.project.alcohol.Eventservice;
 import com.three.alcoholshoppingmall.project.alcohol.MainListDto;
+import com.three.alcoholshoppingmall.project.login.LoginService;
 import com.three.alcoholshoppingmall.project.market.MarketService;
 import com.three.alcoholshoppingmall.project.search.MemberSearchDto;
 import com.three.alcoholshoppingmall.project.search.NoneMemberSearchDto;
 import com.three.alcoholshoppingmall.project.search.Search;
 import com.three.alcoholshoppingmall.project.search.SearchService;
 import com.three.alcoholshoppingmall.project.user.User;
+import com.three.alcoholshoppingmall.project.user.UserSub;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,11 +34,12 @@ public class MainConstructor {
     private final Eventservice eventservice;
     private final MarketService marketService;
     private final SearchService searchService;
+    private final LoginService loginService;
 
 
     @GetMapping("/most")
     @Operation(summary = "주간 많이 팔린 제품",
-            description = "주간 많이 팔린 술 8개를 보여 줍니다." +
+            description = "주간 많이 팔린 술 3개를 보여 줍니다." +
                     "입력 값은 없습니다.")
     public ResponseEntity<List<Alcoholmain>> Mostsold() {
 
@@ -149,6 +152,23 @@ public class MainConstructor {
         List<Search> list = searchService.recentSearch(email);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
+<<<<<<< HEAD
+=======
+
+    @GetMapping("/user")
+    @Operation(summary = "회원의 닉네임 주소",
+            description = "회원의 닉네임과 주소와 상세 주소가 보입니다.")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<List<UserSub>> User() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        String email = user.getEmail();
+List<UserSub> list = loginService.SUB(email);
+
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+>>>>>>> 영웅
 }
 
 

@@ -24,6 +24,7 @@ public class FavoritesDTO {
     private User user;
 
     @JsonIgnore
+    @Schema(title = "주류 code", description = "table에서 자동으로 생성되는 칼럼입니다.",example = "주류의 코드입니다.")
     private Alcohol alcohol;
 
 

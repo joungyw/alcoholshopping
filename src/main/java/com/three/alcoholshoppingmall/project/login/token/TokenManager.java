@@ -29,7 +29,7 @@ public class TokenManager {
                 .claim("gender", dbuser.getGender())
                 .claim("birthdate", dbuser.getBirthdate())
                 .claim("phone", dbuser.getPhone())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 15))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 180))
                 .signWith(hmacShaKeyFor(mykey.getBytes()))
                 .compact();
     }
