@@ -107,12 +107,9 @@ public class MainConstructor {
                     "검색창에 한글자로 검색을 하면 SEARCHLENGTH, 검색 기록은 두 글자 이상 입력해야합니다라고 에러코드가 뜹니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<MainListDto>> memberSearch(@RequestBody MemberSearchDto memberSearchDto) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email;
-        System.out.println(authentication.getPrincipal());
         User user = (User) authentication.getPrincipal();
-        email = user.getEmail();
+        String email = user.getEmail();
         List<MainListDto> list = searchService.memberSearch(memberSearchDto.getSearchcontents(), email);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
@@ -129,6 +126,7 @@ public class MainConstructor {
                     "db에 저장되어 있는 주류외에 다른 주류 이름을 검색하거나 오타로 검색을 하면 NOTFOUNDALCOHOL<br>," +
                     "해당 이름의 주류를 찾을 수 없습니다라고 에러 코드가 뜹니다.<br>" +
                     "검색창에 한글자로 검색을 하면 SEARCHLENGTH, 검색 기록은 두 글자 이상 입력해야합니다라고 에러코드가 뜹니다.")
+
     public ResponseEntity<List<MainListDto>> NonmemberSearch(@RequestBody NoneMemberSearchDto noneMemberSearchDto) {
         String email = "anony@anony.anony";
         List<MainListDto> list = searchService.memberSearch(noneMemberSearchDto.getSearchcontents(), email);
@@ -138,10 +136,10 @@ public class MainConstructor {
 
     @GetMapping("/recent")
     @Operation(summary = "최근 검색기록",
-            description = "최근 검색 기록을 5개를 출력하게 만들었습니다. <br>" +
-                    "메인페이지에서 검색창에 검색 시 최근 검색 기록 5개를 뜨게 하는 기능입니다. <br>" +
+            description = "최근 검색 기록을 3개를 출력하게 만들었습니다. <br>" +
+                    "메인페이지에서 검색창에 검색 시 최근 검색 기록 3개를 뜨게 하는 기능입니다. <br>" +
                     "입력 값은 필요 없습니다.<br>" +
-                    "검색을 하면서 db에 저장되었던 내용을 내림차순으로 5개를 출력하게 하는 기능입니다. <br>" +
+                    "검색을 하면서 db에 저장되었던 내용을 내림차순으로 3개를 출력하게 하는 기능입니다. <br>" +
                     "회원의 검색 기록이 없으면 NULLRECENT, 최근 검색기록이 존재하지 않습니다라고 에러코드가 뜹니다."
     )
     @SecurityRequirement(name = "bearerAuth")
