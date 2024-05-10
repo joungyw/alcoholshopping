@@ -144,7 +144,8 @@ public class MainConstructor {
     )
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Search>> recent() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = 
+                SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         String email = user.getEmail();
         List<Search> list = searchService.recentSearch(email);
