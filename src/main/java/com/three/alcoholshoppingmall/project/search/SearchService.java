@@ -62,12 +62,7 @@ public class SearchService {
         User dbUser = userRepository.findByEmail(email);
         List<Search> list = searchRepository
                 .findAllByUserOrderByIdDesc(dbUser, PageRequest.of(0, 3));
-        if (list.isEmpty()) {
-            throw new BizException(NULLRECENT);
-        } else {
             return list;
         }
 
     }
-
-}
