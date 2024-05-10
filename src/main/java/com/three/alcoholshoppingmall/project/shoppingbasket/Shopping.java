@@ -10,6 +10,8 @@ import lombok.Getter;
 @Builder
 public class Shopping {
 
+    private Long stock;
+
     private String name;
 
     private String marketname;

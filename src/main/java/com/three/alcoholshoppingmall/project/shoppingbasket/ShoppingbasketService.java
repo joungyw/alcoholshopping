@@ -47,6 +47,7 @@ public class ShoppingbasketService {
 
             if (alcoholName != null && marketName != null) {
                 Shopping shopping = Shopping.builder()
+                        .stock(check.getStock().getStocknumber())
                         .name(alcoholName)
                         .marketname(marketName)
                         .amount(check.getAmount())
@@ -86,6 +87,7 @@ public class ShoppingbasketService {
 
           Shopping shopping = Shopping
                   .builder()
+                  .stock(shoppingbasket.getStock().getStocknumber())
                   .name(alcohol)
                   .marketname(market)
                   .amount(shoppingbasket.getAmount())
@@ -114,6 +116,7 @@ public class ShoppingbasketService {
 
             Shopping shopping = Shopping
                     .builder()
+                    .stock(stockcheck.getStocknumber())
                     .name(alcohols)
                     .marketname(market)
                     .amount(plusamount)
@@ -152,6 +155,7 @@ public class ShoppingbasketService {
 
             if (alcoholName != null && marketName != null) {
                 Shopping shopping = Shopping.builder()
+                        .stock(check.getStock().getStocknumber())
                         .name(alcoholName)
                         .marketname(marketName)
                         .amount(check.getAmount())
@@ -196,6 +200,7 @@ public class ShoppingbasketService {
 
             if (alcoholName != null && marketName != null) {
                 Shopping shopping = Shopping.builder()
+                        .stock(check.getStock().getStocknumber())
                         .name(alcoholName)
                         .marketname(marketName)
                         .amount(check.getAmount())
