@@ -219,4 +219,7 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "LEFT JOIN market e ON b.marketcode = e.marketcode\n" +
             "WHERE a.email = :email and d.code IS NULL", nativeQuery = true)
     List<Alcohol> alcoholreview(String email);
+
+
+
 }

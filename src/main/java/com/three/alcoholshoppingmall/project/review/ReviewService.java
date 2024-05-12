@@ -1,7 +1,6 @@
 package com.three.alcoholshoppingmall.project.review;
 
 
-
 import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
 import com.three.alcoholshoppingmall.project.exception.BizException;
@@ -11,6 +10,7 @@ import com.three.alcoholshoppingmall.project.market.Market;
 import com.three.alcoholshoppingmall.project.market.MarketRepository;
 import com.three.alcoholshoppingmall.project.purchase.Purchase;
 import com.three.alcoholshoppingmall.project.purchase.PurchaseRepository;
+import com.three.alcoholshoppingmall.project.stock.StockRepository;
 import com.three.alcoholshoppingmall.project.user.User;
 import com.three.alcoholshoppingmall.project.user.UserRepository;
 import jakarta.transaction.Transactional;
@@ -145,6 +145,25 @@ public class ReviewService {
 
 
     }
+
+    public List<Reviewshow> AlcoholReview(Long code) {
+        Alcohol alcohol = alcoholRepository.findByCode(code);
+        List<Review> reviews = reviewRepository.findByAlcohol_Code(code);
+        List<Reviewshow> list = new ArrayList<>();
+
+        for (Review review : reviews) {
+            Reviewshow reviewshow = Reviewshow.builder()
+                    .name(alcohol.getName())
+                    .writing(review.getWriting())
+                    .picture(review.getPicture())
+                    .grade(review.getGrade())
+                    .build();
+            list.add(reviewshow);
+        }
+
+        return list;
+    }
+
 }
 
 
