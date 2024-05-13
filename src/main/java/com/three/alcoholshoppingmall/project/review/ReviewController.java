@@ -95,11 +95,7 @@ public class ReviewController {
                     "입력 값은 필요 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Reviewshow>> Alcohol(@RequestBody AlcoholDto alcoholDto) {
-
-
         List<Reviewshow> list = reviewServicce.AlcoholReview(alcoholDto.getCode());
-
-
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
