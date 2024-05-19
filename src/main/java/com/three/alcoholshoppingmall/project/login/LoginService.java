@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -77,5 +78,13 @@ public class LoginService {
         list.add(userSub);
 
         return list;
+    }
+
+    public String findEmail(String phone, String birthdate) { // 이메일 찾기
+       return loginRepository.findByPhoneAndBirthdate(phone, birthdate);
+    }
+
+    public String findPassword(String email, String phone, String birthdate) { //비밀번호 찾기
+        return loginRepository.findByEmailAndPhoneAndBirthdate(email,phone,birthdate);
     }
 }

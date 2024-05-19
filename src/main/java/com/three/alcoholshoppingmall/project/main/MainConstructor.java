@@ -107,13 +107,13 @@ public class MainConstructor {
                     "검색창에 한글자로 검색을 하면 SEARCHLENGTH, 검색 기록은 두 글자 이상 입력해야합니다라고 에러코드가 뜹니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<MainListDto>> memberSearch
-        (@RequestBody MemberSearchDto memberSearchDto) {
+            (@RequestBody MemberSearchDto memberSearchDto) {
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         String email = user.getEmail();
         List<MainListDto> list = searchService.memberSearch
-        (memberSearchDto.getSearchcontents(), email);
+                (memberSearchDto.getSearchcontents(), email);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -131,10 +131,10 @@ public class MainConstructor {
                     "검색창에 한글자로 검색을 하면 SEARCHLENGTH, 검색 기록은 두 글자 이상 입력해야합니다라고 에러코드가 뜹니다.")
 
     public ResponseEntity<List<MainListDto>> NonmemberSearch
-        (@RequestBody NoneMemberSearchDto noneMemberSearchDto) {
+            (@RequestBody NoneMemberSearchDto noneMemberSearchDto) {
         String email = "anony@anony.anony";
         List<MainListDto> list = searchService.memberSearch
-        (noneMemberSearchDto.getSearchcontents(), email);
+                (noneMemberSearchDto.getSearchcontents(), email);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -149,7 +149,7 @@ public class MainConstructor {
     )
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Search>> recent() {
-        Authentication authentication = 
+        Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         String email = user.getEmail();
@@ -167,7 +167,7 @@ public class MainConstructor {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         String email = user.getEmail();
-List<UserSub> list = loginService.SUB(email);
+        List<UserSub> list = loginService.SUB(email);
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }

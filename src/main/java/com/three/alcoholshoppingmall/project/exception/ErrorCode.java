@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 @ToString
 public enum ErrorCode {
+    //회원정보 수정, 탈퇴 에러코드
+    NOTFOUNDUSER(HttpStatus.NOT_FOUND, "NOTFOUNDUSER", "해당 유저를 찾을 수 없습니다."),
     // 검색 에러코드
     NULLSEARCH(HttpStatus.NOT_FOUND, "NULLSEARCH","검색기록은 공백일 수 없습니다."),
     SEARCHCLENGTH(HttpStatus.BAD_REQUEST, "SEARCHLENGTH", "검색 기록은 두 글자 이상 입력해야합니다."),
@@ -32,8 +34,6 @@ public enum ErrorCode {
 
     // 로그인 에러 코드
     CHECKEMAILPASSWORD(HttpStatus.NOT_FOUND,"CHECKEMAILPASSWORD","이메일과 비밀번호를 확인해 주세요."),
-
-
 
     //해당 정보를 가진 장바구니가 없을떄
     NOTFOUNDSHPPING(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 내용은 장바구니에 없습니다."),
