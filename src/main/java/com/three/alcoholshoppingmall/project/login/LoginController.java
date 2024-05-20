@@ -54,8 +54,8 @@ public class LoginController {
     }
     // 비밀번호 찾기
     @GetMapping("/findPassword")
-    @Operation(summary = "비밀번호 찾기", description = "이메일, 전화번호와 생년월일을 입력하면 이메일을 찾아줍니다.")
-    public String findPassword(@RequestParam String email, @RequestParam String phone, @RequestParam String birthdate) {
-        return loginService.findPassword(email, phone, birthdate);
+    @Operation(summary = "비밀번호 찾기", description = "이메일, 전화번호를 입력하면 비밀번호를 찾아줍니다.")
+    public String findPassword(@RequestParam String email, @RequestParam String phone) {
+        return loginService.findPassword(email, phone);
     }
 }

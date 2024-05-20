@@ -33,11 +33,11 @@
 			<artifactId>json</artifactId>
 			<version>20240303</version>
 		</dependency>
-		<dependency>
-			<groupId>com.github.gavlyukovskiy</groupId>
-			<artifactId>p6spy-spring-boot-starter</artifactId>
-			<version>1.5.8</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.github.gavlyukovskiy</groupId>-->
+<!--			<artifactId>p6spy-spring-boot-starter</artifactId>-->
+<!--			<version>1.5.8</version>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
