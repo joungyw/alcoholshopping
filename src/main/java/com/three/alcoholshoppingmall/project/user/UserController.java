@@ -2,6 +2,7 @@ package com.three.alcoholshoppingmall.project.user;
 
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ public class UserController {
     @GetMapping("/info")
     @Operation(summary = "유저 정보",
             description = "토큰으로 유저 정보 주는 함수입니다.")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<UserInfo> userInfo(@AuthenticationPrincipal User user){
 
         UserInfo info = UserInfo.builder()
