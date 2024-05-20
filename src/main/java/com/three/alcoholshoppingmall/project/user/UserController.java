@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "User",description = "유저 관련 컨트롤러입니다.")
 public class UserController {
 
-//    private final UserService userService;
-
     @GetMapping("/info")
     @Operation(summary = "유저 정보",
             description = "토큰으로 유저 정보 주는 함수입니다.")
