@@ -32,9 +32,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
     @Query(value = "SELECT * FROM purchase WHERE email = :email AND delivery = 'DELIVERY' ORDER BY purchaseday DESC, ordernumber DESC LIMIT 5", nativeQuery = true)
     List<Purchase> Deliverylimt(@Param("email") String email);
 
-    //구매내역 전체
-    @Query(value = "SELECT * FROM purchase WHERE email = :email ORDER BY purchaseday DESC, ordernumber DESC", nativeQuery = true)
-    List<Purchase> Purchase(String email);
 
     @Query(value = "SELECT a.name \n" +
             "FROM alcohol a \n" +
@@ -73,8 +70,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             "AND c.delivery = 'DELIVERY' \n" +
             "ORDER BY c.purchaseday DESC, c.ordernumber DESC", nativeQuery = true)
     List<String> marketsdelivery(String email);
-
-
 
 
     @Query(value = "SELECT a.name \n" +
@@ -121,7 +116,7 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             "LEFT JOIN alcohol c ON b.code = c.code\n" +
             "LEFT JOIN review d ON c.code = d.code\n" +
             "LEFT JOIN market e ON b.marketcode = e.marketcode\n" +
-            "WHERE a.email = :email and d.code IS NULL",nativeQuery = true)
+            "WHERE a.email = :email and d.code IS NULL", nativeQuery = true)
     List<Purchase> purchasereview(String email);
 
 

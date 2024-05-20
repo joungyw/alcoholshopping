@@ -97,8 +97,14 @@ public class MainConstructor {
     @Operation(summary = "회원일 때 검색, name으로 주류를 검색",
             description = "회원이 검색하는 기능입니다. <br>" +
                     "searchcontents에 name으로 주류를 검색하는 기능입니다. <br>" +
-                    "검색을 완료하지 않아도 내용이 나오게 만들었습니다. <br>" +
-                    "피그마에서 검색을 하면 검색 기록과 회원의 이메일이 db에 저장됩니다.")
+                    "단어를 완성하지 않아도 내용이 나오게 만들었습니다. <br>" +
+                    "회원 이메일에는 aaa@naver.com, bbb@naver.com, ccc@naver.com이 있습니다. <br>" +
+                    "searchcontents에 입력값이 필요합니다." +
+                    "메인페이지에서 검색창에 검색을 하면 검색 기록과 회원의 이메일이 db에 저장됩니다. <br>" +
+                    "검색창이 비어 있으면 NULLSEARCH, 검색기록은 공백일 수 없습니다라고 에러 코드가 뜹니다.<br>" +
+                    "db에 저장되어 있는 주류외에 다른 주류 이름을 검색하거나 오타로 검색을 하면 NOTFOUNDALCOHOL<br>," +
+                    "해당 이름의 주류를 찾을 수 없습니다라고 에러 코드가 뜹니다.<br>" +
+                    "검색창에 한글자로 검색을 하면 SEARCHLENGTH, 검색 기록은 두 글자 이상 입력해야합니다라고 에러코드가 뜹니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<MainListDto>> memberSearch(@RequestBody MemberSearchDto memberSearchDto) {
 
@@ -115,10 +121,14 @@ public class MainConstructor {
     @Operation(summary = "비회원일 때 검색, name으로 주류를 검색",
             description = "비회원이 검색하는 기능입니다.<br>" +
                     "searchcontents에 name으로 주류를 검색하는 기능입니다.<br>" +
-                    "검색을 완료하지 않아도 내용이 나오게 만들었습니다.<br>" +
+                    "단어를 완성하지 않아도 검색이 가능합니다.<br>" +
                     "비회원 이메일은 anony@anony.anony입니다.<br>" +
-                    "이메일과 searchcontents에 입력값이 필요합니다." +
-                    "피그마에서 검색을 하면 검색 기록과 비회원의 이메일이 db에 저장됩니다.")
+                    "searchcontents에 입력값이 필요합니다.<br>" +
+                    "메인페이지에서 검색창에 검색을 하면 검색 기록과 비회원의 이메일이 db에 저장됩니다.<br>" +
+                    "검색창이 비어 있으면 NULLSEARCH, 검색기록은 공백일 수 없습니다라고 에러 코드가 뜹니다.<br>" +
+                    "db에 저장되어 있는 주류외에 다른 주류 이름을 검색하거나 오타로 검색을 하면 NOTFOUNDALCOHOL<br>," +
+                    "해당 이름의 주류를 찾을 수 없습니다라고 에러 코드가 뜹니다.<br>" +
+                    "검색창에 한글자로 검색을 하면 SEARCHLENGTH, 검색 기록은 두 글자 이상 입력해야합니다라고 에러코드가 뜹니다.")
     public ResponseEntity<List<MainListDto>> NonmemberSearch(@RequestBody NoneMemberSearchDto noneMemberSearchDto) {
         String email = "anony@anony.anony";
         List<MainListDto> list = searchService.memberSearch(noneMemberSearchDto.getSearchcontents(), email);
@@ -129,9 +139,11 @@ public class MainConstructor {
     @GetMapping("/recent")
     @Operation(summary = "최근 검색기록",
             description = "최근 검색 기록을 5개를 출력하게 만들었습니다. <br>" +
-                    "피그마에서 검색 창에 검색 시 최근 검색 기록 5개를 뜨게 하는 기능입니다. <br>" +
+                    "메인페이지에서 검색창에 검색 시 최근 검색 기록 5개를 뜨게 하는 기능입니다. <br>" +
                     "입력 값은 필요 없습니다.<br>" +
-                    "검색을 하면서 db에 저장되었던 내용을 내림차순으로 5개를 출력하게 하는 기능입니다. <br>")
+                    "검색을 하면서 db에 저장되었던 내용을 내림차순으로 5개를 출력하게 하는 기능입니다. <br>" +
+                    "회원의 검색 기록이 없으면 NULLRECENT, 최근 검색기록이 존재하지 않습니다라고 에러코드가 뜹니다."
+    )
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Search>> recent() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -140,6 +152,7 @@ public class MainConstructor {
         List<Search> list = searchService.recentSearch(email);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
+
 
     @GetMapping("/user")
     @Operation(summary = "회원의 닉네임 주소",
@@ -154,7 +167,13 @@ List<UserSub> list = loginService.SUB(email);
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
+
 }
+
+
+
+
+
 
 
 

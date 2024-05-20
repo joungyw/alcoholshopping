@@ -1,7 +1,6 @@
 package com.three.alcoholshoppingmall.project.alcohol;
 
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -29,6 +28,7 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             ") AS p ON a.code = p.code LEFT JOIN review r ON a.code = r.code\n" +
             "GROUP BY a.code ORDER BY COALESCE(MAX(p.total_orders), 0) DESC, a.code ASC\n" +
             "LIMIT 3",nativeQuery = true)
+
     List<Double> mostsoldgrade();
 
 
@@ -45,7 +45,6 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     List<Double> Randgrade(Long code);
 
 
-
     //신제품
     @Query(value = "SELECT * FROM alcohol ORDER BY code DESC LIMIT 3", nativeQuery = true)
     List<Alcohol> newproduct();
@@ -55,11 +54,9 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "GROUP BY a.code ORDER BY a.code DESC\n" +
             "LIMIT 3", nativeQuery = true)
     List<Double> newgrade();
+    
 
-
-    List<Alcohol> findByMaincategory(String maincategory); // 대분류로 주류 검색하기
-
-    List<Alcohol> findBySubcategoryOrMaincategory(String subcategory,String maincategory); // 소분류로 주류 검색하기
+    List<Alcohol> findBySubcategoryOrMaincategory(String subcategory, String maincategory); // 카테고리(소분류나 대분류)로 주류 검색하기
 
     List<Alcohol> findByNameContaining(String name);// 이름으로 주류 검색하기
 
@@ -89,6 +86,7 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     //특정 술의 가격
     @Query(value = "SELECT price FROM alcohol WHERE code= :code", nativeQuery = true)
     int Price(Long code);
+
 
     // 인기순
     @Query(value = "SELECT a.*  FROM alcohol a \n" +
@@ -178,13 +176,12 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     List<Double> minratingssub(String subcategory);
 
 
-
-
-    @Query(value = "SELECT name from alcohol where code = :code" , nativeQuery = true)
+    @Query(value = "SELECT name from alcohol where code = :code", nativeQuery = true)
     String name(Long code);
 
     @Query(value = "SELECT a.name FROM alcohol a JOIN favorites b ON a.code = b.code WHERE b.email = :email", nativeQuery = true)
     List<String> MyFavoritesname(String email);
+
     @Query(value = "SELECT a.code FROM alcohol a JOIN favorites b ON a.code = b.code WHERE b.email = :email", nativeQuery = true)
     List<Long> MyFavoritescode(String email);
 
@@ -197,9 +194,8 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "LEFT JOIN stock b ON a.code = b.code\n" +
             "LEFT JOIN market c ON c.marketcode = b.marketcode\n" +
             "WHERE c.delivery = :type\n" +
-            "GROUP BY a.code ORDER BY a.code",nativeQuery = true)
+            "GROUP BY a.code ORDER BY a.code", nativeQuery = true)
     List<Alcohol> Markettype(String type);
-
 
 
     @Query(value = "SELECT COALESCE(AVG(b.grade), 0) AS ratingaverage\n" +
@@ -208,7 +204,7 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "LEFT JOIN stock c ON a.code = c.code \n" +
             "LEFT JOIN market d ON c.marketcode = d.marketcode\n" +
             "WHERE d.delivery = :type\n" +
-            "GROUP BY a.code ORDER BY a.code",nativeQuery = true)
+            "GROUP BY a.code ORDER BY a.code", nativeQuery = true)
     List<Double> Markeratingaverage(String type);
 
 

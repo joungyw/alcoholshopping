@@ -51,8 +51,10 @@ public interface AlgorithmRepository extends JpaRepository<Alcohol, Long> {
     //데이터 취합 후 추천
     @Query(value = "SELECT DISTINCT * FROM alcohol " +
             "WHERE (aroma LIKE CONCAT('%', :aroma, '%') OR taste LIKE CONCAT('%', :taste, '%') OR finish LIKE CONCAT('%', :finish, '%')) " +
+
             "ORDER BY RAND() LIMIT 3", nativeQuery = true)
    List<Alcohol> personalalgorithm( String aroma, String taste, String finish);
+
 
 
 }

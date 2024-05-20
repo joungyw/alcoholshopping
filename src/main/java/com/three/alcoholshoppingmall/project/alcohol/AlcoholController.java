@@ -35,9 +35,11 @@ public class AlcoholController {
     @Operation(summary = "서브 카테고리를 정렬하는 기능 입니다.",
             description = "Type에 인기, 높은 가격, 낮은 가격이라 입력 받으면" +
                     "subcategoryy의 정렬을 바꾸어 줍니다.")
+
     public ResponseEntity<List<Alcoholmain>> SubOrder(@RequestBody SortDTO sortDTO) {
 
         List<Alcoholmain> list = alcoholService.SubType(sortDTO.getSubcategory(), sortDTO.getType());
+
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }

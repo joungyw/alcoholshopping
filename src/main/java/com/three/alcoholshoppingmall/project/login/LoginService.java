@@ -30,7 +30,6 @@ public class LoginService {
         User emailUser = loginRepository.findByEmail(userDto.getEmail());
         User phoneUser = loginRepository.findByPhone(userDto.getPhone());
 
-
         if (emailUser != null && userDto.getEmail().equals(emailUser.getEmail())) {
             throw new BizException(ErrorCode.DUPLEMAIL);
         } else if (userDto.getNickname() == null) {
