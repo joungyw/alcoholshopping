@@ -4,11 +4,10 @@ package com.three.alcoholshoppingmall.project.shoppingbasket;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
 import com.three.alcoholshoppingmall.project.exception.BizException;
 import com.three.alcoholshoppingmall.project.exception.ErrorCode;
-import com.three.alcoholshoppingmall.project.market.MarketRepository;
-import com.three.alcoholshoppingmall.project.purchase.Delivery;
 import com.three.alcoholshoppingmall.project.purchase.PurchaseRepository;
-import com.three.alcoholshoppingmall.project.review.Reviewshow;
 import com.three.alcoholshoppingmall.project.stock.Stock;
+import com.three.alcoholshoppingmall.project.stock.StockDTO;
+import com.three.alcoholshoppingmall.project.stock.StockNumber;
 import com.three.alcoholshoppingmall.project.stock.StockRepository;
 import com.three.alcoholshoppingmall.project.user.User;
 import com.three.alcoholshoppingmall.project.user.UserRepository;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -214,4 +212,24 @@ public class ShoppingbasketService {
         return list;
 
     }
+
+    public List<StockNumber> Stock(StockDTO stockDTO) {
+
+        Optional<Stock> number = stockRepository.findByAlcohol_CodeAndMarket_Marketcode(
+                stockDTO.getAlcohol(),stockDTO.getMarket());
+
+        if (number.isEmpty()) {
+            throw new BizException(ErrorCode.NOTFOUNDSTOCK);
+        }
+
+        List<StockNumber> list = new ArrayList<>();
+        StockNumber stockNumber = StockNumber.builder()
+                .stock(number.get().getStocknumber())
+                .build();
+
+        list.add(stockNumber);
+
+        return list;
+    }
 }
+

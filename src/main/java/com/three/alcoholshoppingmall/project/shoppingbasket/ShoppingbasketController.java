@@ -1,6 +1,8 @@
 package com.three.alcoholshoppingmall.project.shoppingbasket;
 
 
+import com.three.alcoholshoppingmall.project.stock.StockDTO;
+import com.three.alcoholshoppingmall.project.stock.StockNumber;
 import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -91,4 +93,26 @@ public class ShoppingbasketController {
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
+    @PostMapping("/stock")
+    @Operation(summary = "스텍 넘버 확인",
+            description = "해당 술과 매장의 코드를 보내면 스텍를 반환하여 줍니다. <br>" +
+            "술의 고유의 코드와 매장 고유의 코드를 입력 받으면 장바구니에 사용되는 스텍을 반환하여 줍니다. <br>" +
+            "alcohol은 술의 고유 코드는 1~50까지 있습니다. <br>" +
+            "market은 매장의 고유 코드로 1~5까지 있습니다.")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<List<StockNumber>> StockCheck(@RequestBody StockDTO stockDTO) {
+
+
+        List<StockNumber> list = shoppingbasketService.Stock(stockDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+
+
+
+    }
+
+
+
+
+
 }
