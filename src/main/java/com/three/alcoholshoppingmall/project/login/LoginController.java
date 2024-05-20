@@ -36,14 +36,14 @@ public class LoginController {
 
     @PostMapping
     @Operation(summary = "로그인",description = "유저 토큰 발급")
-    public String loginUser(@RequestBody Login login) {
+    public ResponseEntity<String> loginUser(@RequestBody Login login) {
         User dbuser = loginRepository.findByEmail(login.getEmail());
 
         if (dbuser == null || !encoder.matches(login.getPassword(),dbuser.getPassword())) {
             throw new BizException(ErrorCode.CHECKEMAILPASSWORD);
         }
 
-        return tokenManager.generateToken(dbuser);
+        return ResponseEntity.status(HttpStatus.OK).body(tokenManager.generateToken(dbuser));
     }
 
     @PostMapping("create")

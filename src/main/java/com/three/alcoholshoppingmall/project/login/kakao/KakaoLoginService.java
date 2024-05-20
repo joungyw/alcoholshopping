@@ -25,12 +25,11 @@ public class KakaoLoginService {
 
     // 인가코드로 accesstoken 받는 함수
     public Token userAuthToken(String token) {
-
         MultiValueMap<String,String> bodys = new LinkedMultiValueMap<>();
 
         bodys.add("grant_type","authorization_code");
         bodys.add("client_id","94b443da7db84c565579d43ba563dd3f");
-        bodys.add("redirect_uri","http://localhost:3000/kakaoinfo");
+        bodys.add("redirect_uri","http://localhost:3000/sign/kakao");
         bodys.add("code",token);
 
         HttpHeaders headers = new HttpHeaders();
@@ -40,7 +39,6 @@ public class KakaoLoginService {
         HttpEntity<MultiValueMap<String,String>> entity = new HttpEntity<>(bodys,headers);
 
         RestTemplate template = new RestTemplate();
-
         ResponseEntity<String> responseEntity =
                 template.exchange(
                         "https://kauth.kakao.com/oauth/token",
@@ -55,9 +53,7 @@ public class KakaoLoginService {
                 .kakaoUser(null)
                 .build();
 
-        Token checkToken = userAccessToken(tokens);
-
-        return checkToken;
+        return tokens;
     }
 
     // accesstoken으로 이메일/닉네임 받는 함수
@@ -83,9 +79,7 @@ public class KakaoLoginService {
         JSONObject jsonProfile = new JSONObject(profile);
 
         System.out.println(jsonProfile.get("nickname"));
-        System.out.println("=============================================");
         System.out.println(jsonObject.get("email"));
-        System.out.println("=============================================");
 
         User dbuser = userRepository.findByEmail(jsonObject.get("email").toString());
 
