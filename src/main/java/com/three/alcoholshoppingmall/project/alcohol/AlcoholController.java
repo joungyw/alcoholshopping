@@ -40,7 +40,6 @@ public class AlcoholController {
 
         List<Alcoholmain> list = alcoholService.SubType(sortDTO.getSubcategory(), sortDTO.getType());
 
-
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 

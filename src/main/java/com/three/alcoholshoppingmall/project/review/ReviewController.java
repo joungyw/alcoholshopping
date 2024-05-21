@@ -75,7 +75,6 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-
     @GetMapping("/check")
     @Operation(summary = "리뷰 가능한 제품 확인",
             description = "리뷰 작성이 가능한 제품을 확이하는 기능 입니다." +
