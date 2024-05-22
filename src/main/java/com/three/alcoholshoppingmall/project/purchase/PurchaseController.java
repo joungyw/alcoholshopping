@@ -1,6 +1,9 @@
 package com.three.alcoholshoppingmall.project.purchase;
 
 
+import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
+import com.three.alcoholshoppingmall.project.alcohol.AlcoholService;
+import com.three.alcoholshoppingmall.project.alcohol.Alcoholmain;
 import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -23,6 +26,7 @@ public class PurchaseController {
 
 
     private final PurchaseService purchaseServicce;
+    private final AlcoholService alcoholService;
 
 
     @GetMapping("/pickup")
@@ -85,6 +89,21 @@ public class PurchaseController {
         List<Purchaseshow> list = purchaseServicce.DELIVERYLIMTlimt(user.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
+    @GetMapping("/algorithm")
+    @Operation(summary = "내 알고리즘",
+            description = "회원의 구매정보를 토대로 술을 추천 합니다. 구매 정보가 없을 경우 많이 팔린 술 3개를 추천 합니다." +
+                    "입력 하실 값은 없습니다.")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<List<Alcoholmain>> MemberAlgorithm() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        List<Alcoholmain> list = alcoholService.Algorithm(user.getEmail());
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
+
+
+
 
 }
 

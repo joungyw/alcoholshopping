@@ -25,7 +25,6 @@ public class ShoppingbasketService {
 
     private final ShoppingbasketRepository shoppingbasketRepository;
     private final StockRepository stockRepository;
-    private final PurchaseRepository purchaseRepository;
     private final AlcoholRepository alcoholRepository;
     private final DetailbasketRepository detailbasketRepository;
 
@@ -80,7 +79,6 @@ public class ShoppingbasketService {
 
             detailbasketRepository.save(detailbasket);
 
-
             String alcohol = shoppingbasketRepository.alcoholname(detailbasket.getStock().getAlcohol().getCode());
             String market = shoppingbasketRepository.marketname(detailbasket.getStock().getMarket().getMarketcode());
             String Picture = shoppingbasketRepository.pictur(detailbasket.getStock().getAlcohol().getCode());
@@ -125,7 +123,6 @@ public class ShoppingbasketService {
                     .build();
 
             list.add(shopping);
-
         }
         return list;
     }
@@ -167,7 +164,8 @@ public class ShoppingbasketService {
     }
 
     public List<Shopping> Put(User user, DetailbasketDTO detailbasketDTO) {
-        Optional<Detailbasket> basket = detailbasketRepository.basket(user.getEmail(), detailbasketDTO.getStock());
+        Optional<Detailbasket> basket = detailbasketRepository.basket(
+                user.getEmail(), detailbasketDTO.getStock());
         if(basket.isPresent()){
             Long number = detailbasketRepository.numbercheck(detailbasketDTO.getStock());
             Stock stockcheck = stockRepository.findByStocknumber(number);
@@ -230,6 +228,5 @@ public class ShoppingbasketService {
 
         return list;
     }
-
 }
 

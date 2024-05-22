@@ -1,17 +1,29 @@
-package com.three.alcoholshoppingmall.project;
+package com.three.alcoholshoppingmall.project.test;
+
 
 import com.three.alcoholshoppingmall.project.shoppingbasket.DetailbasketRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+
+import java.util.Optional;
+
+
+
+
 @SpringBootTest
-class ProjectApplicationTests {
+public class Testcress {
+
+    @Autowired
+    private DetailbasketRepository detailbasketRepository;
 
 
     @Test
-    void contextLoads() {
+    void test(){
 
+        String email = "aaa@naver.com";
 
     }
 }

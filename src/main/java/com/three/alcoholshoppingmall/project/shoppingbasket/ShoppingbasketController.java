@@ -36,11 +36,8 @@ public class ShoppingbasketController {
                     "입력 하실 값은 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Shopping>> Shoppingbasketlist() {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-
-
         List<Shopping> list = shoppingbasketService.Shoppinglist(user.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
@@ -53,13 +50,9 @@ public class ShoppingbasketController {
                     "amount 물건의 수량의 입력이 필요 합니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Shopping>> Shopping(@RequestBody DetailbasketDTO detailbasketDTO) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-
-
         List<Shopping> list = shoppingbasketService.Shopping(user, detailbasketDTO);
-
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -70,12 +63,9 @@ public class ShoppingbasketController {
                     "stock은  매장의 코드와 술의 코드가 합쳐진것으로 1~150까지 있습니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Shopping>> DeleteShopping(@RequestBody DetailbasketDTO detailbasketDTO) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-
         List<Shopping> list = shoppingbasketService.Delete(user, detailbasketDTO);
-
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
     @DeleteMapping("/all")
@@ -88,7 +78,6 @@ public class ShoppingbasketController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         Optional<Integer> baskets = detailbasketRepository.basketcheck(user.getEmail());
-
         if(baskets.isPresent() && baskets.get() != 0){
             detailbasketRepository.deldeteall(user.getEmail());
             return ResponseEntity.status(HttpStatus.OK).body("장바구니의 물건을 전부 삭제 하였습니다.");
@@ -105,12 +94,9 @@ public class ShoppingbasketController {
                     "amount 물건의 수량의 입력이 필요 합니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Shopping>> PutShopping(@RequestBody DetailbasketDTO detailbasketDTO) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-
         List<Shopping> list = shoppingbasketService.Put(user, detailbasketDTO);
-
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -122,10 +108,7 @@ public class ShoppingbasketController {
             "market은 매장의 고유 코드로 1~5까지 있습니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<StockNumber>> StockCheck(@RequestBody StockDTO stockDTO) {
-
-
         List<StockNumber> list = shoppingbasketService.Stock(stockDTO);
-
         return ResponseEntity.status(HttpStatus.OK).body(list);
 
 
