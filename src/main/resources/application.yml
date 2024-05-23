@@ -31,11 +31,5 @@ token:
 
 jasypt:
   encryptor:
-<<<<<<< HEAD
     password: threealcoholfreethreealcoholfreethreealcoholfreethreealcoholfreethreealcoholfreethreealcoholfree
-
-
-
-=======
-    passwrod: ${password}
->>>>>>> d0e711092d4c82ad5a6faacd1dbf2b09dffd227f
+#    passwrod: ${password}
