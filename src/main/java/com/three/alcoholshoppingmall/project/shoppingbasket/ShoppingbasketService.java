@@ -50,6 +50,7 @@ public class ShoppingbasketService {
                         .amount(check.getAmount())
                         .price(check.getPrice())
                         .picture(picturecode)
+                        .delivery(detailbasketRepository.delivery(check.getStock().getStocknumber()))
                         .build();
 
                 list.add(shopping);
@@ -91,6 +92,7 @@ public class ShoppingbasketService {
                     .amount(detailbasket.getAmount())
                     .price(detailbasket.getPrice())
                     .picture(Picture)
+                    .delivery(detailbasketRepository.delivery(detailbasket.getStock().getStocknumber()))
                     .build();
 
             list.add(shopping);
@@ -120,6 +122,7 @@ public class ShoppingbasketService {
                     .amount(plusamount)
                     .price(plusPrice)
                     .picture(Picture)
+                    .delivery(detailbasketRepository.delivery(shoppingbasketcheck.getStock().getStocknumber()))
                     .build();
 
             list.add(shopping);
@@ -155,6 +158,7 @@ public class ShoppingbasketService {
                         .amount(check.getAmount())
                         .price(check.getPrice())
                         .picture(picturecode)
+                        .delivery(detailbasketRepository.delivery(check.getStock().getStocknumber()))
                         .build();
 
                 list.add(shopping);
@@ -201,6 +205,7 @@ public class ShoppingbasketService {
                         .amount(check.getAmount())
                         .price(check.getPrice())
                         .picture(picturecode)
+                        .delivery(detailbasketRepository.delivery(check.getStock().getStocknumber()))
                         .build();
 
                 list.add(shopping);
