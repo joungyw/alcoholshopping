@@ -5,12 +5,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
 
-    Stock findByStocknumber (Long stock);
 
+    Optional<Stock> findByAlcohol_CodeAndMarket_Marketcode(Long code, Long marketcode);
+
+
+    Stock findByStocknumber(Long stock);
 
 
     @Query(value = "SELECT stocknumber FROM stock a\n" +

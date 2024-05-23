@@ -8,6 +8,9 @@ import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -30,17 +33,9 @@ public class Shoppingbasket {
     @JoinColumn(name = "email", referencedColumnName = "email")
     private User user;
 
-    @Schema(title = "재고", description = "재고 테이블과 조인된 칼럼입니다.")
-    @ManyToOne
-    @JoinColumn(name = "stocknumber", referencedColumnName = "stocknumber")
-    private Stock stock;
 
-
-    @Schema(title = "amount", description = "해당 물품의 구매 수량입니다.")
-    @Column(nullable = false)
-    private  int amount;
-
-    @Schema(title = "price", description = "해당 물품들의 총 가격입니다.")
-    private int price;
+    @Schema(title = "date", description = "장바구니 생성 일자 입니다.")
+    @CreationTimestamp
+    private LocalDate Date;
 
 }

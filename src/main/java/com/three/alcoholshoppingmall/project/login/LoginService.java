@@ -3,6 +3,8 @@ package com.three.alcoholshoppingmall.project.login;
 
 import com.three.alcoholshoppingmall.project.exception.BizException;
 import com.three.alcoholshoppingmall.project.exception.ErrorCode;
+import com.three.alcoholshoppingmall.project.shoppingbasket.Shoppingbasket;
+import com.three.alcoholshoppingmall.project.shoppingbasket.ShoppingbasketRepository;
 import com.three.alcoholshoppingmall.project.user.User;
 import com.three.alcoholshoppingmall.project.user.UserDto;
 import com.three.alcoholshoppingmall.project.user.UserSub;
@@ -27,6 +29,7 @@ public class LoginService {
 
     private final LoginRepository loginRepository;
     private final BCryptPasswordEncoder encoder;
+    private final ShoppingbasketRepository shoppingbasketRepository;
     private final JavaMailSender javaMailSender;
 
     public void createUser(UserDto userDto) {
@@ -55,8 +58,7 @@ public class LoginService {
         } else if (userDto.getPhone() == null) {
             throw new BizException(ErrorCode.NULLPHONE);
         }
-
-        loginRepository.save(User.builder()
+        User user = User.builder()
                 .email(userDto.getEmail())
                 .nickname(userDto.getNickname())
                 .address(userDto.getAddress())
@@ -66,7 +68,14 @@ public class LoginService {
                 .birthdate(userDto.getBirthdate())
                 .gender(userDto.getGender())
                 .withdrawStatus(WithdrawStatus.N)
-                .build());
+                .build();
+
+
+        loginRepository.save(user);
+        Shoppingbasket shoppingbasket = Shoppingbasket.builder()
+                .user(user)
+                .build();
+        shoppingbasketRepository.save(shoppingbasket);
     }
 
     public List<UserSub> SUB(String email) {

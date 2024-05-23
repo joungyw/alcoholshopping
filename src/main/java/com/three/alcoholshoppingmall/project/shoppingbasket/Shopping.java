@@ -1,5 +1,6 @@
 package com.three.alcoholshoppingmall.project.shoppingbasket;
 
+import com.three.alcoholshoppingmall.project.purchase.Delivery;
 import com.three.alcoholshoppingmall.project.stock.Stock;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +11,8 @@ import lombok.Getter;
 @Builder
 public class Shopping {
 
+    private Long stock;
+
     private String name;
 
     private String marketname;
@@ -19,5 +22,7 @@ public class Shopping {
     private int price;
 
     private String picture;
+
+    private Delivery delivery;
 
 }

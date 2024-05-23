@@ -38,6 +38,9 @@ public enum ErrorCode {
     //해당 정보를 가진 장바구니가 없을떄
     NOTFOUNDSHPPING(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 내용은 장바구니에 없습니다."),
 
+    //해당 정보를 가진 스텍넘버가 없을때
+    NOTFOUNDSTOCK(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 정보는 없습니다."),
+
     //즐겨 찾기 삭제시 없는 내용인경우
     NOTFOUNDFAVORITES(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 내용은 즐겨 찾기 목록에 없습니다."),
 
