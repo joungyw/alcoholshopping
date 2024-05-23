@@ -15,12 +15,7 @@ token:
 decorator:
   datasource:
     p6spy:
-      enable-logging: true
-
-logging:
-  level:
-    p6spy: info
-
+      enable-logging: off
 
 jasypt:
   encryptor:
