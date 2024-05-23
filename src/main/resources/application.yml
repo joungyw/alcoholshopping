@@ -12,19 +12,14 @@ token:
   jwt:
     secret: ENC(BbxwTGWGyT5J0EBgyW4Qn57XvvS1Q8aMVZtd8dkRDsZ5rRVlW0jBCedpesSwNcBMpNm/rm48lkjy1xbHYa40DQ==)
 
-decorator:
-  datasource:
-    p6spy:
-      enable-logging: true
-
-logging:
-  level:
-    p6spy: info
-
+#decorator:
+#  datasource:
+#    p6spy:
+#      enable-logging: true
 
 jasypt:
   encryptor:
-    passwrod: ${password}
+    password: threealcoholfreethreealcoholfreethreealcoholfreethreealcoholfreethreealcoholfreethreealcoholfree
 
 
 
