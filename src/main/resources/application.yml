@@ -25,3 +25,6 @@ logging:
 jasypt:
   encryptor:
     passwrod: ${password}
+
+
+

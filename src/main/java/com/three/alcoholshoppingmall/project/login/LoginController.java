@@ -28,14 +28,14 @@ public class LoginController {
 
     @PostMapping
     @Operation(summary = "로그인", description = "유저 토큰 발급")
-    public String loginUser(@RequestBody Login login) {
+    public ResponseEntity<String> loginUser(@RequestBody Login login) {
         User dbuser = loginRepository.findByEmail(login.getEmail());
 
         if (dbuser == null || !encoder.matches(login.getPassword(), dbuser.getPassword())) {
             throw new BizException(ErrorCode.CHECKEMAILPASSWORD);
         }
 
-        return tokenManager.generateToken(dbuser);
+        return ResponseEntity.status(HttpStatus.OK).body(tokenManager.generateToken(dbuser));
     }
 
     @PostMapping("create")
@@ -49,9 +49,15 @@ public class LoginController {
     // 이메일 찾기
     @GetMapping("/findEmail")
     @Operation(summary = "이메일 찾기", description = "전화번호와 생년월일을 입력하면 이메일을 찾아줍니다.")
-    public String findEmail(@RequestParam String phone, @RequestParam String birthdate) {
-        return loginService.findEmail(phone, birthdate);
+    public ResponseEntity<String> findEmail(@RequestParam String phone, @RequestParam String birthdate) {
+        String email = loginService.findEmail(phone, birthdate);
+        if (email != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(email);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("이메일을 찾을 수 없습니다.");
     }
+        }
+
     // 비밀번호 찾기
     @GetMapping("/findPassword")
     @Operation(summary = "비밀번호 찾기", description = "이메일, 전화번호를 입력하면 비밀번호를 찾아줍니다.")

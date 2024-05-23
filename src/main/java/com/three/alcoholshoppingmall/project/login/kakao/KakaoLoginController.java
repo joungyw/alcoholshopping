@@ -17,7 +17,6 @@ public class KakaoLoginController {
 
     private final KakaoLoginService loginService;
 
-    // 인가코드 받는 함수
     @GetMapping("login")
     public ResponseEntity<Token> kakaoLogin(@RequestHeader String token){
 
