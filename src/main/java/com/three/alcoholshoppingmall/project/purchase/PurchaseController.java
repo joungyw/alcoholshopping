@@ -5,6 +5,7 @@ import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -84,6 +85,18 @@ public class PurchaseController {
 
         List<Purchaseshow> list = purchaseServicce.DELIVERYLIMTlimt(user.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
+    @PostMapping("/toss")
+    @Operation(summary = "토스페이 결제",
+            description = "토스페이 결제입니다. " +
+                    "필요한 정보 = 총가격,상품 이름,결제 결과 Callback URL,인증 완료 후 연결할 URL,결제 중단 시 사용자를 이동시킬 가맹점 페이지")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<String> tosspay(@Valid @RequestBody TossInfo tossInfo){
+
+        String checkoutPage = purchaseServicce.tosspay(tossInfo);
+
+        return ResponseEntity.status(HttpStatus.OK).body(checkoutPage);
     }
 
 }
