@@ -53,4 +53,13 @@ public class LoginController {
 
         return ResponseEntity.status(HttpStatus.OK).body("회원가입 완료");
     }
+
+    @PostMapping("emailauth")
+    @Operation(summary = "이메일 인증",description = "이메일 인증하기")
+    public ResponseEntity<String> emailAuth(@RequestBody Email email){
+
+        String num = loginService.sendAuthNum(email.getEmail());
+
+        return ResponseEntity.status(HttpStatus.OK).body("인증번호 발송 " + num);
+    }
 }
