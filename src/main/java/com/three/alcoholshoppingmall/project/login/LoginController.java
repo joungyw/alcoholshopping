@@ -46,7 +46,6 @@ public class LoginController {
         return ResponseEntity.status(HttpStatus.OK).body("회원가입 완료");
     }
 
-<<<<<<< HEAD
     // 이메일 찾기
 //    @GetMapping("/findEmail")
 //    @Operation(summary = "이메일 찾기", description = "전화번호와 생년월일을 입력하면 이메일을 찾아줍니다.")
@@ -65,7 +64,7 @@ public class LoginController {
 //    public String findPassword(@RequestParam String email, @RequestParam String phone) {
 //        return loginService.findPassword(email, phone);
 //    }
-=======
+
     @PostMapping("emailauth")
     @Operation(summary = "이메일 인증",description = "이메일 인증하기")
     public ResponseEntity<String> emailAuth(@RequestBody Email email){
@@ -74,5 +73,5 @@ public class LoginController {
 
         return ResponseEntity.status(HttpStatus.OK).body("인증번호 발송 " + num);
     }
->>>>>>> main
+
 }

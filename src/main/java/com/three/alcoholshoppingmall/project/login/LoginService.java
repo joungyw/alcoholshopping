@@ -95,14 +95,14 @@ public class LoginService {
         return list;
     }
 
-<<<<<<< HEAD
     public String findEmail(String phone, String birthdate) { // 이메일 찾기
-       return loginRepository.findByPhoneAndBirthdate(phone, birthdate);
+        return loginRepository.findByPhoneAndBirthdate(phone, birthdate);
     }
 
     public String findPassword(String email, String phone) { //비밀번호 찾기
-        return loginRepository.findByEmailAndPhone(email,phone);
-=======
+        return loginRepository.findByEmailAndPhone(email, phone);
+    }
+
     public String sendAuthNum(String email) {
 
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -124,14 +124,13 @@ public class LoginService {
             body += "<h1 style='color:blue'>" + num + "</h1>";
             body += "</div><br>";
             body += "<h3>" + "감사합니다." + "</h3>";
-            message.setText(body,"UTF-8", "html");
+            message.setText(body, "UTF-8", "html");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         javaMailSender.send(message);
 
-        return num+"";
->>>>>>> main
+        return num + "";
     }
 }
