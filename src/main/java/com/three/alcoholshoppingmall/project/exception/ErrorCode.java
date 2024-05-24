@@ -47,11 +47,15 @@ public enum ErrorCode {
     //리뷰 삭제시 없는 내용인경우
     NOTFOUNDREVIEW(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 내용의 리뷰는 존재하지 않습니다."),
 
+    ERRORDELIVERYTYPE(HttpStatus.BAD_REQUEST,"EMAILDUPL","유효하지 않은 주문 입니다."),
+
     //주류 정렬시 에러코드
     ERRORTYPE(HttpStatus.BAD_REQUEST,"EMAILDUPL","유효하지 않은 정렬 태그입니다."),
 
     // 비밀번호 수정시 에러코드
     SAMEPASSWORD(HttpStatus.BAD_REQUEST, "SAMEPASSWORD", "기존 비밀번호와 수정할 비밀번호가 동일합니다.");
+
+
 
     private HttpStatus httpStatus;
     private String errorCode;

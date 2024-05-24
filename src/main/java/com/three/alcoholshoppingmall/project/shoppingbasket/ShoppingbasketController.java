@@ -1,8 +1,7 @@
 package com.three.alcoholshoppingmall.project.shoppingbasket;
 
 
-import com.three.alcoholshoppingmall.project.exception.BizException;
-import com.three.alcoholshoppingmall.project.exception.ErrorCode;
+import com.three.alcoholshoppingmall.project.purchase.Delivery;
 import com.three.alcoholshoppingmall.project.stock.StockDTO;
 import com.three.alcoholshoppingmall.project.stock.StockNumber;
 import com.three.alcoholshoppingmall.project.user.User;
@@ -30,15 +29,29 @@ public class ShoppingbasketController {
     private final ShoppingbasketService shoppingbasketService;
     private final DetailbasketRepository detailbasketRepository;
 
-    @GetMapping("")
-    @Operation(summary = "장바구니 조회",
-            description = "현재 장바구니에 넣은 물건을 조회하는 기능입니다. <br>" +
+    @GetMapping("/delivery")
+    @Operation(summary = "장바구니 배달 조회",
+            description = "현재 장바구니에 넣은 물건중 배달들만 조회하는 기능입니다. <br>" +
                     "입력 하실 값은 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Shopping>> Shoppingbasketlist() {
+    public ResponseEntity<List<Shopping>> Shoppingdelivery() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        List<Shopping> list = shoppingbasketService.Shoppinglist(user.getEmail());
+        Delivery delivery = Delivery.Delivery;
+        List<Shopping> list = shoppingbasketService.Shoppinglist(user.getEmail(),delivery);
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
+    @GetMapping("/pickup")
+    @Operation(summary = "장바구니 픽업 조회",
+            description = "현재 장바구니에 넣은 물건중 픽업들만 조회하는 기능입니다. <br>" +
+                    "입력 하실 값은 없습니다.")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<List<Shopping>> ShoppingpickUp() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        Delivery delivery = Delivery.PickUp;
+        List<Shopping> list = shoppingbasketService.Shoppinglist(user.getEmail(),delivery);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -62,12 +75,13 @@ public class ShoppingbasketController {
                     "stock에 입력이 필요 합니다.<br>" +
                     "stock은  매장의 코드와 술의 코드가 합쳐진것으로 1~150까지 있습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Shopping>> DeleteShopping(@RequestBody DetailbasketDTO detailbasketDTO) {
+    public ResponseEntity<ResponseEntity<String>> DeleteShopping(@RequestBody StockNumber stockNumber) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        List<Shopping> list = shoppingbasketService.Delete(user, detailbasketDTO);
+        ResponseEntity<String> list = shoppingbasketService.Delete(user, stockNumber);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
+
     @DeleteMapping("/all")
     @Operation(summary = "장바구니 물건 전부 빼기",
             description = "해당 재품을 회원의 장바구니에서 물건을 전부 뺴는 기능입니다. <br>" +
@@ -110,11 +124,7 @@ public class ShoppingbasketController {
     public ResponseEntity<List<StockNumber>> StockCheck(@RequestBody StockDTO stockDTO) {
         List<StockNumber> list = shoppingbasketService.Stock(stockDTO);
         return ResponseEntity.status(HttpStatus.OK).body(list);
-
-
-
     }
-
 
 
 
