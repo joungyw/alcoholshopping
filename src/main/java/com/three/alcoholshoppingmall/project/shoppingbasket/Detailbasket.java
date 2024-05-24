@@ -1,6 +1,7 @@
 package com.three.alcoholshoppingmall.project.shoppingbasket;
 
 
+import com.three.alcoholshoppingmall.project.purchase.Delivery;
 import com.three.alcoholshoppingmall.project.stock.Stock;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -37,5 +38,8 @@ public class Detailbasket {
     @Schema(title = "price", description = "해당 물품들의 총 가격입니다.")
     private int price;
 
+    @Schema(title = "배달 여부", description = "해당 매장의 배달여부 입니다")
+    @Enumerated(EnumType.STRING)
+    private Delivery delivery;
 
 }
