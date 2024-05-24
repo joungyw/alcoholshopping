@@ -22,16 +22,16 @@ spring:
             enable: true
           auth: true
 
+
 token:
   jwt:
     secret: ENC(BbxwTGWGyT5J0EBgyW4Qn57XvvS1Q8aMVZtd8dkRDsZ5rRVlW0jBCedpesSwNcBMpNm/rm48lkjy1xbHYa40DQ==)
-
-decorator:
-  datasource:
-    p6spy:
-      enable-logging: off
 
 jasypt:
   encryptor:
     password: threealcoholfreethreealcoholfreethreealcoholfreethreealcoholfreethreealcoholfreethreealcoholfree
 #    passwrod: ${password}
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false
