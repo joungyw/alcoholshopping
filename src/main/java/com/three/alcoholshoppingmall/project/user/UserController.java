@@ -44,22 +44,30 @@ public class UserController {
     }
 
 
-    @PutMapping(value = "update")// 회원정보 수정
+    @PutMapping("updateUser")// 회원정보 수정
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<String> updateUser(@Valid @RequestBody UserUpdate userUpdate) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication.getPrincipal());
         User user = (User) authentication.getPrincipal();
-        System.out.println(user.getEmail());
         String email = user.getEmail();
         String returnvalue = userService.updateUser(email, userUpdate);
         return ResponseEntity.status(HttpStatus.OK).body(returnvalue);
     }
 
-    @PutMapping("withdraw/{email}") // 회원정보 탈퇴
-    @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<String> withdrawUser(@PathVariable String email) {
-        userService.withdrawUser(email);
-        return ResponseEntity.status(HttpStatus.OK).body("회원 탈퇴가 완료되었습니다.");
-    }
+//    @PutMapping("withdraw/{email}") // 회원정보 탈퇴
+//    @SecurityRequirement(name = "bearerAuth")
+//    public ResponseEntity<String> withdrawUser(@PathVariable String email) {
+//        userService.withdrawUser(email);
+//        return ResponseEntity.status(HttpStatus.OK).body("회원 탈퇴가 완료되었습니다.");
+//    }
+//    @PostMapping("updatePw")// 비밀번호 수정
+//    @SecurityRequirement(name = "bearerAuth")
+//    public ResponseEntity<String> updatePw(@Valid @RequestBody PwUpdate pwUpdate){
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        User user = (User) authentication.getPrincipal();
+//        String email = user.getEmail();
+//        String returnvalue = userService.updatePw(email, pwUpdate);
+//        return ResponseEntity.status(HttpStatus.OK).body(returnvalue);
+//    }
+
 }

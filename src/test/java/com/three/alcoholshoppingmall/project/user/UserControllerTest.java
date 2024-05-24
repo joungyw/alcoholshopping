@@ -3,13 +3,20 @@ package com.three.alcoholshoppingmall.project.user;
 import static com.three.alcoholshoppingmall.project.exception.ErrorCode.DUPLPHONE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.three.alcoholshoppingmall.project.conf.JWTInterceptor;
+import com.three.alcoholshoppingmall.project.login.Login;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,41 +24,86 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
+
+import java.io.UnsupportedEncodingException;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerTest {
 
-    @Autowired
+    @Mock
     private UserService userService;
-
-    @Autowired
-    private UserController userController;
-
     @Autowired
     MockMvc mockMvc;
 
-    @Test
-    public void UpdateUserSuccess() {
-        // Given
-        UserUpdate userUpdate = new UserUpdate("newNickname",  "010-1234-5678", "newAddress", "newAddress2");
-        when(userService.updateUser("test@example.com", userUpdate)).thenReturn("회원정보가 수정되었습니다");
+    @InjectMocks
+    private JWTInterceptor jwtInterceptor;
 
-        // When
-        ResponseEntity<String> response = userController.updateUser(userUpdate);
+    public String genToken() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Login login = new Login("bbb@naver.com","a123456!");
 
-        // Then
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("회원정보가 수정되었습니다", response.getBody());
+        //when
+        ResultActions resultActions = mockMvc.perform(post("/login")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(login)));
+
+        MvcResult mvcResult = resultActions.andReturn();
+        String responseBody = mvcResult.getResponse().getContentAsString();
+
+        // Assert the response
+        return responseBody;
     }
 
     @Test
+    @DisplayName("토큰 생성 테스트")
+    public  void jwtTokenGeneration() throws Exception{
+        // Given
+        ObjectMapper objectMapper = new ObjectMapper();
+        Login login = new Login("bbb@naver.com","a123456!");
+
+        //when
+        ResultActions resultActions = mockMvc.perform(post("/login")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(login)));
+        // 을 헤더에 추가
+        //then
+        resultActions
+                .andExpect(status().isOk())
+                .andDo(print());
+
+        MvcResult mvcResult = resultActions.andReturn();
+        String responseBody = mvcResult.getResponse().getContentAsString();
+
+        // Assert the response
+        System.out.println("Response Body: " + responseBody);
+    }
+
+
+    @Test
+    @DisplayName("회원정보수정성공테스트")
+    public void UpdateUserSuccess() throws Exception {
+        // Given
+        UserUpdate userUpdate = new UserUpdate("newNickname", "01012345672", "newAddress", "newAddress2");
+        when(userService.updateUser("ddd@naver.com", userUpdate)).thenReturn("회원정보가 수정되었습니다");
+
+        // When
+        String response = userService.updateUser("ddd@naver.com", userUpdate);
+
+        // Then
+        assertEquals("회원정보가 수정되었습니다", response);
+    }
+
+    @Test
+    @DisplayName("회원정보 휴대폰 중복체크")
     public void UpdateUserPhoneAlreadyExists() throws Exception {
         // Given
         ObjectMapper objectMapper = new ObjectMapper();
-        UserUpdate userUpdate = new UserUpdate("newNickname", "01032037533", "newAddress", "newAddress2");
-        String jwtToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJsb2dpblRva2VuIiwiZW1haWwiOiJkZGRAbmF2ZXIuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkUVBUMjNFaHlvVFpTM2YuV0dSTk9ZdUd5cXlCUm1PWkVWSm1KVmtwMjlNOFp6MWcxbUtIdEsiLCJuaWNrbmFtZSI6ImRmZmYiLCJhZGRyZXNzIjoi7KO87IaMIiwiYWRkcmVzczIiOiLsg4HshLjso7zshowiLCJnZW5kZXIiOiJGRU1BTEUiLCJiaXJ0aGRhdGUiOiIxOTk4MDYyMyIsInBob25lIjoiMDEwNTYyMTU2MjEiLCJleHAiOjE3MTY0MzY4MDd9.TxhyrJTr4xv1uR3t1CelhTim97rykY6aRIAIXYipgv6Ui16Plbg0O0hMd1hf7E64";
+        UserUpdate userUpdate = new UserUpdate("newNickname", "01012345678", "newAddress", "newAddress2");
+        String token = genToken();
+        String jwtToken = "Bearer "+token;
 
         //when
         ResultActions resultActions = mockMvc.perform(put("/user/update")
