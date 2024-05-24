@@ -11,7 +11,6 @@ import java.util.Optional;
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
 
-
     //해당 이메일을 사용하는 사람이 물건을 구매한적 있는지 확인
     @Query(value = "SELECT * FROM purchase  WHERE email = :email LIMIT 1 ", nativeQuery = true)
     Optional<Purchase> findByEmail(@Param("email") String email);
@@ -32,7 +31,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
     @Query(value = "SELECT * FROM purchase WHERE email = :email AND delivery = 'DELIVERY' ORDER BY purchaseday DESC, ordernumber DESC LIMIT 5", nativeQuery = true)
     List<Purchase> Deliverylimt(@Param("email") String email);
 
-
     @Query(value = "SELECT a.name \n" +
             "FROM alcohol a \n" +
             "JOIN stock b ON a.code = b.code \n" +
@@ -51,7 +49,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             "ORDER BY c.purchaseday DESC, c.ordernumber DESC", nativeQuery = true)
     List<String> marketspick(String email);
 
-
     @Query(value = "SELECT a.name \n" +
             "FROM alcohol a \n" +
             "JOIN stock b ON a.code = b.code \n" +
@@ -61,7 +58,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             "ORDER BY c.purchaseday DESC, c.ordernumber DESC", nativeQuery = true)
     List<String> alcoholsdelivery(String email);
 
-
     @Query(value = "SELECT a.marketname\n" +
             "FROM market a \n" +
             "JOIN stock b ON a.marketcode = b.marketcode\n" +
@@ -70,7 +66,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             "AND c.delivery = 'DELIVERY' \n" +
             "ORDER BY c.purchaseday DESC, c.ordernumber DESC", nativeQuery = true)
     List<String> marketsdelivery(String email);
-
 
     @Query(value = "SELECT a.name \n" +
             "FROM alcohol a \n" +
@@ -90,7 +85,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             "ORDER BY c.purchaseday DESC, c.ordernumber DESC LIMIT 5", nativeQuery = true)
     List<String> marketspicklimt(String email);
 
-
     @Query(value = "SELECT a.name \n" +
             "FROM alcohol a \n" +
             "JOIN stock b ON a.code = b.code \n" +
@@ -99,7 +93,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             "AND c.delivery = 'DELIVERY' \n" +
             "ORDER BY c.purchaseday DESC, c.ordernumber DESC LIMIT 5", nativeQuery = true)
     List<String> alcoholsdeliverylimt(String email);
-
 
     @Query(value = "SELECT a.marketname\n" +
             "FROM market a \n" +
@@ -110,7 +103,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             "ORDER BY c.purchaseday DESC, c.ordernumber DESC LIMIT 5", nativeQuery = true)
     List<String> marketsdeliverylimt(String email);
 
-
     @Query(value = "SELECT a.* FROM purchase a\n" +
             "LEFT JOIN stock b ON a.stocknumber = b.stocknumber\n" +
             "LEFT JOIN alcohol c ON b.code = c.code\n" +
@@ -119,15 +111,18 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             "WHERE a.email = :email and d.code IS NULL", nativeQuery = true)
     List<Purchase> purchasereview(String email);
 
-
-
     @Query(value = "SELECT a.picture FROM alcohol a\n" +
             "JOIN stock b on  a.code = b.code\n" +
             "JOIN purchase c ON b.stocknumber = c.stocknumber\n" +
             "WHERE c.email = :email", nativeQuery = true)
     List<String> Picture(String email);
 
-
+    //해당 물건을 구매 했는지 확인
+    @Query(value = "SELECT a.* FROM purchase a\n" +
+            "JOIN stock b ON a.stocknumber = b.stocknumber\n" +
+            "JOIN alcohol c ON b.code = c.code\n" +
+            "WHERE a.email = :email AND c.code = :code",nativeQuery = true)
+    Optional<Purchase> PurchaseCheck (String email, Long code);
 
 
 }

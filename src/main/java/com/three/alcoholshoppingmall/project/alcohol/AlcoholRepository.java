@@ -30,7 +30,6 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "LIMIT 3", nativeQuery = true)
     List<Double> mostsoldgrade();
 
-
     //랜덤
     @Query(value = "SELECT * FROM alcohol ORDER BY RAND() LIMIT 3", nativeQuery = true)
     List<Alcohol> RAND();
@@ -42,7 +41,6 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "GROUP BY a.code\n" +
             "LIMIT 3 ", nativeQuery = true)
     List<Double> Randgrade(Long code);
-
 
     //신제품
     @Query(value = "SELECT * FROM alcohol ORDER BY code DESC LIMIT 3", nativeQuery = true)
@@ -59,9 +57,7 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
 
     List<Alcohol> findByNameContaining(String name);// 이름으로 주류 검색하기
 
-
     Alcohol findByCode(Long code);
-
 
     //특정 술의 평점
     @Query(value = "SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade \n" +
@@ -150,7 +146,6 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "ORDER BY COALESCE(SUM(p.total_amount), 0) DESC, a.code ASC", nativeQuery = true)
     List<Double> popratingssub(String subcategory);
 
-
     // 최대 가격 순 정렬
     @Query(value = "SELECT * FROM alcohol where subcategory = :subcategory ORDER BY price DESC, code ASC", nativeQuery = true)
     List<Alcohol> maxsub(String subcategory);
@@ -214,4 +209,5 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "LEFT JOIN market e ON b.marketcode = e.marketcode\n" +
             "WHERE a.email = :email and d.code IS NULL", nativeQuery = true)
     List<Alcohol> alcoholreview(String email);
+
 }

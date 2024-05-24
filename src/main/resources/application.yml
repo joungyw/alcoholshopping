@@ -8,6 +8,18 @@ spring :
     username: ENC(gKuctbDMmaJPPKl4hSkOlA==)
     password: ENC(j9Oj87bQlu7Lat+yEj0yYQ==)
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: hyoung6658@gmail.com
+    password: ikoqvhyjkdjccfif
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+
 token:
   jwt:
     secret: ENC(BbxwTGWGyT5J0EBgyW4Qn57XvvS1Q8aMVZtd8dkRDsZ5rRVlW0jBCedpesSwNcBMpNm/rm48lkjy1xbHYa40DQ==)
@@ -19,7 +31,5 @@ decorator:
 
 jasypt:
   encryptor:
-    passwrod: ${password}
-
-
-
+    password: threealcoholfreethreealcoholfreethreealcoholfreethreealcoholfreethreealcoholfreethreealcoholfree
+#    passwrod: ${password}

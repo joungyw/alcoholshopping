@@ -2,6 +2,7 @@ package com.three.alcoholshoppingmall.project.review;
 
 
 import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
+import com.three.alcoholshoppingmall.project.alcohol.AlcoholDto;
 import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -27,7 +28,7 @@ public class ReviewController {
 
     @GetMapping("/list")
     @Operation(summary = "내 리뷰 목록",
-            description = "해당 회원이 작성한 리뷰들을 보여 주는 기능입니다." +
+            description = "해당 회원이 작성한 리뷰들을 보여 주는 기능입니다.<br>" +
                     "입력 하실 값은 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Reviewshow>> ReviewList(ReviewDTO reviewDTO) {
@@ -43,9 +44,9 @@ public class ReviewController {
     @PostMapping("")
     @Operation(summary = "내 리뷰 등록 이미 있는경우 수정",
             description = "해당 술에 리뷰를 남기는 기능으로 이미 해당 술에 리뷰를 남긴경우 글과 평점 사진을 수정 하는 기능입니다." +
-                    "alcohol에 술의 고유 코드의 입력이 필요 합니다." +
-                    "코드는 1~50까지 있습니다." +
-                    "writing 는 리뷰 글, grade는 평점으로 0~10까지만 입력이 가능합니다." +
+                    "alcohol에 술의 고유 코드의 입력이 필요 합니다.<br>" +
+                    "코드는 1~50까지 있습니다.<br>" +
+                    "writing 는 리뷰 글, grade는 평점으로 0~10까지만 입력이 가능합니다.<br>" +
                     "picture는 사진으로 사진의 경로가 저장 되며 null로 보내는것도 가능 합니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Reviewshow>> Review(@RequestBody ReviewDTO reviewDTO) {
@@ -60,8 +61,8 @@ public class ReviewController {
 
     @DeleteMapping("")
     @Operation(summary = "내 리뷰 삭제",
-            description = "해당 술에 리뷰를 지우는 기능 입니다." +
-                    "alcohol에 술의 고유 코드의 입력이 필요 합니다." +
+            description = "해당 술에 리뷰를 지우는 기능 입니다.<br>" +
+                    "alcohol에 술의 고유 코드의 입력이 필요 합니다.<br>" +
                     "코드는 1~50까지 있습니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Review>> ReviewDelete(@RequestBody ReviewDTO reviewDTO) {
@@ -74,10 +75,9 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-
     @GetMapping("/check")
     @Operation(summary = "리뷰 가능한 제품 확인",
-            description = "리뷰 작성이 가능한 제품을 확이하는 기능 입니다." +
+            description = "리뷰 작성이 가능한 제품을 확이하는 기능 입니다.<br>" +
                     "입력 값은 필요 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<ReviewCheck>> Cherk() {
@@ -88,4 +88,14 @@ public class ReviewController {
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
+    @PostMapping("/alcohol")
+    @Operation(summary = "해당 제품의 모든 리뷰",
+            description = "해당 제품의 모든 리뷰가 보입니다.<br>" +
+                    "입력 값은 필요 없습니다.")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<List<Reviewshow>> Alcohol(@RequestBody AlcoholDto alcoholDto) {
+        List<Reviewshow> list = reviewServicce.AlcoholReview(alcoholDto.getCode());
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
 }

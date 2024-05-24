@@ -28,6 +28,9 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review> deleteByUser_EmailAndAlcohol_Code(String email, Long code);
 
+    List<Review>findByAlcohol_Code(Long code);
+
+
 
 
 }
