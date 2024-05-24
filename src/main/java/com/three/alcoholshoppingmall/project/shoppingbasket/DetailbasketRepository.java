@@ -14,8 +14,13 @@ import java.util.Optional;
 public interface DetailbasketRepository extends JpaRepository<Detailbasket, Long> {
     @Query(value = "SELECT a.* FROM detailbasket a\n" +
             "JOIN shoppingbasket b ON a.shoppingnumber = b.shoppingnumber\n" +
-            "WHERE b.email = :email", nativeQuery = true)
-    List<Detailbasket> baskets(String email);
+            "WHERE b.email = :email AND a.delivery = :delivery", nativeQuery = true)
+    List<Detailbasket> baskets(String email, String delivery);
+
+    @Query(value = "SELECT a.delivery FROM detailbasket a\n" +
+            "JOIN shoppingbasket b ON a.stocknumber = b.shoppingnumber\n" +
+            "WHERE b.email = :email AND a.stocknumber = :stock", nativeQuery = true)
+    Delivery TYPE(String email, Long stock);
 
     @Query(value = "SELECT a.* from detailbasket a\n" +
             "JOIN shoppingbasket b ON a.shoppingnumber = b.shoppingnumber\n" +
@@ -23,36 +28,28 @@ public interface DetailbasketRepository extends JpaRepository<Detailbasket, Long
             "WHERE c.email =  :email\n" +
             "AND a.stocknumber = :stock", nativeQuery = true)
     Optional<Detailbasket> basket(String email, Long stock);
-    @Query(value = "SELECT a.* FROM detailbasket a\n" +
-            "JOIN shoppingbasket b ON a.shoppingnumber = b.shoppingnumber\n" +
-            "WHERE b.email = :email", nativeQuery = true)
-    List<Detailbasket> Detailbasket(String email);
 
     @Query(value = "SELECT a.name FROM alcohol a\n" +
             "JOIN stock b ON a.code = b.code\n" +
             "JOIN detailbasket c ON c.stocknumber = b.stocknumber\n" +
             "JOIN shoppingbasket d ON c.shoppingnumber = d.shoppingnumber\n" +
-            "WHERE d.email = :email", nativeQuery = true)
-    List<String> alcohol(String email);
+            "WHERE d.email = :email AND c.delivery = :delivery", nativeQuery = true)
+    List<String> alcohol(String email, String delivery);
 
     @Query(value = "SELECT a.marketname FROM market a\n" +
             "JOIN stock b ON a.marketcode = b.marketcode\n" +
             "JOIN detailbasket c ON c.stocknumber = b.stocknumber\n" +
             "JOIN shoppingbasket d ON c.shoppingnumber = d.shoppingnumber\n" +
-            "WHERE d.email = :email\n", nativeQuery = true)
-    List<String> market(String email);
+            "WHERE d.email = :email AND c.delivery = :delivery", nativeQuery = true)
+    List<String> market(String email, String delivery);
+
 
     @Query(value = "SELECT a.picture FROM alcohol a\n" +
             "JOIN stock b on  a.code = b.code\n" +
             "JOIN detailbasket c ON c.stocknumber = b.stocknumber\n" +
             "JOIN shoppingbasket d ON c.shoppingnumber = d.shoppingnumber\n" +
-            "WHERE d.email = :email", nativeQuery = true)
-    List<String> Picture(String email);
-
-    //장바구니의 물품 번호 추출
-    @Query(value = "SELECT stocknumber FROM detailbasket WHERE stocknumber = :stocknumber", nativeQuery = true)
-    Long numbercheck(Long stocknumber);
-
+            "WHERE d.email = :email AND c.delivery = :delivery", nativeQuery = true)
+    List<String> Picture(String email, String delivery);
 
     @Query(value = "SELECT a.amount FROM detailbasket a\n" +
             "JOIN shoppingbasket b ON  a.shoppingnumber = b.shoppingnumber \n" +
@@ -78,5 +75,61 @@ public interface DetailbasketRepository extends JpaRepository<Detailbasket, Long
     @Query(value = "SELECT b.delivery FROM stock a\n" +
             "JOIN market b ON a.marketcode = b.marketcode\n" +
             "WHERE a.stocknumber = :stock",nativeQuery = true)
-    Delivery delivery(Long stock);
+    Delivery type(Long stock);
+
+
+    @Query(value = "SELECT a.* FROM detailbasket a\n" +
+            "JOIN shoppingbasket b ON a.shoppingnumber = b.shoppingnumber\n" +
+            "WHERE b.email = :email AND a.delivery = 'Delivery'", nativeQuery = true)
+    List<Detailbasket> DetailbasketDelivery(String email);
+
+    @Query(value = "SELECT a.name FROM alcohol a\n" +
+            "JOIN stock b ON a.code = b.code\n" +
+            "JOIN detailbasket c ON c.stocknumber = b.stocknumber\n" +
+            "JOIN shoppingbasket d ON c.shoppingnumber = d.shoppingnumber\n" +
+            "WHERE d.email = :email AND c.delivery = 'Delivery'", nativeQuery = true)
+    List<String> alcoholDelivery(String email);
+
+    @Query(value = "SELECT a.marketname FROM market a\n" +
+            "JOIN stock b ON a.marketcode = b.marketcode\n" +
+            "JOIN detailbasket c ON c.stocknumber = b.stocknumber\n" +
+            "JOIN shoppingbasket d ON c.shoppingnumber = d.shoppingnumber\n" +
+            "WHERE d.email = :email AND c.delivery = 'Delivery'", nativeQuery = true)
+    List<String> marketDelivery(String email);
+
+    @Query(value = "SELECT a.picture FROM alcohol a\n" +
+            "JOIN stock b on  a.code = b.code\n" +
+            "JOIN detailbasket c ON c.stocknumber = b.stocknumber\n" +
+            "JOIN shoppingbasket d ON c.shoppingnumber = d.shoppingnumber\n" +
+            "WHERE d.email = :email AND c.delivery = 'Delivery'", nativeQuery = true)
+    List<String> PictureDelivery(String email);
+
+    @Query(value = "SELECT a.* FROM detailbasket a\n" +
+            "JOIN shoppingbasket b ON a.shoppingnumber = b.shoppingnumber\n" +
+            "WHERE b.email = :email AND a.delivery = 'PickUp'", nativeQuery = true)
+    List<Detailbasket> DetailbasketPickUp(String email);
+
+    @Query(value = "SELECT a.name FROM alcohol a\n" +
+            "JOIN stock b ON a.code = b.code\n" +
+            "JOIN detailbasket c ON c.stocknumber = b.stocknumber\n" +
+            "JOIN shoppingbasket d ON c.shoppingnumber = d.shoppingnumber\n" +
+            "WHERE d.email = :email AND c.delivery = 'PickUp'", nativeQuery = true)
+    List<String> alcoholPickUp(String email);
+
+    @Query(value = "SELECT a.marketname FROM market a\n" +
+            "JOIN stock b ON a.marketcode = b.marketcode\n" +
+            "JOIN detailbasket c ON c.stocknumber = b.stocknumber\n" +
+            "JOIN shoppingbasket d ON c.shoppingnumber = d.shoppingnumber\n" +
+            "WHERE d.email = :email AND c.delivery = 'PickUp'", nativeQuery = true)
+    List<String> marketPickUp(String email);
+
+
+    @Query(value = "SELECT a.picture FROM alcohol a\n" +
+            "JOIN stock b on  a.code = b.code\n" +
+            "JOIN detailbasket c ON c.stocknumber = b.stocknumber\n" +
+            "JOIN shoppingbasket d ON c.shoppingnumber = d.shoppingnumber\n" +
+            "WHERE d.email = :email AND c.delivery = 'PickUp'", nativeQuery = true)
+    List<String> PicturePickUp(String email);
+
+
 }
