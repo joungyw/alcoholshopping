@@ -1,6 +1,5 @@
 package com.three.alcoholshoppingmall.project.user;
 
-import com.three.alcoholshoppingmall.project.alcohol.MainListDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static net.sf.jsqlparser.parser.feature.Feature.update;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
@@ -26,22 +23,14 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/info")
-    @Operation(summary = "유저 정보",
-            description = "토큰으로 유저 정보 주는 함수입니다.")
+    @Operation(summary = "회원 정보",
+            description = "로그인한 회원정보를 조회하는 기능입니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<UserInfo> userInfo(@AuthenticationPrincipal User user) {
-
-        UserInfo info = UserInfo.builder()
-                .nickname(user.getNickname())
-                .phone(user.getPhone())
-                .email(user.getEmail())
-                .address(user.getAddress())
-                .address2(user.getAddress2())
-                .build();
-
-        System.out.println(info);
-        return ResponseEntity.status(HttpStatus.OK).body(info);
-
+    public ResponseEntity<List<User>> userInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        List<User> list = userService.userInfo(user.getEmail());
+        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
 

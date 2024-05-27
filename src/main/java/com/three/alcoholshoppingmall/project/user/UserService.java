@@ -1,12 +1,12 @@
 package com.three.alcoholshoppingmall.project.user;
 
 import com.three.alcoholshoppingmall.project.exception.BizException;
-import com.three.alcoholshoppingmall.project.login.LoginRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.three.alcoholshoppingmall.project.exception.ErrorCode.*;
 
@@ -52,6 +52,26 @@ public class UserService {
         return "회원정보가 수정되었습니다";
     }
 
+    public List<User> userInfo(String email) {
+        User dbUser = userRepository.findByEmail(email);
+        if (dbUser == null) {
+            throw new BizException(NOTFOUNDUSER);
+        } else {
+            List<User> list = new ArrayList<>();
+            User user = User.builder()
+                    .email(dbUser.getEmail())
+                    .nickname(dbUser.getNickname())
+                    .phone(dbUser.getPhone())
+                    .address(dbUser.getAddress())
+                    .address2(dbUser.getAddress2())
+                    .build();
+            list.add(user);
+
+            return list;
+        }
+    }
+}
+
 //    public String updatePw(String email, PwUpdate pwUpdate) {
 //        User dbUser = userRepository.findByEmailAndPassword(email, pwUpdate);
 //        if (dbUser == null) {
@@ -68,5 +88,5 @@ public class UserService {
 //        }
 //        return "비밀번호 변경을 완료했습니다.";
 //    }
-}
+
 

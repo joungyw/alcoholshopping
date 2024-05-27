@@ -1,5 +1,6 @@
 package com.three.alcoholshoppingmall.project.conf;
 
+import com.three.alcoholshoppingmall.project.exception.BizException;
 import com.three.alcoholshoppingmall.project.login.token.TokenManager;
 import com.three.alcoholshoppingmall.project.user.Gender;
 import com.three.alcoholshoppingmall.project.user.User;
@@ -18,6 +19,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.util.List;
 import java.util.stream.Stream;
+
+import static com.three.alcoholshoppingmall.project.exception.ErrorCode.*;
 
 @Component
 @RequiredArgsConstructor
@@ -52,7 +55,7 @@ public class JWTInterceptor implements HandlerInterceptor {
 
         if (token == null || !token.contains("Bearer ")) {
             System.out.println("토큰 없음");
-            throw new RuntimeException("로그인을 재실행해서 토큰을 발급 받아주세요.");
+            throw new BizException(NULLTOKEN);
 //            return false;
         }
         try {
@@ -82,10 +85,10 @@ public class JWTInterceptor implements HandlerInterceptor {
 
         } catch (ExpiredJwtException e) {
             System.out.println("토큰 만료");
-            throw new RuntimeException("JWT 토큰 만료, 로그인을 재실행해서 토큰을 재발급 받아주세요.");
+            throw new BizException(JWTTOKENEXPIRTATION);
         } catch (Exception e) {
             System.out.println("토큰 검증 실패");
-            throw new RuntimeException("JWT 토큰 검증 실패");
+            throw new BizException(TOKENFAIL);
         }
 
         return true;

@@ -10,10 +10,10 @@ public enum ErrorCode {
     //회원정보 수정, 탈퇴 에러코드
     NOTFOUNDUSER(HttpStatus.NOT_FOUND, "NOTFOUNDUSER", "해당 유저를 찾을 수 없습니다."),
     // 검색 에러코드
-    NULLSEARCH(HttpStatus.NOT_FOUND, "NULLSEARCH","검색기록은 공백일 수 없습니다."),
+    NULLSEARCH(HttpStatus.BAD_REQUEST, "NULLSEARCH","검색기록은 공백일 수 없습니다."),
     SEARCHCLENGTH(HttpStatus.BAD_REQUEST, "SEARCHLENGTH", "검색 기록은 두 글자 이상 입력해야합니다."),
-    NULLRECENT(HttpStatus.NOT_FOUND,"NULLRECENT", "최근 검색기록이 존재하지 않습니다."),
-    NULLCATEGORY(HttpStatus.NOT_FOUND, "NULLCATEGORY", "해당 카테고리가 존재하지 않습니다."),
+    NULLRECENT(HttpStatus.BAD_REQUEST,"NULLRECENT", "최근 검색기록이 존재하지 않습니다."),
+    NULLCATEGORY(HttpStatus.BAD_REQUEST, "NULLCATEGORY", "해당 카테고리가 존재하지 않습니다."),
     NOTFOUNDALCOHOL(HttpStatus.NOT_FOUND, "NOTFOUNDALCOHOL", "해당 이름의 주류를 찾을 수 없습니다."),
 
     // 회원가입 에러 코드
@@ -33,7 +33,7 @@ public enum ErrorCode {
     CHECKPASSWORD(HttpStatus.NOT_FOUND,"CHECKPASSWORD","입력한 비밀번호가 다릅니다."),
 
     // 로그인 에러 코드
-    CHECKEMAILPASSWORD(HttpStatus.NOT_FOUND,"CHECKEMAILPASSWORD","이메일과 비밀번호를 확인해 주세요."),
+    CHECKEMAILPASSWORD(HttpStatus.BAD_REQUEST,"CHECKEMAILPASSWORD","이메일과 비밀번호를 확인해 주세요."),
 
     //해당 정보를 가진 장바구니가 없을떄
     NOTFOUNDSHPPING(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 내용은 장바구니에 없습니다."),
@@ -53,7 +53,13 @@ public enum ErrorCode {
     ERRORTYPE(HttpStatus.BAD_REQUEST,"EMAILDUPL","유효하지 않은 정렬 태그입니다."),
 
     // 비밀번호 수정시 에러코드
-    SAMEPASSWORD(HttpStatus.BAD_REQUEST, "SAMEPASSWORD", "기존 비밀번호와 수정할 비밀번호가 동일합니다.");
+    SAMEPASSWORD(HttpStatus.BAD_REQUEST, "SAMEPASSWORD", "기존 비밀번호와 수정할 비밀번호가 동일합니다."),
+
+    // 토큰 에러코드
+
+    NULLTOKEN(HttpStatus.BAD_REQUEST, "NULLTOKEN", "로그인을 재실행해서 토큰을 발급 받아주세요."),
+    JWTTOKENEXPIRTATION(HttpStatus.BAD_REQUEST, "JWTTOKENEXPIRATION", "JWT 토큰 만료, 로그인을 재실행해서 토큰을 재발급 받아주세요."),
+    TOKENFAIL(HttpStatus.BAD_REQUEST, "TOKENFAIL", "JWT 토큰 검증 실패");
 
 
 
