@@ -1,11 +1,13 @@
-FROM bellsoft/liberica-openjdk-alpine:17
+FROM openjdk:17-jdk-slim AS build
 
-CMD ["./mvnw", "clean", "compile", "package"]
+COPY pom.xml mvnw ./
+COPY .mvn .mvn
+RUN ./mvnw dependency:resolve
 
-ARG JAR_FILE_PATH=target/*.jar
+COPY src src
+RUN ./mvnw package
 
-COPY ${JAR_FILE_PATH} app.jar
-
-EXPOSE 8080
-
-ENTRYPOINT ["java","-jar","-DSpring.profiles.active=dev","/app.jar"]
+FROM openjdk:17-jdk-slim
+WORKDIR demo
+COPY --from=build target/*.jar demo.jar
+ENTRYPOINT ["java", "-jar", "demo.jar"]pp.jar"]
