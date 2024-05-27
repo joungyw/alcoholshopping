@@ -65,12 +65,12 @@ public class ReviewController {
                     "alcohol에 술의 고유 코드의 입력이 필요 합니다.<br>" +
                     "코드는 1~50까지 있습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Review>> ReviewDelete(@RequestBody ReviewDTO reviewDTO) {
+    public ResponseEntity<String> ReviewDelete(@RequestBody ReviewDelete reviewDelete) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        reviewDTO.setUser(user);
-        List<Review> list = reviewServicce.ReviewDelete(reviewDTO);
+
+        String list = reviewServicce.ReviewDelete(user, reviewDelete);
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
