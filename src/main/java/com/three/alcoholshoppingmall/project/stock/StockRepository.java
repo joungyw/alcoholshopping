@@ -10,10 +10,6 @@ import java.util.Optional;
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
 
-
-    Optional<Stock> findByAlcohol_CodeAndMarket_Marketcode(Long code, Long marketcode);
-
-
     Stock findByStocknumber(Long stock);
 
 
