@@ -35,7 +35,8 @@ public class UserController {
                 .nickname(user.getNickname())
                 .phone(user.getPhone())
                 .email(user.getEmail())
-                .address(user.getAddress() + " " + user.getAddress2())
+                .address(user.getAddress())
+                .address2(user.getAddress2())
                 .build();
 
         System.out.println(info);
