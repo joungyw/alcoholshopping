@@ -70,11 +70,11 @@ public interface DetailbasketRepository extends JpaRepository<Detailbasket, Long
     @Query(value = "SELECT COUNT(a.stocknumber) FROM detailbasket a " +
             "JOIN shoppingbasket b ON a.shoppingnumber = b.shoppingnumber " +
             "WHERE b.email = :email", nativeQuery = true)
-    Optional<Integer>  basketcheck(String email);
+    Optional<Integer> basketcheck(String email);
 
     @Query(value = "SELECT b.delivery FROM stock a\n" +
             "JOIN market b ON a.marketcode = b.marketcode\n" +
-            "WHERE a.stocknumber = :stock",nativeQuery = true)
+            "WHERE a.stocknumber = :stock", nativeQuery = true)
     Delivery type(Long stock);
 
 
@@ -132,4 +132,8 @@ public interface DetailbasketRepository extends JpaRepository<Detailbasket, Long
     List<String> PicturePickUp(String email);
 
 
+    @Query(value = "SELECT a.stocknumber from stock a\n" +
+            "JOIN market b ON a.marketcode = b.marketcode\n" +
+            "WHERE a.code = :code AND b.marketname = :marketname",nativeQuery = true)
+    Optional<Long> stocknumber(Long code, String marketname);
 }
