@@ -95,13 +95,13 @@ public class LoginService {
         return list;
     }
 
-    public String findEmail(String phone, String birthdate) { // 이메일 찾기
-        return loginRepository.findByPhoneAndBirthdate(phone, birthdate);
-    }
-
-    public String findPassword(String email, String phone) { //비밀번호 찾기
-        return loginRepository.findByEmailAndPhone(email, phone);
-    }
+//    public String findEmail(String phone, String birthdate) { // 이메일 찾기
+//        return loginRepository.findByPhoneAndBirthdate(phone, birthdate);
+//    }
+//
+//    public String findPassword(String email, String phone) { //비밀번호 찾기
+//        return loginRepository.findByEmailAndPhone(email, phone);
+//    }
 
     public String sendAuthNum(String email) {
 

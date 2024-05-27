@@ -45,6 +45,7 @@ public class UserController {
 
 
     @PutMapping("updateUser")// 회원정보 수정
+    @Operation(summary = "회원정보 수정", description = "회원정보를 수정하는 코드입니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<String> updateUser(@Valid @RequestBody UserUpdate userUpdate) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
