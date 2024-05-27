@@ -5,12 +5,10 @@ import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
 import com.three.alcoholshoppingmall.project.exception.BizException;
 import com.three.alcoholshoppingmall.project.exception.ErrorCode;
-import com.three.alcoholshoppingmall.project.favorites.Favoritesalcohol;
 import com.three.alcoholshoppingmall.project.market.Market;
 import com.three.alcoholshoppingmall.project.market.MarketRepository;
 import com.three.alcoholshoppingmall.project.purchase.Purchase;
 import com.three.alcoholshoppingmall.project.purchase.PurchaseRepository;
-import com.three.alcoholshoppingmall.project.stock.StockRepository;
 import com.three.alcoholshoppingmall.project.user.User;
 import com.three.alcoholshoppingmall.project.user.UserRepository;
 import jakarta.transaction.Transactional;
@@ -107,14 +105,16 @@ public class ReviewService {
 
 
     @Transactional
-    public List<Review> ReviewDelete(ReviewDTO reviewDTO) {
-        Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getCode());
+    public String ReviewDelete(User user, ReviewDelete reviewDelete) {
+        Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(user.getEmail(), reviewDelete.getAlcoholcode());
+        String Review;
         if (check.isPresent()) {
-            reviewRepository.deleteByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getCode());
+            reviewRepository.deleteByUser_EmailAndAlcohol_Code(user.getEmail(), reviewDelete.getAlcoholcode());
+            Review = "리뷰가 삭제 되었습니다.";
         } else {
             throw new BizException(ErrorCode.NOTFOUNDREVIEW);
         }
-        return null;
+        return Review;
     }
 
 
