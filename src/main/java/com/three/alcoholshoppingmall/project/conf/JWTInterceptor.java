@@ -52,7 +52,8 @@ public class JWTInterceptor implements HandlerInterceptor {
 
         if (token == null || !token.contains("Bearer ")) {
             System.out.println("토큰 없음");
-            return false;
+            throw new RuntimeException("로그인을 재실행해서 토큰을 발급 받아주세요.");
+//            return false;
         }
         try {
             Jws<Claims> jws = tokenManager.validateToken(token.substring("Bearer ".length()).trim());
@@ -81,7 +82,7 @@ public class JWTInterceptor implements HandlerInterceptor {
 
         } catch (ExpiredJwtException e) {
             System.out.println("토큰 만료");
-            throw new RuntimeException("JWT 토큰 만료");
+            throw new RuntimeException("JWT 토큰 만료, 로그인을 재실행해서 토큰을 재발급 받아주세요.");
         } catch (Exception e) {
             System.out.println("토큰 검증 실패");
             throw new RuntimeException("JWT 토큰 검증 실패");
