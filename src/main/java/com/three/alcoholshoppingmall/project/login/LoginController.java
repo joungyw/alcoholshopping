@@ -27,7 +27,8 @@ public class LoginController {
     private final BCryptPasswordEncoder encoder;
 
     @PostMapping
-    @Operation(summary = "로그인", description = "유저 토큰 발급")
+    @Operation(summary = "로그인", description = "유저 토큰 발급, email: aaa@naver.com,<br> " +
+            "password: a123456!")
     public ResponseEntity<String> loginUser(@RequestBody Login login) {
         User dbuser = loginRepository.findByEmail(login.getEmail());
 
