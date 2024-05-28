@@ -64,6 +64,8 @@ public class UserService {
                     .phone(dbUser.getPhone())
                     .address(dbUser.getAddress())
                     .address2(dbUser.getAddress2())
+                    .gender(dbUser.getGender())
+                    .birthdate(dbUser.getBirthdate())
                     .build();
             list.add(user);
 
