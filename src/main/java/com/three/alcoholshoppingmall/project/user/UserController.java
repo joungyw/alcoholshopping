@@ -26,11 +26,12 @@ public class UserController {
     @Operation(summary = "회원 정보",
             description = "로그인한 회원정보를 조회하는 기능입니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<User>> userInfo() {
+    public ResponseEntity<User> userInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        List<User> list = userService.userInfo(user.getEmail());
-        return ResponseEntity.status(HttpStatus.OK).body(list);
+        String email = user.getEmail();
+        User userInfo = userService.userInfo(email);
+        return ResponseEntity.status(HttpStatus.OK).body(userInfo);
     }
 
 

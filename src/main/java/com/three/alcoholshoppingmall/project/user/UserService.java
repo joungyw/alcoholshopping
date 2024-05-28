@@ -5,9 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.three.alcoholshoppingmall.project.exception.ErrorCode.*;
 
 @Service
@@ -52,12 +49,11 @@ public class UserService {
         return "회원정보가 수정되었습니다";
     }
 
-    public List<User> userInfo(String email) {
+    public User userInfo(String email) {
         User dbUser = userRepository.findByEmail(email);
         if (dbUser == null) {
             throw new BizException(NOTFOUNDUSER);
         } else {
-            List<User> list = new ArrayList<>();
             User user = User.builder()
                     .email(dbUser.getEmail())
                     .nickname(dbUser.getNickname())
@@ -67,9 +63,7 @@ public class UserService {
                     .gender(dbUser.getGender())
                     .birthdate(dbUser.getBirthdate())
                     .build();
-            list.add(user);
-
-            return list;
+            return user;
         }
     }
 }
