@@ -2,8 +2,7 @@ package com.three.alcoholshoppingmall.project.shoppingbasket;
 
 
 import com.three.alcoholshoppingmall.project.purchase.Delivery;
-import com.three.alcoholshoppingmall.project.stock.StockDTO;
-import com.three.alcoholshoppingmall.project.stock.StockNumber;
+import com.three.alcoholshoppingmall.project.stock.StockCode;
 import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -58,9 +57,10 @@ public class ShoppingbasketController {
     @PostMapping("")
     @Operation(summary = "장바구니 넣기",
             description = "해당 재품을 회원의 장바구니에 추가하는 기능 입니다. <br>" +
-                    "stock에 입력이 필요 합니다. <br>" +
-                    "stock은  매장의 코드와 술의 코드가 합쳐진것으로 1~150까지 있습니다. <br>" +
-                    "amount 물건의 수량의 입력이 필요 합니다.")
+                    "alcoholcode의 입력이 필요 합니다 alcoholcode은 술의 고유코드입니다. <br>" +
+                    "marketname의 입략이 필요합니다. marketname은 매장의 이름입니다. <br>" +
+                    "amount 물건의 수량의 입력이 필요 합니다. <br>" +
+                    "delivery는 물건을 받는 법 입니다 PickUp,Delivery의 입력이 필요합니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Shopping>> Shopping(@RequestBody DetailbasketDTO detailbasketDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -72,13 +72,13 @@ public class ShoppingbasketController {
     @DeleteMapping("")
     @Operation(summary = "장바구니 빼기",
             description = "해당 재품을 회원의 장바구니에서 뺴는 기능입니다. <br>" +
-                    "stock에 입력이 필요 합니다.<br>" +
-                    "stock은  매장의 코드와 술의 코드가 합쳐진것으로 1~150까지 있습니다.")
+                    "alcoholcode의 입력이 필요 합니다 alcoholcode은 술의 고유코드입니다. <br>" +
+                    "marketname의 입략이 필요합니다. marketname은 매장의 이름입니다." )
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<ResponseEntity<String>> DeleteShopping(@RequestBody StockNumber stockNumber) {
+    public ResponseEntity<ResponseEntity<String>> DeleteShopping(@RequestBody StockCode stockCode) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        ResponseEntity<String> list = shoppingbasketService.Delete(user, stockNumber);
+        ResponseEntity<String> list = shoppingbasketService.Delete(user, stockCode);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -102,10 +102,11 @@ public class ShoppingbasketController {
 
     @PutMapping("")
     @Operation(summary = "장바구니 수정",
-            description = "회원의 장바구니에서 선택한 제품의 수량을 수정하는 기능입니다." +
-                    "stock에 입력이 필요 합니다." +
-                    "stock은  매장의 코드와 술의 코드가 합쳐진것으로 1~150까지 있습니다." +
-                    "amount 물건의 수량의 입력이 필요 합니다.")
+            description = "회원의 장바구니에서 선택한 제품의 수량을 수정하는 기능입니다.<br>" +
+                    "alcoholcode의 입력이 필요 합니다 alcoholcode은 술의 고유코드입니다. <br>" +
+                    "marketname의 입략이 필요합니다. marketname은 매장의 이름입니다. <br>" +
+                    "amount 물건의 수량의 입력이 필요 합니다. <br>" +
+                    "delivery는 물건을 받는 법 입니다 PickUp,Delivery의 입력이 필요합니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Shopping>> PutShopping(@RequestBody DetailbasketDTO detailbasketDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -113,20 +114,5 @@ public class ShoppingbasketController {
         List<Shopping> list = shoppingbasketService.Put(user, detailbasketDTO);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
-
-    @PostMapping("/stock")
-    @Operation(summary = "스텍 넘버 확인",
-            description = "해당 술과 매장의 코드를 보내면 스텍를 반환하여 줍니다. <br>" +
-            "술의 고유의 코드와 매장 고유의 코드를 입력 받으면 장바구니에 사용되는 스텍을 반환하여 줍니다. <br>" +
-            "alcohol은 술의 고유 코드는 1~50까지 있습니다. <br>" +
-            "market은 매장의 고유 코드로 1~5까지 있습니다.")
-    @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<StockNumber>> StockCheck(@RequestBody StockDTO stockDTO) {
-        List<StockNumber> list = shoppingbasketService.Stock(stockDTO);
-        return ResponseEntity.status(HttpStatus.OK).body(list);
-    }
-
-
-
 
 }

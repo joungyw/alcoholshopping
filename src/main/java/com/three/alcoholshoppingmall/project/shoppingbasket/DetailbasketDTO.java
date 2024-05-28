@@ -22,7 +22,10 @@ public class DetailbasketDTO {
     @JsonIgnore
     private Long shoppingbasket;
 
-    private Long stock;
+    private Long alcoholcode;
+
+    private String marketname;
+
 
     private int amount;
 

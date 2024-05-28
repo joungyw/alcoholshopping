@@ -11,8 +11,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StockNumber {
+public class StockCode {
 
-    private Long stock;
+    private Long alcoholcode;
+
+    private String marketname;
 
 }
