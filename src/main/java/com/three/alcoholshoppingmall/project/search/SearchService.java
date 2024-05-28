@@ -61,7 +61,7 @@ public class SearchService {
     public List<Search> recentSearch(String email) {
         User dbUser = userRepository.findByEmail(email);
         List<Search> list = searchRepository
-                .findAllByUserOrderByIdDesc(dbUser, PageRequest.of(0, 3));
+                .findAllByUserOrderByIdDesc(dbUser, PageRequest.of(0, 5));
         if (list.isEmpty()) {
             throw new BizException(NULLRECENT);
         } else {

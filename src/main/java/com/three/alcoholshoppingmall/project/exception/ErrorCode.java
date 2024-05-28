@@ -54,12 +54,13 @@ public enum ErrorCode {
 
     // 비밀번호 수정시 에러코드
     SAMEPASSWORD(HttpStatus.BAD_REQUEST, "SAMEPASSWORD", "기존 비밀번호와 수정할 비밀번호가 동일합니다."),
+    DIFFERPASSWORD(HttpStatus.BAD_REQUEST, "DIFFERPASSWORD","비밀번호가 일치하지 않습니다."),
 
     // 토큰 에러코드
 
-    NULLTOKEN(HttpStatus.BAD_REQUEST, "NULLTOKEN", "로그인을 재실행해서 토큰을 발급 받아주세요."),
-    JWTTOKENEXPIRTATION(HttpStatus.BAD_REQUEST, "JWTTOKENEXPIRATION", "JWT 토큰 만료, 로그인을 재실행해서 토큰을 재발급 받아주세요."),
-    TOKENFAIL(HttpStatus.BAD_REQUEST, "TOKENFAIL", "JWT 토큰 검증 실패");
+    NULLTOKEN(HttpStatus.BAD_REQUEST, "NULLTOKEN", "토큰 없음, 로그인을 재실행해서 토큰을 발급 받아주세요."),
+    JWTTOKENEXPIRTATION(HttpStatus.BAD_REQUEST, "JWTTOKENEXPIRATION", "토큰 만료, 로그인을 재실행해서 토큰을 재발급 받아주세요."),
+    TOKENFAIL(HttpStatus.BAD_REQUEST, "TOKENFAIL", "토큰 검증 실패");
 
 
 

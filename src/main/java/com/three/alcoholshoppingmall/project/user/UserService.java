@@ -3,6 +3,7 @@ package com.three.alcoholshoppingmall.project.user;
 import com.three.alcoholshoppingmall.project.exception.BizException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import static com.three.alcoholshoppingmall.project.exception.ErrorCode.*;
@@ -11,7 +12,7 @@ import static com.three.alcoholshoppingmall.project.exception.ErrorCode.*;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder encoder;
+    private final PasswordEncoder encoder;
 
 //    public User withdrawUser(String email) { // 회원 정보 탈퇴 코드
 //        User dbUser = userRepository.findMyCustom(email);
@@ -66,23 +67,28 @@ public class UserService {
             return user;
         }
     }
+
+
+    public String updatePw(String email, PwUpdate pwUpdate) {
+        System.out.println(pwUpdate);
+        User dbUser = userRepository.findByEmail(email);
+        System.out.println(dbUser);
+        if (dbUser == null) {
+            throw new BizException(NOTFOUNDUSER);
+        } else if (!encoder.matches(pwUpdate.getPassword(), dbUser.getPassword())) {
+            throw new BizException(DIFFERPASSWORD);
+        } else if (!pwUpdate.getNewPassword().equals(pwUpdate.getPasswordch())) {
+            throw new BizException(CHECKPASSWORD);
+        } else if (pwUpdate.getPassword().equals(pwUpdate.getNewPassword())) {
+            throw new BizException(SAMEPASSWORD);
+        }
+        else {
+            dbUser.setPassword(encoder.encode(pwUpdate.getPassword()));
+            pwUpdate.setNewPassword(encoder.encode(pwUpdate.getNewPassword()));
+            pwUpdate.setPasswordch(encoder.encode(pwUpdate.getPasswordch()));
+            userRepository.save(dbUser);
+        }
+
+        return "비밀번호 수정이 완료되었습니다.";
+    }
 }
-
-//    public String updatePw(String email, PwUpdate pwUpdate) {
-//        User dbUser = userRepository.findByEmailAndPassword(email, pwUpdate);
-//        if (dbUser == null) {
-//            throw new BizException(NOTFOUNDUSER);
-//        } else if (dbUser.getPassword() == pwUpdate.getNewPassword()) {
-//            throw new BizException(SAMEPASSWORD);
-//        } else if (pwUpdate.getNewPassword() != pwUpdate.getPasswordch()) {
-//            throw new BizException(CHECKPASSWORD);
-//        } else {
-//            dbUser.setPassword(encoder.encode(pwUpdate.getPassword()));
-//            pwUpdate.setNewPassword(encoder.encode(pwUpdate.getNewPassword()));
-//            pwUpdate.setPasswordch(encoder.encode(pwUpdate.getPasswordch()));
-//            userRepository.save(dbUser);
-//        }
-//        return "비밀번호 변경을 완료했습니다.";
-//    }
-
-

@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,14 +51,15 @@ public class UserController {
 //        userService.withdrawUser(email);
 //        return ResponseEntity.status(HttpStatus.OK).body("회원 탈퇴가 완료되었습니다.");
 //    }
-//    @PostMapping("updatePw")// 비밀번호 수정
-//    @SecurityRequirement(name = "bearerAuth")
-//    public ResponseEntity<String> updatePw(@Valid @RequestBody PwUpdate pwUpdate){
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        User user = (User) authentication.getPrincipal();
-//        String email = user.getEmail();
-//        String returnvalue = userService.updatePw(email, pwUpdate);
-//        return ResponseEntity.status(HttpStatus.OK).body(returnvalue);
-//    }
+    @PostMapping("updatePw")
+    @Operation(summary = "비밀번호 수정", description = "비밀번호를 수정하는 코드입니다.")// 비밀번호 수정
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<String> updatePw(@Valid @RequestBody PwUpdate pwUpdate){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        String email = user.getEmail();
+        String updatePw = userService.updatePw(email, pwUpdate);
 
+        return ResponseEntity.status(HttpStatus.OK).body(updatePw);
+    }
 }
