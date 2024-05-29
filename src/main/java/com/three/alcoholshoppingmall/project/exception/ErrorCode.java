@@ -43,6 +43,8 @@ public enum ErrorCode {
 
     //즐겨 찾기 삭제시 없는 내용인경우
     NOTFOUNDFAVORITES(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 내용은 즐겨 찾기 목록에 없습니다."),
+    //즐겨 찾기 삭제시 없는 내용인경우
+    DELETEFAVORITES(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 술을 즐겨 찾기 목록에서 삭제하였습니다."),
 
     //리뷰 삭제시 없는 내용인경우
     NOTFOUNDREVIEW(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 내용의 리뷰는 존재하지 않습니다."),

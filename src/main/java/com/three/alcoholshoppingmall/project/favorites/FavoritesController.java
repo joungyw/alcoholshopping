@@ -47,12 +47,12 @@ private final FavoritesService favoritesService;
                     "code에 술의 고유 코드의 입력이 필요 합니다." +
                     "code는 1~50까지 있습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Favoritesalcohol>> Favorites(@RequestBody AlcoholDto alcoholDto) {
+    public ResponseEntity<Favoritesalcohol> Favorites(@RequestBody AlcoholDto alcoholDto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
 
-        List<Favoritesalcohol> list = favoritesService.Favorites(alcoholDto.getCode(), user.getEmail());
+        Favoritesalcohol list = favoritesService.Favorites(alcoholDto.getCode(), user.getEmail());
 
         return  ResponseEntity.status(HttpStatus.OK).body(list);
     }
@@ -63,12 +63,12 @@ private final FavoritesService favoritesService;
                     "code에 술의 고유 코드의 입력이 필요 합니다."+
                     "code는 1~50까지 있습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Favorites>> FavoritesDelete(@RequestBody AlcoholDto alcoholDto) {
+    public ResponseEntity<String> FavoritesDelete(@RequestBody AlcoholDto alcoholDto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
 
-        List<Favorites> list = favoritesService.FavoritesDelete(alcoholDto.getCode(), user.getEmail());
+       String list = favoritesService.FavoritesDelete(alcoholDto.getCode(), user.getEmail());
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
