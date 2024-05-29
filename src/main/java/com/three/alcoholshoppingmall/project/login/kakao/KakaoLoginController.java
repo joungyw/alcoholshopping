@@ -18,11 +18,12 @@ public class KakaoLoginController {
     private final KakaoLoginService loginService;
 
     @GetMapping("login")
-    public ResponseEntity<Token> kakaoLogin(@RequestHeader String token){
+    public ResponseEntity<String> kakaoLogin(@RequestHeader String token){
 
         Token tokens = loginService.userAuthToken(token);
-        System.out.println(tokens);
+        String result = loginService.userAccessToken(tokens);
+        System.out.println(result);
 
-        return ResponseEntity.status(HttpStatus.OK).body(tokens);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }
