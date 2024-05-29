@@ -2,6 +2,8 @@ package com.three.alcoholshoppingmall.project.alcohol;
 
 import com.three.alcoholshoppingmall.project.market.Market;
 import com.three.alcoholshoppingmall.project.market.Marketinfo;
+import com.three.alcoholshoppingmall.project.review.ReviewService;
+import com.three.alcoholshoppingmall.project.review.Reviewshow;
 import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -23,6 +25,7 @@ import java.util.List;
 public class DetailController {
 
     private final AlcoholService alcoholService;
+    private final ReviewService reviewService;
 
     @PostMapping("")
     @Operation(summary = "상세 페이지 정보",
@@ -41,6 +44,14 @@ public class DetailController {
         List<Marketinfo> list = alcoholService.MarketDetail(alcoholDto);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
-
+    @PostMapping("/alcohol")
+    @Operation(summary = "해당 제품의 모든 리뷰",
+            description = "해당 제품의 모든 리뷰가 보입니다.<br>" +
+                    "입력 값은 필요 없습니다.")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<List<Reviewshow>> Alcohol(@RequestBody AlcoholDto alcoholDto) {
+        List<Reviewshow> list = reviewService.AlcoholReview(alcoholDto.getCode());
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
 
 }
