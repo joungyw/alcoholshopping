@@ -40,6 +40,7 @@ public class ReviewService {
 
             Reviewshow reviewshow = Reviewshow
                     .builder()
+                    .alcoholcode(review.getAlcohol().getCode())
                     .name(name)
                     .grade(review.getGrade())
                     .writing(review.getWriting())
@@ -65,10 +66,10 @@ public class ReviewService {
             existingReview.setPicture(reviewDTO.getPicture());
             reviewRepository.save(existingReview);
 
-
             String alcoholname = alcoholRepository.name(reviewDTO.getCode());
            reviewshow = Reviewshow
                     .builder()
+                   .alcoholcode(existingReview.getAlcohol().getCode())
                     .name(alcoholname)
                     .writing(reviewDTO.getWriting())
                     .grade(reviewDTO.getGrade())
@@ -88,12 +89,12 @@ public class ReviewService {
             String alcoholname = alcoholRepository.name(reviewDTO.getCode());
             reviewshow = Reviewshow
                     .builder()
+                    .alcoholcode(review.getAlcohol().getCode())
                     .name(alcoholname)
                     .writing(reviewDTO.getWriting())
                     .grade(reviewDTO.getGrade())
                     .picture(reviewDTO.getPicture())
                     .build();
-            
 
         }
         return reviewshow;
@@ -149,6 +150,7 @@ public class ReviewService {
 
         for (Review review : reviews) {
             Reviewshow reviewshow = Reviewshow.builder()
+                    .alcoholcode(code)
                     .name(alcohol.getName())
                     .writing(review.getWriting())
                     .picture(review.getPicture())
