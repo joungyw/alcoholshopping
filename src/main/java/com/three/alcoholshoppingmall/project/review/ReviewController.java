@@ -24,20 +24,19 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 public class ReviewController {
 
-    private final ReviewService reviewServicce;
+    private final ReviewService reviewService;
 
     @GetMapping("/list")
     @Operation(summary = "내 리뷰 목록",
             description = "해당 회원이 작성한 리뷰들을 보여 주는 기능입니다.<br>" +
                     "입력 하실 값은 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Reviewshow>> ReviewList(ReviewDTO reviewDTO) {
+    public ResponseEntity<List<Reviewshow>> ReviewList() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        reviewDTO.setUser(user);
 
-        List<Reviewshow> list = reviewServicce.Reviewlist(reviewDTO);
+        List<Reviewshow> list = reviewService.Reviewlist(user.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -49,12 +48,12 @@ public class ReviewController {
                     "writing 는 리뷰 글, grade는 평점으로 0~10까지만 입력이 가능합니다.<br>" +
                     "picture는 사진으로 사진의 경로가 저장 되며 null로 보내는것도 가능 합니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Reviewshow>> Review(@RequestBody ReviewDTO reviewDTO) {
+    public ResponseEntity<Reviewshow> Review(@RequestBody ReviewDTO reviewDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         reviewDTO.setUser(user);
-        List<Reviewshow> list = reviewServicce.Review(reviewDTO);
+        Reviewshow list = reviewService.Review(reviewDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
@@ -70,7 +69,7 @@ public class ReviewController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
 
-        String list = reviewServicce.ReviewDelete(user, reviewDelete);
+        String list = reviewService.ReviewDelete(user, reviewDelete);
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
@@ -84,18 +83,10 @@ public class ReviewController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        List<ReviewCheck> list = reviewServicce.Cherklist(user.getEmail());
+        List<ReviewCheck> list = reviewService.Cherklist(user.getEmail());
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
-    @PostMapping("/alcohol")
-    @Operation(summary = "해당 제품의 모든 리뷰",
-            description = "해당 제품의 모든 리뷰가 보입니다.<br>" +
-                    "입력 값은 필요 없습니다.")
-    @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Reviewshow>> Alcohol(@RequestBody AlcoholDto alcoholDto) {
-        List<Reviewshow> list = reviewServicce.AlcoholReview(alcoholDto.getCode());
-        return ResponseEntity.status(HttpStatus.OK).body(list);
-    }
+
 
 }

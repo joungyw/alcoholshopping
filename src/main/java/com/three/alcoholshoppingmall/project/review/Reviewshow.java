@@ -9,6 +9,8 @@ import lombok.Data;
 public class Reviewshow {
 
 
+    private Long alcoholcode;
+
     private String name;
 
     private String writing;

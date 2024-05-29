@@ -3,6 +3,7 @@ package com.three.alcoholshoppingmall.project.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Data
@@ -19,6 +20,8 @@ public class UserInfo {
     private String phone;
     @Schema(title = "address",description = "회원 전체 주소")
     private String address;
+    @Schema(title = "address2", description = "회원의 상세 주소 입니다.", example = "상세주소")
+    private String address2;
     @Schema(title = "email",description = "회원 이메일")
     private String email;
 

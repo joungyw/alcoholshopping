@@ -28,10 +28,10 @@ public class ReviewService {
     private final MarketRepository marketRepository;
     private final PurchaseRepository purchaseRepository;
 
-    public List<Reviewshow> Reviewlist(ReviewDTO reviewDTO) {
-        List<String> alcoholnames = reviewRepository.names(reviewDTO.getUser().getEmail());
+    public List<Reviewshow> Reviewlist(String email) {
+        List<String> alcoholnames = reviewRepository.names(email);
 
-        List<Review> reviews = reviewRepository.findByUser_Email(reviewDTO.getUser().getEmail());
+        List<Review> reviews = reviewRepository.findByUser_Email(email);
 
         List<Reviewshow> list = new ArrayList<>();
         for (int i = 0; i < Math.min(alcoholnames.size(), reviews.size()); i++) {
@@ -40,6 +40,7 @@ public class ReviewService {
 
             Reviewshow reviewshow = Reviewshow
                     .builder()
+                    .alcoholcode(review.getAlcohol().getCode())
                     .name(name)
                     .grade(review.getGrade())
                     .writing(review.getWriting())
@@ -52,12 +53,11 @@ public class ReviewService {
     }
 
 
-    public List<Reviewshow> Review(ReviewDTO reviewDTO) {
+    public Reviewshow Review(ReviewDTO reviewDTO) {
         Alcohol alcoholcheck = alcoholRepository.findByCode(reviewDTO.getCode());
         Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getCode());
-
-        List<Reviewshow> list = new ArrayList<>();
         Review review;
+        Reviewshow reviewshow;
 
         if (check.isPresent()) {
             Review existingReview = check.get();
@@ -66,17 +66,15 @@ public class ReviewService {
             existingReview.setPicture(reviewDTO.getPicture());
             reviewRepository.save(existingReview);
 
-
             String alcoholname = alcoholRepository.name(reviewDTO.getCode());
-            Reviewshow reviewshow = Reviewshow
+           reviewshow = Reviewshow
                     .builder()
+                   .alcoholcode(existingReview.getAlcohol().getCode())
                     .name(alcoholname)
                     .writing(reviewDTO.getWriting())
                     .grade(reviewDTO.getGrade())
                     .picture(reviewDTO.getPicture())
                     .build();
-
-            list.add(reviewshow);
         } else {
             User usercheck = userRepository.findByEmail(reviewDTO.getUser().getEmail());
             review = Review.builder()
@@ -89,18 +87,17 @@ public class ReviewService {
             reviewRepository.save(review);
 
             String alcoholname = alcoholRepository.name(reviewDTO.getCode());
-            Reviewshow reviewshow = Reviewshow
+            reviewshow = Reviewshow
                     .builder()
+                    .alcoholcode(review.getAlcohol().getCode())
                     .name(alcoholname)
                     .writing(reviewDTO.getWriting())
                     .grade(reviewDTO.getGrade())
                     .picture(reviewDTO.getPicture())
                     .build();
 
-            list.add(reviewshow);
-
         }
-        return list;
+        return reviewshow;
     }
 
 
@@ -153,6 +150,7 @@ public class ReviewService {
 
         for (Review review : reviews) {
             Reviewshow reviewshow = Reviewshow.builder()
+                    .alcoholcode(code)
                     .name(alcohol.getName())
                     .writing(review.getWriting())
                     .picture(review.getPicture())

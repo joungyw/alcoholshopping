@@ -20,7 +20,7 @@ public class InterceptorCorsConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/login", "/create", "/market",
                         "/swagger", "/alcohol","/kakao","/search/maincategory",
-                        "/search/subcategory","/main/anony/contents");
+                        "/search/subcategory","/main/anony/contents","/login/findEmail");
     }
 
     @Override

@@ -27,8 +27,7 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "WHERE YEARWEEK(p.purchaseday) = YEARWEEK(NOW()) GROUP BY s.code\n" +
             ") AS p ON a.code = p.code LEFT JOIN review r ON a.code = r.code\n" +
             "GROUP BY a.code ORDER BY COALESCE(MAX(p.total_orders), 0) DESC, a.code ASC\n" +
-            "LIMIT 3",nativeQuery = true)
-
+            "LIMIT 3", nativeQuery = true)
     List<Double> mostsoldgrade();
 
     //랜덤
@@ -52,7 +51,7 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "GROUP BY a.code ORDER BY a.code DESC\n" +
             "LIMIT 3", nativeQuery = true)
     List<Double> newgrade();
-    
+
 
     List<Alcohol> findBySubcategoryOrMaincategory(String subcategory, String maincategory); // 카테고리(소분류나 대분류)로 주류 검색하기
 
@@ -80,7 +79,7 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     List<Double> RatingList(String name);
 
     //특정 술의 가격
-    @Query(value = "SELECT price FROM alcohol WHERE code= :code", nativeQuery = true)
+    @Query("SELECT a.price FROM Alcohol a WHERE a.code= :code")
     int Price(Long code);
 
 

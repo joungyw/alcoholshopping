@@ -2,6 +2,7 @@ package com.three.alcoholshoppingmall.project.search;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.three.alcoholshoppingmall.project.user.User;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,12 +19,13 @@ import lombok.*;
 public class Search {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Schema(title = "검색 ID", description = "table에서 자동으로 생성되는 칼럼입니다.")
+    @JsonIgnore
+    @Schema(title = "검색 ID", description = "table에서 자동으로 생성되는 칼럼입니다.")
     private Long id;
 
     @Schema(title = "회원 이메일", description = "회원의 이메일을 넣는 조인된 칼럼입니다.", example = "회원 이메일")
-    @JsonIgnore
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "email", referencedColumnName = "email", nullable = false)
     private User user;
 
