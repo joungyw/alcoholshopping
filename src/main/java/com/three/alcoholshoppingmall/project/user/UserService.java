@@ -2,6 +2,7 @@ package com.three.alcoholshoppingmall.project.user;
 
 import com.three.alcoholshoppingmall.project.exception.BizException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -68,7 +69,6 @@ public class UserService {
         }
     }
 
-
     public String updatePw(String email, PwUpdate pwUpdate) {
         System.out.println(pwUpdate);
         User dbUser = userRepository.findByEmail(email);
@@ -83,10 +83,9 @@ public class UserService {
             throw new BizException(SAMEPASSWORD);
         }
         else {
-            dbUser.setPassword(encoder.encode(pwUpdate.getPassword()));
-            pwUpdate.setNewPassword(encoder.encode(pwUpdate.getNewPassword()));
-            pwUpdate.setPasswordch(encoder.encode(pwUpdate.getPasswordch()));
+            dbUser.setPassword(encoder.encode(pwUpdate.getNewPassword()));
             userRepository.save(dbUser);
+
         }
 
         return "비밀번호 수정이 완료되었습니다.";
