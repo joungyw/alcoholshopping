@@ -147,6 +147,7 @@ public class MainConstructor {
                     "검색을 하면서 db에 저장되었던 내용을 최신순으로 5개를 출력하게 하는 기능입니다. <br>" +
                     "비회원의 검색기록이 없으면 NULLRECENT 에러코드가 나오며, 최근 검색기록이 조내재하지 않습니다라고 에러 메시지가 나옵니다."
     )
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Search>> recent() {
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
@@ -155,7 +156,7 @@ public class MainConstructor {
         List<Search> list = searchService.recentSearch(email);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
-    
+
 
     @GetMapping("/user")
     @Operation(summary = "회원의 닉네임 주소",
