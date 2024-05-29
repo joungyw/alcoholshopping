@@ -28,10 +28,10 @@ public class ReviewService {
     private final MarketRepository marketRepository;
     private final PurchaseRepository purchaseRepository;
 
-    public List<Reviewshow> Reviewlist(ReviewDTO reviewDTO) {
-        List<String> alcoholnames = reviewRepository.names(reviewDTO.getUser().getEmail());
+    public List<Reviewshow> Reviewlist(String email) {
+        List<String> alcoholnames = reviewRepository.names(email);
 
-        List<Review> reviews = reviewRepository.findByUser_Email(reviewDTO.getUser().getEmail());
+        List<Review> reviews = reviewRepository.findByUser_Email(email);
 
         List<Reviewshow> list = new ArrayList<>();
         for (int i = 0; i < Math.min(alcoholnames.size(), reviews.size()); i++) {

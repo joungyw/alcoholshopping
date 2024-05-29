@@ -31,13 +31,12 @@ public class ReviewController {
             description = "해당 회원이 작성한 리뷰들을 보여 주는 기능입니다.<br>" +
                     "입력 하실 값은 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Reviewshow>> ReviewList(ReviewDTO reviewDTO) {
+    public ResponseEntity<List<Reviewshow>> ReviewList() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        reviewDTO.setUser(user);
 
-        List<Reviewshow> list = reviewServicce.Reviewlist(reviewDTO);
+        List<Reviewshow> list = reviewServicce.Reviewlist(user.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
