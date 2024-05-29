@@ -67,6 +67,5 @@ public class SearchService {
         } else {
             return list;
         }
-
     }
 }

@@ -156,22 +156,6 @@ public class MainConstructor {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-
-    @GetMapping("/anony/recent")
-    @Operation(summary = "비회원의 최근 검색기록",
-            description = "비회원의 최근 검색기록을 5개 출력하게 만들었습니다.<br>" +
-                    "검색창에 검색 시 비회원의 최근검색 기록 5개를 뜨게하는 기능입니다. <br>" +
-                    "입력 값은 필요없습니다.<br>" +
-                    "검색을 하면서 db에 저장되었던 내용을 최신순으로 5개를 출력하게 하는 기능입니다. <br>" +
-                    "비회원의 검색기록이 없으면 NULLRECENT 에러코드가 나오며, 최근 검색기록이 조내재하지 않습니다라고 에러 메시지가 나옵니다."
-    )
-    public ResponseEntity<List<Search>> anonyrecent(){
-        String email = "anony@anony.anony";
-        List<Search> list = searchService.recentSearch(email);
-        return ResponseEntity.status(HttpStatus.OK).body(list);
-    }
-
-
     @GetMapping("/user")
     @Operation(summary = "회원의 닉네임 주소",
             description = "회원의 닉네임과 주소와 상세 주소가 보입니다.")
