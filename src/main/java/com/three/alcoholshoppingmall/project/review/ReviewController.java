@@ -49,12 +49,12 @@ public class ReviewController {
                     "writing 는 리뷰 글, grade는 평점으로 0~10까지만 입력이 가능합니다.<br>" +
                     "picture는 사진으로 사진의 경로가 저장 되며 null로 보내는것도 가능 합니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Reviewshow>> Review(@RequestBody ReviewDTO reviewDTO) {
+    public ResponseEntity<Reviewshow> Review(@RequestBody ReviewDTO reviewDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         reviewDTO.setUser(user);
-        List<Reviewshow> list = reviewServicce.Review(reviewDTO);
+        Reviewshow list = reviewServicce.Review(reviewDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }

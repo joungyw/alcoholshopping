@@ -48,41 +48,41 @@ public class FavoritesService {
 
 
     @Transactional
-    public List<Favoritesalcohol> Favorites(Long code, String email) {
+    public Favoritesalcohol Favorites(Long code, String email) {
         Optional<Favorites> favor = favoritesFRepository.findByUser_EmailAndAlcohol_Code(email,code);
        Alcohol alcohol = alcoholRepository.findByCode(code);
         User user = userRepository.findByEmail(email);
-
-        List<Favoritesalcohol> list = new ArrayList<>();
+        Favoritesalcohol favoritesalcohol;
 
         if (favor.isPresent()) {
             favoritesFRepository.deleteByUser_EmailAndAlcohol_Code(email,code);
+            throw new BizException(ErrorCode.DELETEFAVORITES);
         } else {
             Favorites favorites = new Favorites();
             favorites.setUser(user);
             favorites.setAlcohol(alcohol);
              favoritesFRepository.save(favorites);
 
-             Favoritesalcohol favoritesalcohol = Favoritesalcohol.builder()
+            favoritesalcohol = Favoritesalcohol.builder()
                      .code(alcohol.getCode())
                      .name(alcohol.getName())
                      .picture(alcohol.getPicture())
                      .build();
-
-             list.add(favoritesalcohol);
         }
-        return list;
+        return favoritesalcohol;
     }
 
     @Transactional
-    public List<Favorites> FavoritesDelete(Long code, String email) {
+    public String FavoritesDelete(Long code, String email) {
         Optional<Favorites> favor = favoritesFRepository.findByUser_EmailAndAlcohol_Code(email,code);
+        String text;
         if (favor.isPresent()) {
             favoritesFRepository.deleteByUser_EmailAndAlcohol_Code(email,code);
+            text = "해당 술을 즐겨 찾기 목록에서 삭제하였습니다.";
         } else {
             throw new BizException(ErrorCode.NOTFOUNDFAVORITES);
         }
-        return null;
+        return text;
     }
 }
 

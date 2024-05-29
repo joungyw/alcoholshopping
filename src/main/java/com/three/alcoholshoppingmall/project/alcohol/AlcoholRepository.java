@@ -80,7 +80,7 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     List<Double> RatingList(String name);
 
     //특정 술의 가격
-    @Query(value = "SELECT price FROM alcohol WHERE code= :code", nativeQuery = true)
+    @Query("SELECT a.price FROM Alcohol a WHERE a.code= :code")
     int Price(Long code);
 
 

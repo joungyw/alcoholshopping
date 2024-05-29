@@ -52,12 +52,11 @@ public class ReviewService {
     }
 
 
-    public List<Reviewshow> Review(ReviewDTO reviewDTO) {
+    public Reviewshow Review(ReviewDTO reviewDTO) {
         Alcohol alcoholcheck = alcoholRepository.findByCode(reviewDTO.getCode());
         Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getCode());
-
-        List<Reviewshow> list = new ArrayList<>();
         Review review;
+        Reviewshow reviewshow;
 
         if (check.isPresent()) {
             Review existingReview = check.get();
@@ -68,15 +67,13 @@ public class ReviewService {
 
 
             String alcoholname = alcoholRepository.name(reviewDTO.getCode());
-            Reviewshow reviewshow = Reviewshow
+           reviewshow = Reviewshow
                     .builder()
                     .name(alcoholname)
                     .writing(reviewDTO.getWriting())
                     .grade(reviewDTO.getGrade())
                     .picture(reviewDTO.getPicture())
                     .build();
-
-            list.add(reviewshow);
         } else {
             User usercheck = userRepository.findByEmail(reviewDTO.getUser().getEmail());
             review = Review.builder()
@@ -89,18 +86,17 @@ public class ReviewService {
             reviewRepository.save(review);
 
             String alcoholname = alcoholRepository.name(reviewDTO.getCode());
-            Reviewshow reviewshow = Reviewshow
+            reviewshow = Reviewshow
                     .builder()
                     .name(alcoholname)
                     .writing(reviewDTO.getWriting())
                     .grade(reviewDTO.getGrade())
                     .picture(reviewDTO.getPicture())
                     .build();
-
-            list.add(reviewshow);
+            
 
         }
-        return list;
+        return reviewshow;
     }
 
 
