@@ -1,4 +1,4 @@
-spring:
+spring :
   profiles:
     default: dev
 
@@ -7,6 +7,17 @@ spring:
     url: ENC(9Xy8ctRB2R/CFKBwiRbp4PlIjT9I3J4x7l/DeBJ+YGXKxa4gTVPY6cds5Pw/EcQrDBC74+CSCXQW8H3RVVg6B/Eo7+IusgvtFrH/nZ8Jy6PReD8vbAia3FR/2FMBVpW07plvNXcFT5zpPIIY9zDUY35RmpkYx6Ei)
     username: ENC(gKuctbDMmaJPPKl4hSkOlA==)
     password: ENC(j9Oj87bQlu7Lat+yEj0yYQ==)
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+#  sql:
+#    init:
+#      mode: always
 
   mail:
     host: smtp.gmail.com

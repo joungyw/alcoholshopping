@@ -28,9 +28,10 @@ public class SearchService {
 
     @Transactional
     public List<MainListDto> memberSearch(String searchcontents, String email) {
-        List<Double> ratings = alcoholRepository.RatingList("%" + searchcontents + "%");
-        List<Alcohol> list = alcoholRepository.findByNameContaining(searchcontents);
-
+        List<Double> ratings =
+                alcoholRepository.RatingList("%" + searchcontents + "%");
+        List<Alcohol> list =
+                alcoholRepository.findByNameContaining(searchcontents);
         searchRepository.searchsave(email, searchcontents);
         if (searchcontents.isEmpty()) {
             throw new BizException(NULLSEARCH);
@@ -42,7 +43,6 @@ public class SearchService {
             throw new BizException(SEARCHCLENGTH);
         } else {
             List<MainListDto> searchDetails = new ArrayList<>();
-
             for (int i = 0; i < ratings.size(); i++) {
                 Alcohol alcohol = list.get(i);
                 MainListDto mainListDto = MainListDto.builder()
@@ -60,13 +60,12 @@ public class SearchService {
 
     public List<Search> recentSearch(String email) {
         User dbUser = userRepository.findByEmail(email);
-        List<Search> list = searchRepository.findAllByUserOrderByIdDesc(dbUser, PageRequest.of(0, 3));
+        List<Search> list = searchRepository
+                .findAllByUserOrderByIdDesc(dbUser, PageRequest.of(0, 5));
         if (list.isEmpty()) {
             throw new BizException(NULLRECENT);
         } else {
             return list;
         }
-
     }
-
 }

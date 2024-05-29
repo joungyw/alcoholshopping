@@ -4,8 +4,10 @@ package com.three.alcoholshoppingmall.project.login.kakao;
 import com.three.alcoholshoppingmall.project.exception.BizException;
 import com.three.alcoholshoppingmall.project.exception.ErrorCode;
 import com.three.alcoholshoppingmall.project.login.token.Token;
+import com.three.alcoholshoppingmall.project.login.token.TokenManager;
 import com.three.alcoholshoppingmall.project.user.User;
 import com.three.alcoholshoppingmall.project.user.UserRepository;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -17,11 +19,16 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Date;
+
+import static io.jsonwebtoken.security.Keys.hmacShaKeyFor;
+
 @Service
 @RequiredArgsConstructor
 public class KakaoLoginService {
 
     private final UserRepository userRepository;
+    private final TokenManager tokenManager;
 
     // 인가코드로 accesstoken 받는 함수
     public Token userAuthToken(String token) {
@@ -50,14 +57,13 @@ public class KakaoLoginService {
         Token tokens = Token.builder()
                 .access_token(jsonObject.getString("access_token"))
                 .refresh_token(jsonObject.getString("refresh_token"))
-                .kakaoUser(null)
                 .build();
 
         return tokens;
     }
 
     // accesstoken으로 이메일/닉네임 받는 함수
-    public Token userAccessToken(Token tokens){
+    public String userAccessToken(Token tokens){
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -84,21 +90,10 @@ public class KakaoLoginService {
         User dbuser = userRepository.findByEmail(jsonObject.get("email").toString());
 
         if(dbuser != null){
-            Token token = Token.builder()
-                    .access_token(tokens.getAccess_token())
-                    .refresh_token(tokens.getRefresh_token())
-                    .kakaoUser(KakaoUser.builder()
-                            .nickname(dbuser.getNickname())
-                            .phone(dbuser.getPhone())
-                            .birthdate(dbuser.getBirthdate())
-                            .gender(dbuser.getGender())
-                            .address(dbuser.getAddress())
-                            .address2(dbuser.getAddress2())
-                            .build())
-                    .build();
-            return token;
+            return tokenManager.generateToken(dbuser);
+        }else{
+            String kakaoUser = "{\"email\": \""+ jsonObject.get("email") + "\", \"nickname\": \""+ jsonProfile.get("nickname") +"\" }";
+            return kakaoUser;
         }
-
-        return tokens;
     }
 }
