@@ -14,14 +14,8 @@ public interface LoginRepository extends JpaRepository<User, Long> {
     User findByEmailAndPassword(String email, String password);
 
     User findByPhone(String phone);
-
-//    @Query(value = "SELECT email" +
-//            " FROM user u" +
-//            " WHERE 1 = 1" +
-//            " AND u.phone = :phone" +
-//            " AND u.birthdate = :birthdate"
-//            , nativeQuery = true)
-//    String findByPhoneAndBirthdate(String phone, String birthdate);// 이메일 찾기
+    @Query(value = "select email from user where phone = :phone and birthdate = :birthdate",nativeQuery = true)
+    String findByPhoneAndBirthdate(String phone, String birthdate);// 이메일 찾기
 
 //    @Query(value = "SELECT password" +
 //            " FROM user u" +

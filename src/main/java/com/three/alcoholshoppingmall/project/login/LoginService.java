@@ -95,10 +95,10 @@ public class LoginService {
         return list;
     }
 
-//    public String findEmail(String phone, String birthdate) { // 이메일 찾기
-//        return loginRepository.findByPhoneAndBirthdate(phone, birthdate);
+//    public String findEmail(FindEmailDTO findEmailDTO) { // 이메일 찾기
+//        return loginRepository.findByPhoneAndBirthdate(findEmailDTO.getBirthdate(), findEmailDTO.getPhone());
 //    }
-//
+
 //    public String findPassword(String email, String phone) { //비밀번호 찾기
 //        return loginRepository.findByEmailAndPhone(email, phone);
 //    }

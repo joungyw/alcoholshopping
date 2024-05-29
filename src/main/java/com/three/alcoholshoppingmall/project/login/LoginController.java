@@ -47,28 +47,26 @@ public class LoginController {
         return ResponseEntity.status(HttpStatus.OK).body("회원가입 완료");
     }
 
-    // 이메일 찾기
-//    @GetMapping("/findEmail")
-//    @Operation(summary = "이메일 찾기", description = "전화번호와 생년월일을 입력하면 이메일을 찾아줍니다.")
-//    public ResponseEntity<String> findEmail(@RequestParam String phone, @RequestParam String birthdate) {
-//        String email = loginService.findEmail(phone, birthdate);
-//        if (email != null) {
-//            return ResponseEntity.status(HttpStatus.OK).body(email);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("이메일을 찾을 수 없습니다.");
-//    }
-//        }
-//
-//    // 비밀번호 찾기
-//    @GetMapping("/findPassword")
-//    @Operation(summary = "비밀번호 찾기", description = "이메일, 전화번호를 입력하면 비밀번호를 찾아줍니다.")
-//    public String findPassword(@RequestParam String email, @RequestParam String phone) {
-//        return loginService.findPassword(email, phone);
-//    }
+    //     이메일 찾기
+    @PostMapping("/findEmail")
+    @Operation(summary = "이메일 찾기", description = "전화번호와 생년월일을 입력하면 이메일을 찾아줍니다.")
+    public ResponseEntity<String> findEmail(@RequestBody FindEmailDTO findEmailDTO) {
+        String email = loginRepository.findByPhoneAndBirthdate(findEmailDTO.getPhone(), findEmailDTO.getBirthdate());
+        System.out.println(email);
+        if (email != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(email);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("이메일을 찾을 수 없습니다.");
+        }
+    }
+
+//    @PostMapping("/findPw")
+////    @Operation(summary = "비밀번호 변경", description = "이메일 인증을 하고 임시비번이 발송되면 임시비버")
+//    public
 
     @PostMapping("emailauth")
-    @Operation(summary = "이메일 인증",description = "이메일 인증하기")
-    public ResponseEntity<String> emailAuth(@RequestBody Email email){
+    @Operation(summary = "이메일 인증", description = "이메일 인증하기")
+    public ResponseEntity<String> emailAuth(@RequestBody Email email) {
 
         String num = loginService.sendAuthNum(email.getEmail());
 
