@@ -155,6 +155,7 @@ public class MainConstructor {
         List<Search> list = searchService.recentSearch(email);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
+    
 
     @GetMapping("/user")
     @Operation(summary = "회원의 닉네임 주소",
