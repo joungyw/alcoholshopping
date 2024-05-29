@@ -8,6 +8,7 @@ import lombok.Data;
 @Builder
 public class Reviewshow {
 
+    private Long id;
 
     private Long alcoholcode;
 

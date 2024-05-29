@@ -30,7 +30,6 @@ public class ReviewService {
 
     public List<Reviewshow> Reviewlist(String email) {
         List<String> alcoholnames = reviewRepository.names(email);
-
         List<Review> reviews = reviewRepository.findByUser_Email(email);
 
         List<Reviewshow> list = new ArrayList<>();
@@ -40,13 +39,13 @@ public class ReviewService {
 
             Reviewshow reviewshow = Reviewshow
                     .builder()
+                    .id(review.getId())
                     .alcoholcode(review.getAlcohol().getCode())
                     .name(name)
                     .grade(review.getGrade())
                     .writing(review.getWriting())
                     .picture(review.getPicture())
                     .build();
-
             list.add(reviewshow);
         }
         return list;
@@ -63,17 +62,17 @@ public class ReviewService {
             Review existingReview = check.get();
             existingReview.setWriting(reviewDTO.getWriting());
             existingReview.setGrade(reviewDTO.getGrade());
-            existingReview.setPicture(reviewDTO.getPicture());
             reviewRepository.save(existingReview);
 
             String alcoholname = alcoholRepository.name(reviewDTO.getCode());
            reviewshow = Reviewshow
                     .builder()
+                   .id(existingReview.getId())
                    .alcoholcode(existingReview.getAlcohol().getCode())
                     .name(alcoholname)
                     .writing(reviewDTO.getWriting())
                     .grade(reviewDTO.getGrade())
-                    .picture(reviewDTO.getPicture())
+                    .picture(existingReview.getPicture())
                     .build();
         } else {
             User usercheck = userRepository.findByEmail(reviewDTO.getUser().getEmail());
@@ -82,18 +81,19 @@ public class ReviewService {
                     .alcohol(alcoholcheck)
                     .writing(reviewDTO.getWriting())
                     .grade(reviewDTO.getGrade())
-                    .picture(reviewDTO.getPicture())
+                    .picture(alcoholcheck.getPicture())
                     .build();
             reviewRepository.save(review);
 
             String alcoholname = alcoholRepository.name(reviewDTO.getCode());
             reviewshow = Reviewshow
                     .builder()
+                    .id(review.getId())
                     .alcoholcode(review.getAlcohol().getCode())
                     .name(alcoholname)
                     .writing(reviewDTO.getWriting())
                     .grade(reviewDTO.getGrade())
-                    .picture(reviewDTO.getPicture())
+                    .picture(alcoholcheck.getPicture())
                     .build();
 
         }
@@ -103,10 +103,10 @@ public class ReviewService {
 
     @Transactional
     public String ReviewDelete(User user, ReviewDelete reviewDelete) {
-        Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(user.getEmail(), reviewDelete.getAlcoholcode());
+        Optional<Review> check = reviewRepository.findByUser_EmailAndId(user.getEmail(), reviewDelete.getId());
         String Review;
         if (check.isPresent()) {
-            reviewRepository.deleteByUser_EmailAndAlcohol_Code(user.getEmail(), reviewDelete.getAlcoholcode());
+            reviewRepository.deleteByUser_EmailAndAlcohol_Code(user.getEmail(), reviewDelete.getId());
             Review = "리뷰가 삭제 되었습니다.";
         } else {
             throw new BizException(ErrorCode.NOTFOUNDREVIEW);

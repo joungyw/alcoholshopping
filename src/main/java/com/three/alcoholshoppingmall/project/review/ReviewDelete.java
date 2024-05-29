@@ -11,5 +11,5 @@ import lombok.*;
 @AllArgsConstructor
 public class ReviewDelete {
 
-    private Long alcoholcode;
+    private Long id;
 }

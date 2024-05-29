@@ -40,6 +40,7 @@ public class ReviewDTO {
     private int grade;
 
     @Schema(title = "사진",example = "사진 입니다.")
+    @JsonIgnore
     private String picture;
 
 }

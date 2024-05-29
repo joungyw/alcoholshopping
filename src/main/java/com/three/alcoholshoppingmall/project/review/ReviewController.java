@@ -45,8 +45,7 @@ public class ReviewController {
             description = "해당 술에 리뷰를 남기는 기능으로 이미 해당 술에 리뷰를 남긴경우 글과 평점 사진을 수정 하는 기능입니다." +
                     "alcohol에 술의 고유 코드의 입력이 필요 합니다.<br>" +
                     "코드는 1~50까지 있습니다.<br>" +
-                    "writing 는 리뷰 글, grade는 평점으로 0~10까지만 입력이 가능합니다.<br>" +
-                    "picture는 사진으로 사진의 경로가 저장 되며 null로 보내는것도 가능 합니다.")
+                    "writing 는 리뷰 글, grade는 평점으로 0~10까지만 입력이 가능합니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<Reviewshow> Review(@RequestBody ReviewDTO reviewDTO) {
 
