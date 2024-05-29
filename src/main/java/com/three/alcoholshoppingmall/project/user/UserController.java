@@ -51,8 +51,8 @@ public class UserController {
 //        userService.withdrawUser(email);
 //        return ResponseEntity.status(HttpStatus.OK).body("회원 탈퇴가 완료되었습니다.");
 //    }
-    @PostMapping("updatePw")
-    @Operation(summary = "비밀번호 수정", description = "비밀번호를 수정하는 코드입니다.")// 비밀번호 수정
+    @PutMapping("updatePw")
+    @Operation(summary = "비밀번호 변경", description = "비밀번호를 변경하는 코드입니다.")// 비밀번호 수정
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<String> updatePw(@Valid @RequestBody PwUpdate pwUpdate){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
