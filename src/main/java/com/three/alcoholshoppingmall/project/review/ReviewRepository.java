@@ -30,7 +30,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review>findByAlcohol_Code(Long code);
 
-
+    Optional<Review>findByUser_EmailAndId(String email, Long id);
 
 
 }
