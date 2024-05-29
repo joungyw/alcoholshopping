@@ -202,12 +202,13 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     List<Double> Markeratingaverage(String type);
 
 
-    @Query(value = "SELECT c.* FROM purchase a\n" +
-            "LEFT JOIN stock b ON a.stocknumber = b.stocknumber\n" +
-            "LEFT JOIN alcohol c ON b.code = c.code\n" +
-            "LEFT JOIN review d ON c.code = d.code\n" +
-            "LEFT JOIN market e ON b.marketcode = e.marketcode\n" +
-            "WHERE a.email = :email and d.code IS NULL", nativeQuery = true)
+    @Query(value = "SELECT c.* FROM purchase a " +
+            "LEFT JOIN stock b ON a.stocknumber = b.stocknumber " +
+            "LEFT JOIN alcohol c ON b.code = c.code " +
+            "LEFT JOIN review d ON c.code = d.code AND d.email = :email " +
+            "LEFT JOIN market e ON b.marketcode = e.marketcode " +
+            "WHERE a.email = :email AND d.code IS NULL", nativeQuery = true)
     List<Alcohol> alcoholreview(String email);
+
 
 }

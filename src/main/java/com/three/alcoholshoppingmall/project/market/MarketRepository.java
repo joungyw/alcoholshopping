@@ -11,7 +11,6 @@ import java.util.List;
 public interface MarketRepository extends JpaRepository<Market,Long> {
 
 
-
     @Query(value = "SELECT a.* FROM market a \n" +
             "LEFT JOIN stock b ON a.marketcode = b.marketcode \n" +
             "LEFT JOIN alcohol c ON b.code = c.code \n" +
@@ -19,12 +18,11 @@ public interface MarketRepository extends JpaRepository<Market,Long> {
     List<Market> marketlist(Long code);
 
 
-
-    @Query(value = "SELECT e.* FROM purchase a\n" +
-            "LEFT JOIN stock b ON a.stocknumber = b.stocknumber\n" +
-            "LEFT JOIN alcohol c ON b.code = c.code\n" +
-            "LEFT JOIN review d ON c.code = d.code\n" +
-            "LEFT JOIN market e ON b.marketcode = e.marketcode\n" +
+    @Query(value = "SELECT e.* FROM purchase a " +
+            "LEFT JOIN stock b ON a.stocknumber = b.stocknumber " +
+            "LEFT JOIN alcohol c ON b.code = c.code " +
+            "LEFT JOIN review d ON c.code = d.code AND d.email = :email " +
+            "LEFT JOIN market e ON b.marketcode = e.marketcode " +
             "WHERE a.email = :email and d.code IS NULL", nativeQuery = true)
     List<Market> marketreview(String email);
 }
