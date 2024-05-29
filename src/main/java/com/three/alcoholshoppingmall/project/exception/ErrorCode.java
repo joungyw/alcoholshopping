@@ -29,6 +29,7 @@ public enum ErrorCode {
     NULLBIRTHDATE(HttpStatus.NOT_FOUND,"NULLBIRTHDATE","생년월일을 확인해 주세요."),
     NULLPHONE(HttpStatus.NOT_FOUND,"NULLPHONE","번호를 확인해 주세요."),
     CHECKPASSWORD(HttpStatus.NOT_FOUND,"CHECKPASSWORD","입력한 비밀번호가 다릅니다."),
+    NOTINPUTEMAIL(HttpStatus.BAD_REQUEST,"NOTINPUTEMAIL", "이메일을 입력해 주세요."),
 
     // 로그인 에러 코드
     CHECKEMAILPASSWORD(HttpStatus.NOT_FOUND,"CHECKEMAILPASSWORD","이메일과 비밀번호를 확인해 주세요."),

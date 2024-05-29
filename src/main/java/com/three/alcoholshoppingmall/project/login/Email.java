@@ -14,6 +14,6 @@ import lombok.*;
 public class Email {
 
     @Pattern(regexp = "(^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)",
-            message = "이메일 형식을 맞춰주세요")
+            message = "이메일 형식을 확인해 주세요")
     private String email;
 }
