@@ -105,6 +105,10 @@ public class LoginService {
 
     public String sendAuthNum(String email) {
 
+        if(email == null || email == ""){
+            throw new BizException(ErrorCode.NOTINPUTEMAIL);
+        }
+
         MimeMessage message = javaMailSender.createMimeMessage();
 
         int num = (int) (Math.random() * 10000);

@@ -68,9 +68,10 @@ public class LoginController {
     @Operation(summary = "이메일 인증", description = "이메일 인증하기")
     public ResponseEntity<String> emailAuth(@RequestBody Email email) {
 
+        System.out.println(email);
         String num = loginService.sendAuthNum(email.getEmail());
 
-        return ResponseEntity.status(HttpStatus.OK).body("인증번호 발송 " + num);
+        return ResponseEntity.status(HttpStatus.OK).body(num);
     }
 
 }
