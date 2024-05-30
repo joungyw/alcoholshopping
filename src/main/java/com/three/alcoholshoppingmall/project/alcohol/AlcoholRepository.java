@@ -211,7 +211,43 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
             "WHERE a.email = :email AND d.code IS NULL", nativeQuery = true)
     List<Alcohol> alcoholreview(String email);
 
-
     @Query(value = "SELECT code FROM alcohol  WHERE  NAME = :alcoholName",nativeQuery = true)
     Long code(String alcoholName);
+
+    @Query(value = "SELECT a.*\n" +
+            "FROM alcohol a \n" +
+            "JOIN stock b ON a.code = b.code \n" +
+            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
+            "WHERE c.email = :email\n" +
+            "AND c.delivery = 'PICKUP' \n" +
+            "ORDER BY c.purchaseday DESC, c.ordernumber DESC", nativeQuery = true)
+    List<Alcohol> alcoholspick(String email);
+
+    @Query(value = "SELECT a.* \n" +
+            "FROM alcohol a \n" +
+            "JOIN stock b ON a.code = b.code \n" +
+            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
+            "WHERE c.email = :email\n" +
+            "AND c.delivery = 'DELIVERY' \n" +
+            "ORDER BY c.purchaseday DESC, c.ordernumber DESC", nativeQuery = true)
+    List<Alcohol> alcoholsdelivery(String email);
+
+    @Query(value = "SELECT a.*\n" +
+            "FROM alcohol a \n" +
+            "JOIN stock b ON a.code = b.code \n" +
+            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
+            "WHERE c.email = :email\n" +
+            "AND c.delivery = 'PICKUP' \n" +
+            "ORDER BY c.purchaseday DESC, c.ordernumber DESC LIMIT 5", nativeQuery = true)
+    List<Alcohol> alcoholspicklimt(String email);
+
+    @Query(value = "SELECT a.* \n" +
+            "FROM alcohol a \n" +
+            "JOIN stock b ON a.code = b.code \n" +
+            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
+            "WHERE c.email = :email\n" +
+            "AND c.delivery = 'DELIVERY' \n" +
+            "ORDER BY c.purchaseday DESC, c.ordernumber DESC LIMIT 5", nativeQuery = true)
+    List<Alcohol> alcoholsdeliverylimt(String email);
 }
+

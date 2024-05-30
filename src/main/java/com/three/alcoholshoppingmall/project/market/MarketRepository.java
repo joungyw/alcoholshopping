@@ -25,4 +25,41 @@ public interface MarketRepository extends JpaRepository<Market,Long> {
             "LEFT JOIN market e ON b.marketcode = e.marketcode " +
             "WHERE a.email = :email and d.code IS NULL", nativeQuery = true)
     List<Market> marketreview(String email);
+
+    @Query(value = "SELECT a.*\n" +
+            "FROM market a \n" +
+            "JOIN stock b ON a.marketcode = b.marketcode\n" +
+            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
+            "WHERE c.email = :email\n" +
+            "AND c.delivery = 'PICKUP' \n" +
+            "ORDER BY c.purchaseday DESC, c.ordernumber DESC", nativeQuery = true)
+    List<Market> marketspick(String email);
+
+
+    @Query(value = "SELECT a.*\n" +
+            "FROM market a \n" +
+            "JOIN stock b ON a.marketcode = b.marketcode\n" +
+            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
+            "WHERE c.email = :email \n" +
+            "AND c.delivery = 'DELIVERY' \n" +
+            "ORDER BY c.purchaseday DESC, c.ordernumber DESC", nativeQuery = true)
+    List<Market> marketsdelivery(String email);
+
+    @Query(value = "SELECT a.*\n" +
+            "FROM market a \n" +
+            "JOIN stock b ON a.marketcode = b.marketcode\n" +
+            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
+            "WHERE c.email = :email \n" +
+            "AND c.delivery = 'PICKUP' \n" +
+            "ORDER BY c.purchaseday DESC, c.ordernumber DESC LIMIT 5", nativeQuery = true)
+    List<Market> marketspicklimt(String email);
+
+    @Query(value = "SELECT a.*\n" +
+            "FROM market a \n" +
+            "JOIN stock b ON a.marketcode = b.marketcode\n" +
+            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
+            "WHERE c.email = :email \n" +
+            "AND c.delivery = 'DELIVERY' \n" +
+            "ORDER BY c.purchaseday DESC, c.ordernumber DESC LIMIT 5", nativeQuery = true)
+    List<Market> marketsdeliverylimt(String email);
 }
