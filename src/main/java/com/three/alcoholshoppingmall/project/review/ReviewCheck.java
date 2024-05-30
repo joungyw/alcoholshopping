@@ -24,7 +24,7 @@ public class ReviewCheck {
 
     private Delivery delivery;
 
-
+    private String picture;
 
 
 }
