@@ -130,6 +130,7 @@ public class ReviewService {
                     .marketname(markets.getMarketname())
                     .delivery(markets.getDelivery())
                     .purchaseday(purchases.getPurchaseday())
+                    .picture(alcohols.getPicture())
                     .build();
             list.add(reviewCheck);
         }
