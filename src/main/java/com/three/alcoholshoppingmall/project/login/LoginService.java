@@ -5,13 +5,9 @@ import com.three.alcoholshoppingmall.project.exception.BizException;
 import com.three.alcoholshoppingmall.project.exception.ErrorCode;
 import com.three.alcoholshoppingmall.project.shoppingbasket.Shoppingbasket;
 import com.three.alcoholshoppingmall.project.shoppingbasket.ShoppingbasketRepository;
-import com.three.alcoholshoppingmall.project.user.User;
-import com.three.alcoholshoppingmall.project.user.UserDto;
-import com.three.alcoholshoppingmall.project.user.UserSub;
-import com.three.alcoholshoppingmall.project.user.WithdrawStatus;
+import com.three.alcoholshoppingmall.project.user.*;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 @Service
 @RequiredArgsConstructor
@@ -95,17 +93,9 @@ public class LoginService {
         return list;
     }
 
-//    public String findEmail(FindEmailDTO findEmailDTO) { // 이메일 찾기
-//        return loginRepository.findByPhoneAndBirthdate(findEmailDTO.getBirthdate(), findEmailDTO.getPhone());
-//    }
-
-//    public String findPassword(String email, String phone) { //비밀번호 찾기
-//        return loginRepository.findByEmailAndPhone(email, phone);
-//    }
-
     public String sendAuthNum(String email) {
 
-        if(email == null || email == ""){
+        if (email == null || email == "") {
             throw new BizException(ErrorCode.NOTINPUTEMAIL);
         }
 
@@ -137,4 +127,48 @@ public class LoginService {
 
         return num + "";
     }
+
+    public String findPw(String email) {
+        if (email == null || email == "") {
+            throw new BizException(ErrorCode.NOTINPUTEMAIL); // 유효성 검사
+        }
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+        // 임시비번 생성
+        char[] charSet = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+
+        StringBuilder tempPw = new StringBuilder();
+
+        for (int i = 0; i < 10; i++) {
+            int idx = (int) (charSet.length * Math.random());
+            tempPw.append(charSet[idx]);
+        }
+        try {
+            message.setFrom(senderEmail);   // 보내는 이메일
+            message.setRecipients(MimeMessage.RecipientType.TO, email); // 보낼 이메일 설정
+            message.setSubject("[AlcoholFree] 비밀번호 찾기를 위한 이메일 인증");  // 제목 설정
+            String body = "";
+            body += "<h1>" + "안녕하세요." + "</h1>";
+            body += "<h1>" + "AlcoholFree 입니다." + "</h1>";
+            body += "<h3>" + "비밀번호 찾기를 위한 요청하신 임시 비밀번호입니다." + "</h3><br>";
+            body += "<h2>" + "아래 코드를 로그인 창으로 돌아가 임시 비밀번호를 입력해 로그인주세요. 로그인 후 비밀번호 수정은 꼭 해주세요" + "</h2>";
+
+            body += "<div align='center' style='border:1px solid black; font-family:verdana;'>";
+            body += "<h2>" + "비밀번호 찾기 임시 비밀번호입니다." + "</h2>";
+            body += "<h1 style='color:blue'>" + tempPw + "</h1>";
+            body += "</div><br>";
+            body += "<h3>" + "감사합니다." + "</h3>";
+            message.setText(body, "UTF-8", "html");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        javaMailSender.send(message);
+
+
+
+        return tempPw + "";
+    }
+
 }

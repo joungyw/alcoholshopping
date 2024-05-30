@@ -17,11 +17,4 @@ public interface LoginRepository extends JpaRepository<User, Long> {
     @Query(value = "select email from user where phone = :phone and birthdate = :birthdate",nativeQuery = true)
     String findByPhoneAndBirthdate(String phone, String birthdate);// 이메일 찾기
 
-//    @Query(value = "SELECT password" +
-//            " FROM user u" +
-//            " WHERE 1 = 1" +
-//            " And u.email = :email" +
-//            " AND u.phone = :phone"
-//            , nativeQuery = true)
-//    String findByEmailAndPhone(String email, String phone); // 비밀번호 찾기
 }

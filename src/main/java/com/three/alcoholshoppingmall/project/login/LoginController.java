@@ -50,8 +50,8 @@ public class LoginController {
     //     이메일 찾기
     @PostMapping("/findEmail")
     @Operation(summary = "이메일 찾기", description = "전화번호와 생년월일을 입력하면 이메일을 찾아줍니다.")
-    public ResponseEntity<String> findEmail(@RequestBody FindEmailDTO findEmailDTO) {
-        String email = loginRepository.findByPhoneAndBirthdate(findEmailDTO.getPhone(), findEmailDTO.getBirthdate());
+    public ResponseEntity<String> findEmail(@RequestBody FindEmail findEmail) {
+        String email = loginRepository.findByPhoneAndBirthdate(findEmail.getPhone(), findEmail.getBirthdate());
         System.out.println(email);
         if (email != null) {
             return ResponseEntity.status(HttpStatus.OK).body(email);
@@ -60,9 +60,16 @@ public class LoginController {
         }
     }
 
-//    @PostMapping("/findPw")
-////    @Operation(summary = "비밀번호 변경", description = "이메일 인증을 하고 임시비번이 발송되면 임시비버")
-//    public
+    @PostMapping("/tempPw")
+    @Operation(summary = "임시비밀번호 발급", description = "임시비밀번호 발급")
+    public ResponseEntity<String>findPassword(@RequestBody Email email) throws Exception{
+        System.out.println(email);
+        String temPw = loginService.findPw(email.getEmail());
+
+        return ResponseEntity.status(HttpStatus.OK).body(temPw);
+    }
+
+
 
     @PostMapping("emailauth")
     @Operation(summary = "이메일 인증", description = "이메일 인증하기")
