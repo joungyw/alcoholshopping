@@ -36,7 +36,6 @@ public class ReviewService {
         for (int i = 0; i < Math.min(alcoholnames.size(), reviews.size()); i++) {
             String name = alcoholnames.get(i);
             Review review = reviews.get(i);
-
             Reviewshow reviewshow = Reviewshow
                     .builder()
                     .id(review.getId())
@@ -52,8 +51,8 @@ public class ReviewService {
     }
 
     public Reviewshow Review(ReviewDTO reviewDTO) {
-        Optional<Alcohol> alcoholcheck = alcoholRepository.findByCode(reviewDTO.getCode());
-        Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getCode());
+        Optional<Alcohol> alcoholcheck = alcoholRepository.findByCode(reviewDTO.getAlcoholcodecode());
+        Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getAlcoholcodecode());
         Review review;
         Reviewshow reviewshow;
         if (alcoholcheck.isPresent()) {
@@ -62,8 +61,7 @@ public class ReviewService {
                 existingReview.setWriting(reviewDTO.getWriting());
                 existingReview.setGrade(reviewDTO.getGrade());
                 reviewRepository.save(existingReview);
-
-                String alcoholname = alcoholRepository.name(reviewDTO.getCode());
+                String alcoholname = alcoholRepository.name(reviewDTO.getAlcoholcodecode());
                 reviewshow = Reviewshow
                         .builder()
                         .id(existingReview.getId())
@@ -84,8 +82,7 @@ public class ReviewService {
                         .picture(alcohol.getPicture())
                         .build();
                 reviewRepository.save(review);
-
-                String alcoholname = alcoholRepository.name(reviewDTO.getCode());
+                String alcoholname = alcoholRepository.name(reviewDTO.getAlcoholcodecode());
                 reviewshow = Reviewshow
                         .builder()
                         .id(review.getId())
@@ -126,7 +123,6 @@ public class ReviewService {
             Alcohol alcohols = alcohol.get(i);
             Market markets = market.get(i);
             Purchase purchases = purchase.get(i);
-
             ReviewCheck reviewCheck = ReviewCheck
                     .builder()
                     .alcoholcode(alcohols.getCode())
@@ -139,7 +135,6 @@ public class ReviewService {
         }
         return list;
     }
-
     public List<Reviewshow> AlcoholReview(Long code) {
         Optional<Alcohol> alcohol = alcoholRepository.findByCode(code);
         List<Review> reviews = reviewRepository.findByAlcohol_Code(code);
@@ -161,5 +156,4 @@ public class ReviewService {
             throw new BizException(ErrorCode.NOTFOUNDALCOHOL);
         }
     }
-
 }
