@@ -105,7 +105,7 @@ public class ReviewService {
         Optional<Review> check = reviewRepository.findByUser_EmailAndId(user.getEmail(), reviewDelete.getId());
         String Review;
         if (check.isPresent()) {
-            reviewRepository.deleteByUser_EmailAndAlcohol_Code(user.getEmail(), reviewDelete.getId());
+            reviewRepository.deleteByUser_EmailAndId(user.getEmail(), reviewDelete.getId());
             Review = "리뷰가 삭제 되었습니다.";
         } else {
             throw new BizException(ErrorCode.NOTFOUNDREVIEW);
