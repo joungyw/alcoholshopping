@@ -6,16 +6,20 @@ import com.three.alcoholshoppingmall.project.exception.ErrorCode;
 import com.three.alcoholshoppingmall.project.shoppingbasket.Shoppingbasket;
 import com.three.alcoholshoppingmall.project.shoppingbasket.ShoppingbasketRepository;
 import com.three.alcoholshoppingmall.project.user.*;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.three.alcoholshoppingmall.project.exception.ErrorCode.CHECKPASSWORD;
+import static com.three.alcoholshoppingmall.project.exception.ErrorCode.NOTFOUNDUSER;
 
 
 @Service
@@ -29,6 +33,7 @@ public class LoginService {
     private final BCryptPasswordEncoder encoder;
     private final ShoppingbasketRepository shoppingbasketRepository;
     private final JavaMailSender javaMailSender;
+    private final UserRepository userRepository;
 
     public void createUser(UserDto userDto) {
 
@@ -166,9 +171,19 @@ public class LoginService {
 
         javaMailSender.send(message);
 
-
-
         return tempPw + "";
+
     }
 
+//    public String pwChange(ChangePw changePw) {
+//        String tempPw
+//        if (!changePw.getNewPassword().equals(changePw.getPasswordch())) {
+//            throw new BizException(CHECKPASSWORD);
+//        } else {
+//            changePw.setNewPassword(encoder.encode(changePw.getNewPassword()));
+//            userRepository.save();
+//
+//        }
+//        return "비밀번호 변경이 완료되었습니다.";
+//    }
 }
