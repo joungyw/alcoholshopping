@@ -30,7 +30,7 @@ public class ReviewService {
 
     public List<Reviewshow> Reviewlist(String email) {
         List<String> alcoholnames = reviewRepository.names(email);
-        List<Review> reviews = reviewRepository.findByUser_Email(email);
+        List<Review> reviews = reviewRepository.reviews(email);
 
         List<Reviewshow> list = new ArrayList<>();
         for (int i = 0; i < Math.min(alcoholnames.size(), reviews.size()); i++) {
@@ -52,50 +52,54 @@ public class ReviewService {
     }
 
     public Reviewshow Review(ReviewDTO reviewDTO) {
-        Alcohol alcoholcheck = alcoholRepository.findByCode(reviewDTO.getCode());
+        Optional<Alcohol> alcoholcheck = alcoholRepository.findByCode(reviewDTO.getCode());
         Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getCode());
         Review review;
         Reviewshow reviewshow;
+        if (alcoholcheck.isPresent()) {
+            if (check.isPresent()) {
+                Review existingReview = check.get();
+                existingReview.setWriting(reviewDTO.getWriting());
+                existingReview.setGrade(reviewDTO.getGrade());
+                reviewRepository.save(existingReview);
 
-        if (check.isPresent()) {
-            Review existingReview = check.get();
-            existingReview.setWriting(reviewDTO.getWriting());
-            existingReview.setGrade(reviewDTO.getGrade());
-            reviewRepository.save(existingReview);
+                String alcoholname = alcoholRepository.name(reviewDTO.getCode());
+                reviewshow = Reviewshow
+                        .builder()
+                        .id(existingReview.getId())
+                        .alcoholcode(existingReview.getAlcohol().getCode())
+                        .name(alcoholname)
+                        .writing(reviewDTO.getWriting())
+                        .grade(reviewDTO.getGrade())
+                        .picture(existingReview.getPicture())
+                        .build();
+            } else {
+                User usercheck = userRepository.findByEmail(reviewDTO.getUser().getEmail());
+                Alcohol alcohol = alcoholcheck.get();
+                review = Review.builder()
+                        .user(usercheck)
+                        .alcohol(alcohol)
+                        .writing(reviewDTO.getWriting())
+                        .grade(reviewDTO.getGrade())
+                        .picture(alcohol.getPicture())
+                        .build();
+                reviewRepository.save(review);
 
-            String alcoholname = alcoholRepository.name(reviewDTO.getCode());
-           reviewshow = Reviewshow
-                    .builder()
-                   .id(existingReview.getId())
-                   .alcoholcode(existingReview.getAlcohol().getCode())
-                    .name(alcoholname)
-                    .writing(reviewDTO.getWriting())
-                    .grade(reviewDTO.getGrade())
-                    .picture(existingReview.getPicture())
-                    .build();
+                String alcoholname = alcoholRepository.name(reviewDTO.getCode());
+                reviewshow = Reviewshow
+                        .builder()
+                        .id(review.getId())
+                        .alcoholcode(review.getAlcohol().getCode())
+                        .name(alcoholname)
+                        .writing(reviewDTO.getWriting())
+                        .grade(reviewDTO.getGrade())
+                        .picture(alcohol.getPicture())
+                        .build();
+            }
+            return reviewshow;
         } else {
-            User usercheck = userRepository.findByEmail(reviewDTO.getUser().getEmail());
-            review = Review.builder()
-                    .user(usercheck)
-                    .alcohol(alcoholcheck)
-                    .writing(reviewDTO.getWriting())
-                    .grade(reviewDTO.getGrade())
-                    .picture(alcoholcheck.getPicture())
-                    .build();
-            reviewRepository.save(review);
-
-            String alcoholname = alcoholRepository.name(reviewDTO.getCode());
-            reviewshow = Reviewshow
-                    .builder()
-                    .id(review.getId())
-                    .alcoholcode(review.getAlcohol().getCode())
-                    .name(alcoholname)
-                    .writing(reviewDTO.getWriting())
-                    .grade(reviewDTO.getGrade())
-                    .picture(alcoholcheck.getPicture())
-                    .build();
+            throw new BizException(ErrorCode.NOTFOUNDALCOHOL);
         }
-        return reviewshow;
     }
 
     @Transactional
@@ -125,7 +129,7 @@ public class ReviewService {
 
             ReviewCheck reviewCheck = ReviewCheck
                     .builder()
-                    .code(alcohols.getCode())
+                    .alcoholcode(alcohols.getCode())
                     .name(alcohols.getName())
                     .marketname(markets.getMarketname())
                     .delivery(markets.getDelivery())
@@ -137,21 +141,25 @@ public class ReviewService {
     }
 
     public List<Reviewshow> AlcoholReview(Long code) {
-        Alcohol alcohol = alcoholRepository.findByCode(code);
+        Optional<Alcohol> alcohol = alcoholRepository.findByCode(code);
         List<Review> reviews = reviewRepository.findByAlcohol_Code(code);
         List<Reviewshow> list = new ArrayList<>();
-
-        for (Review review : reviews) {
-            Reviewshow reviewshow = Reviewshow.builder()
-                    .alcoholcode(code)
-                    .name(alcohol.getName())
-                    .writing(review.getWriting())
-                    .picture(review.getPicture())
-                    .grade(review.getGrade())
-                    .build();
-            list.add(reviewshow);
+        if (alcohol.isPresent()) {
+            Alcohol alcohols = alcohol.get();
+            for (Review review : reviews) {
+                Reviewshow reviewshow = Reviewshow.builder()
+                        .alcoholcode(code)
+                        .name(alcohols.getName())
+                        .writing(review.getWriting())
+                        .picture(review.getPicture())
+                        .grade(review.getGrade())
+                        .build();
+                list.add(reviewshow);
+            }
+            return list;
+        } else {
+            throw new BizException(ErrorCode.NOTFOUNDALCOHOL);
         }
-        return list;
     }
 
 }

@@ -11,11 +11,15 @@ import java.util.Optional;
 @Repository
 public interface ShoppingbasketRepository extends JpaRepository<Shoppingbasket, Long> {
 
-    @Query(value = "SELECT NAME from alcohol WHERE CODE = :code", nativeQuery = true)
-    String alcoholname(Long code);
+    @Query(value = "SELECT b.name FROM stock a\n" +
+            "JOIN alcohol b ON a.code = b.code \n" +
+            "WHERE a.stocknumber = :stocknumber", nativeQuery = true)
+    String alcoholname(Long stocknumber);
 
-    @Query(value = "SELECT marketname from market WHERE marketcode= :marketcode", nativeQuery = true)
-    String marketname(Long marketcode);
+    @Query(value = "SELECT b.marketcode FROM stock a\n" +
+            "JOIN market b ON a.marketcode = b.marketcode \n" +
+            "WHERE a.stocknumber = :stocknumber", nativeQuery = true)
+    String marketname(Long stocknumber);
 
     @Query(value = "SELECT picture FROM alcohol\n" +
             "WHERE CODE = :code",nativeQuery = true)

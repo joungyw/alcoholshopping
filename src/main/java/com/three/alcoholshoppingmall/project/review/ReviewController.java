@@ -59,10 +59,23 @@ public class ReviewController {
                     "alcohol에 술의 고유 코드의 입력이 필요 합니다.<br>" +
                     "코드는 1~50까지 있습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<String> ReviewDelete(@RequestBody ReviewDelete reviewDelete) {
+    public ResponseEntity<String> ReviewDeleteA(@RequestBody ReviewDelete reviewDelete) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         String list = reviewService.ReviewDelete(user, reviewDelete);
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
+    @DeleteMapping("aa")
+    @Operation(summary = "내 리뷰 삭제",
+            description = "해당 술에 리뷰를 지우는 기능 입니다.<br>" +
+                    "alcohol에 술의 고유 코드의 입력이 필요 합니다.<br>" +
+                    "코드는 1~50까지 있습니다.")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<String> ReviewDeleteB(@RequestParam long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        String list = reviewService.ReviewDelete(user, ReviewDelete.builder().id(id).build());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 

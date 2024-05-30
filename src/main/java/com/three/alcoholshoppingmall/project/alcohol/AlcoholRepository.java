@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
@@ -57,7 +58,7 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
 
     List<Alcohol> findByNameContaining(String name);// 이름으로 주류 검색하기
 
-    Alcohol findByCode(Long code);
+    Optional<Alcohol> findByCode(Long code);
 
     //특정 술의 평점
     @Query(value = "SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade \n" +
@@ -211,4 +212,6 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     List<Alcohol> alcoholreview(String email);
 
 
+    @Query(value = "SELECT code FROM alcohol  WHERE  NAME = :alcoholName",nativeQuery = true)
+    Long code(String alcoholName);
 }
