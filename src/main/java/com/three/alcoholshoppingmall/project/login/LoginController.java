@@ -61,14 +61,21 @@ public class LoginController {
     }
 
     @PostMapping("/tempPw")
-    @Operation(summary = "임시비밀번호 발급", description = "임시비밀번호 발급")
-    public ResponseEntity<String>findPassword(@RequestBody Email email) throws Exception{
-        System.out.println(email);
+    @Operation(summary = "임시비밀번호 발급", description = "임시비밀번호 발급합니다.<br>" +
+            "이메일을 입력하세요.")
+    public ResponseEntity<String> findPassword(@RequestBody Email email) throws Exception {
         String temPw = loginService.findPw(email.getEmail());
 
         return ResponseEntity.status(HttpStatus.OK).body(temPw);
     }
 
+//    @PostMapping("changePW")
+//    @Operation(summary = "비밀번호 분실 시 비밀번호 변경", description = "비밀번호 분실 시 비밀번호를 변경합니다.<br>" +
+//            "변경하고 싶은 비밀번호와 비밀번호 확인을 입력하면 됩니다.")
+//    public ResponseEntity<String> changePw(@Valid @RequestBody ChangePw changePw) {
+//        String pwChange = loginService.pwChange(changePw);
+//        return ResponseEntity.status(HttpStatus.OK).body(pwChange);
+//    }
 
 
     @PostMapping("emailauth")
