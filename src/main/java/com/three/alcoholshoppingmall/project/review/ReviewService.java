@@ -51,7 +51,6 @@ public class ReviewService {
         return list;
     }
 
-
     public Reviewshow Review(ReviewDTO reviewDTO) {
         Alcohol alcoholcheck = alcoholRepository.findByCode(reviewDTO.getCode());
         Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getCode());
@@ -99,7 +98,6 @@ public class ReviewService {
         return reviewshow;
     }
 
-
     @Transactional
     public String ReviewDelete(User user, ReviewDelete reviewDelete) {
         Optional<Review> check = reviewRepository.findByUser_EmailAndId(user.getEmail(), reviewDelete.getId());
@@ -113,14 +111,12 @@ public class ReviewService {
         return Review;
     }
 
-
     public List<ReviewCheck> Cherklist(String email) {
         List<ReviewCheck> list = new ArrayList<>();
 
         List<Alcohol> alcohol = alcoholRepository.alcoholreview(email);
         List<Market> market = marketRepository.marketreview(email);
         List<Purchase> purchase = purchaseRepository.purchasereview(email);
-
 
         for (int i = 0; i < alcohol.size(); i++) {
             Alcohol alcohols = alcohol.get(i);
@@ -138,8 +134,6 @@ public class ReviewService {
             list.add(reviewCheck);
         }
         return list;
-
-
     }
 
     public List<Reviewshow> AlcoholReview(Long code) {
@@ -157,11 +151,7 @@ public class ReviewService {
                     .build();
             list.add(reviewshow);
         }
-
         return list;
     }
 
 }
-
-
-

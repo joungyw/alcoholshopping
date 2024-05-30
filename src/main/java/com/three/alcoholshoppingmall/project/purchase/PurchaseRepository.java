@@ -116,12 +116,7 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             "WHERE c.email = :email", nativeQuery = true)
     List<String> Picture(String email);
 
-    //해당 물건을 구매 했는지 확인
-    @Query(value = "SELECT a.* FROM purchase a\n" +
-            "JOIN stock b ON a.stocknumber = b.stocknumber\n" +
-            "JOIN alcohol c ON b.code = c.code\n" +
-            "WHERE a.email = :email AND c.code = :code",nativeQuery = true)
-    Optional<Purchase> PurchaseCheck (String email, Long code);
+
 
 
 }

@@ -17,11 +17,6 @@ public interface DetailbasketRepository extends JpaRepository<Detailbasket, Long
             "WHERE b.email = :email AND a.delivery = :delivery", nativeQuery = true)
     List<Detailbasket> baskets(String email, String delivery);
 
-    @Query(value = "SELECT a.delivery FROM detailbasket a\n" +
-            "JOIN shoppingbasket b ON a.stocknumber = b.shoppingnumber\n" +
-            "WHERE b.email = :email AND a.stocknumber = :stock", nativeQuery = true)
-    Delivery TYPE(String email, Long stock);
-
     @Query(value = "SELECT a.* from detailbasket a\n" +
             "JOIN shoppingbasket b ON a.shoppingnumber = b.shoppingnumber\n" +
             "JOIN user c ON b.email = c.email\n" +
@@ -122,7 +117,6 @@ public interface DetailbasketRepository extends JpaRepository<Detailbasket, Long
             "JOIN shoppingbasket d ON c.shoppingnumber = d.shoppingnumber\n" +
             "WHERE d.email = :email AND c.delivery = 'PickUp'", nativeQuery = true)
     List<String> marketPickUp(String email);
-
 
     @Query(value = "SELECT a.picture FROM alcohol a\n" +
             "JOIN stock b on  a.code = b.code\n" +

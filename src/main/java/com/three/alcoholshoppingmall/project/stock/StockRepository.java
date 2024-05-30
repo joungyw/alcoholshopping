@@ -11,8 +11,6 @@ import java.util.Optional;
 public interface StockRepository extends JpaRepository<Stock, Long> {
 
     Stock findByStocknumber(Long stock);
-
-
     @Query(value = "SELECT stocknumber FROM stock a\n" +
             "JOIN alcohol b ON a.code = b.code\n" +
             "WHERE b.code = :code", nativeQuery = true)
