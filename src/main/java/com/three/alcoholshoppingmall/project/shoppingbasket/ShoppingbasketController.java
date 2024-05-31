@@ -74,10 +74,11 @@ public class ShoppingbasketController {
             description = "해당 재품을 회원의 장바구니에서 뺴는 기능입니다. <br>" +
                     "id의 입력이 필요합니다." )
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<ResponseEntity<String>> DeleteShopping(@RequestBody ShoppingDELETE shoppingDELETE) {
+    public ResponseEntity<String> DeleteShopping(@RequestBody ShoppingDELETE shoppingDELETE) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        ResponseEntity<String> list = shoppingbasketService.Delete(user, shoppingDELETE.getId());
+        System.out.println(shoppingDELETE);
+        String list = shoppingbasketService.Delete(user, shoppingDELETE.getId());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
