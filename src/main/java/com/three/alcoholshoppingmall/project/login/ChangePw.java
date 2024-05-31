@@ -12,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChangePw {
+
     @Schema(title = "newPassword", description = "회원의 변경하고픈 password입니다.",example = "변경하고픈 비밀번호")
     @NotBlank(message = "변경하고픈 비밀번호를 입력하세요.")
     private String newPassword;

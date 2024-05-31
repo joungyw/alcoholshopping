@@ -1,6 +1,7 @@
 package com.three.alcoholshoppingmall.project.search;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,12 +15,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "search")
 @Schema(description = "search 테이블에 대한 내용입니다.")
 public class Search {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     @Schema(title = "검색 ID", description = "table에서 자동으로 생성되는 칼럼입니다.")
     private Long id;
 
