@@ -9,12 +9,16 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Repository
 public interface SearchRepository extends JpaRepository<Search, Long> {
-    List<Search> findAllByUserOrderByIdDesc(User user, PageRequest pageable);
+    @Query(value = "  SELECT DISTINCT searchcontents\n" +
+            "FROM search\n" +
+            "WHERE email = :email \n" +
+            "ORDER BY searchcontents DESC \n" +
+            "LIMIT 5; ",nativeQuery = true)
+    List<String> findAllByUserOrderByIdDesc(String email);
 
     @Transactional
     @Modifying

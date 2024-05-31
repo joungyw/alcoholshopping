@@ -24,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -134,15 +135,21 @@ public class MainConstructor {
                     "검색창에 검색 시 회원의 최근 검색 기록 5개를 뜨게 하는 기능입니다. <br>" +
                     "입력 값은 필요 없습니다.<br>" +
                     "검색을 하면서 db에 저장되었던 내용을 최신순으로 5개를 출력하게 하는 기능입니다. <br>" +
-                    "비회원의 검색기록이 없으면 NULLRECENT 에러코드가 나오며, 최근 검색기록이 조내재하지 않습니다라고 에러 메시지가 나옵니다.")
+                    "비회원의 검색기록이 없으면 NULLRECENT 에러코드가 나오며, 최근 검색기록이 존재하지 않습니다라고 에러 메시지가 나옵니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Search>> recent() {
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
+        System.out.println(user.getEmail());
         String email = user.getEmail();
-        List<Search> list = searchService.recentSearch(email);
-        return ResponseEntity.status(HttpStatus.OK).body(list);
+        List<String> list = searchService.recentSearch(email);
+        List<Search> searchList = list.stream().map(
+                item -> Search.builder()
+                        .searchcontents(item)
+                        .build())
+                .collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(searchList);
     }
 
 

@@ -172,12 +172,26 @@ public class LoginService {
         javaMailSender.send(message);
 
         return tempPw + "";
-
     }
+//        public boolean validateTemporaryPassword(String email, String tempPw) {
+//            User user = userRepository.findByEmail(email);
+//            if (user == null) {
+//                throw new BizException(NOTFOUNDUSER);
+//            } else if (user.getEmail() == ) {
+//                return true;
+//            }else {
+//                return false;
+//            }
+//
+//        }
 
-//    public String pwChange(ChangePw changePw) {
-//        String tempPw
-//        if (!changePw.getNewPassword().equals(changePw.getPasswordch())) {
+
+
+//    public String pwChange(String email, ChangePw changePw) {
+//        if (email == null || email == "") {
+//            throw new BizException(ErrorCode.NOTINPUTEMAIL);
+//        }
+//        else if (!changePw.getNewPassword().equals(changePw.getPasswordch())) {
 //            throw new BizException(CHECKPASSWORD);
 //        } else {
 //            changePw.setNewPassword(encoder.encode(changePw.getNewPassword()));
