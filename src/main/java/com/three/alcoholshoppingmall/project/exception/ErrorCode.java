@@ -37,23 +37,23 @@ public enum ErrorCode {
     CHECKEMAILPASSWORD(HttpStatus.BAD_REQUEST,"CHECKEMAILPASSWORD","이메일과 비밀번호를 확인해 주세요."),
 
     //해당 정보를 가진 장바구니가 없을떄
-    NOTFOUNDSHPPING(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 내용은 장바구니에 없습니다."),
+    NOTFOUNDSHPPING(HttpStatus.NOT_FOUND, "NOTFOUNDSHPPING", "해당 내용은 장바구니에 없습니다."),
 
     //해당 정보를 가진 스텍넘버가 없을때
     NOTFOUNDSTOCK(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 정보는 없습니다."),
 
     //즐겨 찾기 삭제시 없는 내용인경우
-    NOTFOUNDFAVORITES(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 내용은 즐겨 찾기 목록에 없습니다."),
+    NOTFOUNDFAVORITES(HttpStatus.NOT_FOUND, "NOTFOUNDFAVORITES", "해당 내용은 즐겨 찾기 목록에 없습니다."),
     //즐겨 찾기 삭제시 없는 내용인경우
-    DELETEFAVORITES(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 술을 즐겨 찾기 목록에서 삭제하였습니다."),
+    DELETEFAVORITES(HttpStatus.NOT_FOUND, "DELETEFAVORITES", "해당 술을 즐겨 찾기 목록에서 삭제하였습니다."),
 
     //리뷰 삭제시 없는 내용인경우
-    NOTFOUNDREVIEW(HttpStatus.NOT_FOUND, "NOTFOUNDRECENT", "해당 내용의 리뷰는 존재하지 않습니다."),
+    NOTFOUNDREVIEW(HttpStatus.NOT_FOUND, "NOTFOUNDREVIEW", "해당 내용의 리뷰는 존재하지 않습니다."),
 
-    ERRORDELIVERYTYPE(HttpStatus.BAD_REQUEST,"EMAILDUPL","유효하지 않은 주문 입니다."),
+    ERRORDELIVERYTYPE(HttpStatus.BAD_REQUEST,"ERRORDELIVERYTYPE","유효하지 않은 주문 입니다."),
 
     //주류 정렬시 에러코드
-    ERRORTYPE(HttpStatus.BAD_REQUEST,"EMAILDUPL","유효하지 않은 정렬 태그입니다."),
+    ERRORTYPE(HttpStatus.BAD_REQUEST,"ERRORTYPE","유효하지 않은 정렬 태그입니다."),
 
     // 비밀번호 수정시 에러코드
     SAMEPASSWORD(HttpStatus.BAD_REQUEST, "SAMEPASSWORD", "기존 비밀번호와 수정할 비밀번호가 동일합니다."),

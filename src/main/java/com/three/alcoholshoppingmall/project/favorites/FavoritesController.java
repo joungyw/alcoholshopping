@@ -64,14 +64,9 @@ private final FavoritesService favoritesService;
                     "code는 1~50까지 있습니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<String> FavoritesDelete(@RequestBody AlcoholDto alcoholDto) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authentication.getPrincipal();
-
        String list = favoritesService.FavoritesDelete(alcoholDto.getCode(), user.getEmail());
-
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
-
-
 }
