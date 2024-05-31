@@ -158,7 +158,7 @@ public class ShoppingbasketService {
     }
 
     @Transactional
-    public String Delete(User user, Long number) {
+    public String Delete(Long number) {
         Optional<Detailbasket> basket = detailbasketRepository.findByNumber(number);
             if (basket.isPresent()) {
                 detailbasketRepository.deleteByNumber(number);

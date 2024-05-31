@@ -77,7 +77,7 @@ public class ShoppingbasketController {
     public ResponseEntity<String> DeleteShopping(@RequestBody ShoppingDELETE shoppingDELETE) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        String list = shoppingbasketService.Delete(user, shoppingDELETE.getId());
+        String list = shoppingbasketService.Delete(shoppingDELETE.getId());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
