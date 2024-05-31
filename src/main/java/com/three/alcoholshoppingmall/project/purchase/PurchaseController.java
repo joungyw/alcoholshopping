@@ -5,6 +5,7 @@ import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholService;
 import com.three.alcoholshoppingmall.project.alcohol.Alcoholmain;
 import com.three.alcoholshoppingmall.project.user.User;
+import com.three.alcoholshoppingmall.project.user.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,6 +30,7 @@ public class PurchaseController {
 
     private final PurchaseService purchaseServicce;
     private final AlcoholService alcoholService;
+    private final UserRepository userRepository;
 
 
     @GetMapping("/pickup")
@@ -107,8 +109,10 @@ public class PurchaseController {
     @Operation(summary = "구매 정보 저장",description = "구매내역을 DB에 저장합니다." +
             "이미지 경로, 제품명, 주문일자, 매장명, 주문번호, 주문방식, 주소, 수량, 결제금액이 필요합니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<String> buysave(@AuthenticationPrincipal User user,@RequestBody ){
+    public ResponseEntity<String> buysave(@AuthenticationPrincipal User user,@RequestBody Purchase purchase){
+        User dbuser = userRepository.findByEmail(user.getEmail());
 
+        System.out.println(dbuser.getEmail());
 
 
         return ResponseEntity.status(HttpStatus.OK).body("구매내역 저장 완료");

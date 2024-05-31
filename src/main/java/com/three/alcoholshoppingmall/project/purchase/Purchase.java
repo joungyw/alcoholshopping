@@ -23,6 +23,9 @@ public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(title = "기본키"  , description = "table에서 자동으로 생성되는 칼럼입니다.")
+    private Long id;
+
+    @Schema(title = "주문번호", description = "구매 물품의 주문 번호입니다.")
     private Long ordernumber;
 
     @Schema(title = "회원 이메일", description = "회원의 이메일을 넣는 조인된 칼럼입니다.")
@@ -60,7 +63,8 @@ public class Purchase {
     @Schema(title = "구매일자", description = "물건을 구매한 날짜 입니다.")
     private LocalDate purchaseday;
 
-
+    @Schema(title = "술사진", description = "구입한 물품의 사진 경로")
+    private String picture;
 
 
 
