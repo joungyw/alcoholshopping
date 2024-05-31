@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -86,7 +87,7 @@ public class PurchaseController {
     public ResponseEntity<String> tosspay(@Valid @RequestBody TossInfo tossInfo) {
 
         String checkoutPage = purchaseServicce.tosspay(tossInfo);
-
+        System.out.println(checkoutPage);
         return ResponseEntity.status(HttpStatus.OK).body(checkoutPage);
     }
 
@@ -100,6 +101,17 @@ public class PurchaseController {
         User user = (User) authentication.getPrincipal();
         List<Alcoholmain> list = alcoholService.Algorithm(user.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
+    @PostMapping("/buysave")
+    @Operation(summary = "구매 정보 저장",description = "구매내역을 DB에 저장합니다." +
+            "이미지 경로, 제품명, 주문일자, 매장명, 주문번호, 주문방식, 주소, 수량, 결제금액이 필요합니다.")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<String> buysave(@AuthenticationPrincipal User user,@RequestBody ){
+
+
+
+        return ResponseEntity.status(HttpStatus.OK).body("구매내역 저장 완료");
     }
 }
 

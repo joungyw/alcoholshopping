@@ -174,8 +174,8 @@ public class PurchaseService {
             jsonBody.put("apiKey", "sk_test_w5lNQylNqa5lNQe013Nq");
             jsonBody.put("autoExecute", true);
             jsonBody.put("resultCallback", "https://YOUR-SITE.COM/callback");
-            jsonBody.put("retUrl", "http://YOUR-SITE.COM/ORDER-CHECK");
-            jsonBody.put("retCancelUrl", "http://YOUR-SITE.COM/close");
+            jsonBody.put("retUrl", "http://localhost:3000/callback");
+            jsonBody.put("retCancelUrl", "http://localhost:3000/");
 
             BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
             bos.write(jsonBody.toJSONString().getBytes(StandardCharsets.UTF_8));
