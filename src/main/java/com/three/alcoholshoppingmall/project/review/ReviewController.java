@@ -32,10 +32,8 @@ public class ReviewController {
                     "입력 하실 값은 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Reviewshow>> ReviewList() {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-
         List<Reviewshow> list = reviewService.Reviewlist(user.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
@@ -48,12 +46,10 @@ public class ReviewController {
                     "writing 는 리뷰 글, grade는 평점으로 0~10까지만 입력이 가능합니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<Reviewshow> Review(@RequestBody ReviewDTO reviewDTO) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         reviewDTO.setUser(user);
         Reviewshow list = reviewService.Review(reviewDTO);
-
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -63,13 +59,10 @@ public class ReviewController {
                     "alcohol에 술의 고유 코드의 입력이 필요 합니다.<br>" +
                     "코드는 1~50까지 있습니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<String> ReviewDelete(@RequestBody ReviewDelete reviewDelete) {
-
+    public ResponseEntity<String> ReviewDeleteA(@RequestBody ReviewDelete reviewDelete) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-
         String list = reviewService.ReviewDelete(user, reviewDelete);
-
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -79,13 +72,9 @@ public class ReviewController {
                     "입력 값은 필요 없습니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<ReviewCheck>> Cherk() {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         List<ReviewCheck> list = reviewService.Cherklist(user.getEmail());
-
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
-
-
 }

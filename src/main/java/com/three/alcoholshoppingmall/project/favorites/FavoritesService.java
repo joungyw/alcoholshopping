@@ -50,26 +50,32 @@ public class FavoritesService {
     @Transactional
     public Favoritesalcohol Favorites(Long code, String email) {
         Optional<Favorites> favor = favoritesFRepository.findByUser_EmailAndAlcohol_Code(email,code);
-       Alcohol alcohol = alcoholRepository.findByCode(code);
+       Optional<Alcohol> alcohols = alcoholRepository.findByCode(code);
         User user = userRepository.findByEmail(email);
         Favoritesalcohol favoritesalcohol;
 
-        if (favor.isPresent()) {
-            favoritesFRepository.deleteByUser_EmailAndAlcohol_Code(email,code);
-            throw new BizException(ErrorCode.DELETEFAVORITES);
-        } else {
-            Favorites favorites = new Favorites();
-            favorites.setUser(user);
-            favorites.setAlcohol(alcohol);
-             favoritesFRepository.save(favorites);
+        if(alcohols.isPresent()) {
+            Alcohol alcohol = alcohols.get();
+            if (favor.isPresent()) {
+                favoritesFRepository.deleteByUser_EmailAndAlcohol_Code(email, code);
+                throw new BizException(ErrorCode.DELETEFAVORITES);
+            } else {
+                Favorites favorites = new Favorites();
+                favorites.setUser(user);
+                favorites.setAlcohol(alcohol);
+                favoritesFRepository.save(favorites);
 
-            favoritesalcohol = Favoritesalcohol.builder()
-                     .code(alcohol.getCode())
-                     .name(alcohol.getName())
-                     .picture(alcohol.getPicture())
-                     .build();
+                favoritesalcohol = Favoritesalcohol.builder()
+                        .code(alcohol.getCode())
+                        .name(alcohol.getName())
+                        .picture(alcohol.getPicture())
+                        .build();
+            }
+            return favoritesalcohol;
         }
-        return favoritesalcohol;
+        else {
+            throw new BizException(ErrorCode.NOTFOUNDALCOHOL);
+        }
     }
 
     @Transactional

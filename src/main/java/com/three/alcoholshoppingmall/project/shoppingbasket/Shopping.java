@@ -11,9 +11,12 @@ import lombok.Getter;
 @Builder
 public class Shopping {
 
+    private Long id;
     private Long stock;
 
     private String name;
+
+    private Long alcoholcode;
 
     private String marketname;
 

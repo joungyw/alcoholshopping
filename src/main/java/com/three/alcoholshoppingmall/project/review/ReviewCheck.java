@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Builder
 public class ReviewCheck {
 
-    private Long code;
+    private Long alcoholcode;
 
     private String name;
 
@@ -24,7 +24,7 @@ public class ReviewCheck {
 
     private Delivery delivery;
 
-
+    private String picture;
 
 
 }

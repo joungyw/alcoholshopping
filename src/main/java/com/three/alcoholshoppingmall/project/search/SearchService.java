@@ -58,10 +58,12 @@ public class SearchService {
         }
     }
 
-    public List<Search> recentSearch(String email) {
+    public List<String> recentSearch(String email) {
         User dbUser = userRepository.findByEmail(email);
-        List<Search> list = searchRepository
-                .findAllByUserOrderByIdDesc(dbUser, PageRequest.of(0, 5));
+        if (dbUser == null){
+            throw new BizException(NOTFOUNDUSER);
+        }
+        List<String> list = searchRepository.findAllByUserOrderByIdDesc(email);
         if (list.isEmpty()) {
             throw new BizException(NULLRECENT);
         } else {

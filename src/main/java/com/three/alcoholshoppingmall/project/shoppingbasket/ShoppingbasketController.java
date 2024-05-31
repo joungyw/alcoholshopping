@@ -72,13 +72,12 @@ public class ShoppingbasketController {
     @DeleteMapping("")
     @Operation(summary = "장바구니 빼기",
             description = "해당 재품을 회원의 장바구니에서 뺴는 기능입니다. <br>" +
-                    "alcoholcode의 입력이 필요 합니다 alcoholcode은 술의 고유코드입니다. <br>" +
-                    "marketname의 입략이 필요합니다. marketname은 매장의 이름입니다." )
+                    "id의 입력이 필요합니다." )
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<ResponseEntity<String>> DeleteShopping(@RequestBody StockCode stockCode) {
+    public ResponseEntity<ResponseEntity<String>> DeleteShopping(@RequestBody ShoppingDELETE shoppingDELETE) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        ResponseEntity<String> list = shoppingbasketService.Delete(user, stockCode);
+        ResponseEntity<String> list = shoppingbasketService.Delete(user, shoppingDELETE.getId());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -103,15 +102,13 @@ public class ShoppingbasketController {
     @PutMapping("")
     @Operation(summary = "장바구니 수정",
             description = "회원의 장바구니에서 선택한 제품의 수량을 수정하는 기능입니다.<br>" +
-                    "alcoholcode의 입력이 필요 합니다 alcoholcode은 술의 고유코드입니다. <br>" +
-                    "marketname의 입략이 필요합니다. marketname은 매장의 이름입니다. <br>" +
-                    "amount 물건의 수량의 입력이 필요 합니다. <br>" +
-                    "delivery는 물건을 받는 법 입니다 PickUp,Delivery의 입력이 필요합니다.")
+                    "id의 입력이 필요합니다."+
+                    "amount 물건의 수량의 입력이 필요 합니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<Shopping>> PutShopping(@RequestBody DetailbasketDTO detailbasketDTO) {
+    public ResponseEntity<List<Shopping>> PutShopping(@RequestBody ShoppingPUT shoppingPUT) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        List<Shopping> list = shoppingbasketService.Put(user, detailbasketDTO);
+        List<Shopping> list = shoppingbasketService.Put(user, shoppingPUT);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 

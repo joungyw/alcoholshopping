@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
@@ -57,7 +58,7 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
 
     List<Alcohol> findByNameContaining(String name);// 이름으로 주류 검색하기
 
-    Alcohol findByCode(Long code);
+    Optional<Alcohol> findByCode(Long code);
 
     //특정 술의 평점
     @Query(value = "SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade \n" +
@@ -202,12 +203,51 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     List<Double> Markeratingaverage(String type);
 
 
-    @Query(value = "SELECT c.* FROM purchase a\n" +
-            "LEFT JOIN stock b ON a.stocknumber = b.stocknumber\n" +
-            "LEFT JOIN alcohol c ON b.code = c.code\n" +
-            "LEFT JOIN review d ON c.code = d.code\n" +
-            "LEFT JOIN market e ON b.marketcode = e.marketcode\n" +
-            "WHERE a.email = :email and d.code IS NULL", nativeQuery = true)
+    @Query(value = "SELECT c.* FROM purchase a " +
+            "LEFT JOIN stock b ON a.stocknumber = b.stocknumber " +
+            "LEFT JOIN alcohol c ON b.code = c.code " +
+            "LEFT JOIN review d ON c.code = d.code AND d.email = :email " +
+            "LEFT JOIN market e ON b.marketcode = e.marketcode " +
+            "WHERE a.email = :email AND d.code IS NULL", nativeQuery = true)
     List<Alcohol> alcoholreview(String email);
 
+    @Query(value = "SELECT code FROM alcohol  WHERE  NAME = :alcoholName",nativeQuery = true)
+    Long code(String alcoholName);
+
+    @Query(value = "SELECT a.*\n" +
+            "FROM alcohol a \n" +
+            "JOIN stock b ON a.code = b.code \n" +
+            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
+            "WHERE c.email = :email\n" +
+            "AND c.delivery = 'PICKUP' \n" +
+            "ORDER BY c.purchaseday DESC, c.ordernumber DESC", nativeQuery = true)
+    List<Alcohol> alcoholspick(String email);
+
+    @Query(value = "SELECT a.* \n" +
+            "FROM alcohol a \n" +
+            "JOIN stock b ON a.code = b.code \n" +
+            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
+            "WHERE c.email = :email\n" +
+            "AND c.delivery = 'DELIVERY' \n" +
+            "ORDER BY c.purchaseday DESC, c.ordernumber DESC", nativeQuery = true)
+    List<Alcohol> alcoholsdelivery(String email);
+
+    @Query(value = "SELECT a.*\n" +
+            "FROM alcohol a \n" +
+            "JOIN stock b ON a.code = b.code \n" +
+            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
+            "WHERE c.email = :email\n" +
+            "AND c.delivery = 'PICKUP' \n" +
+            "ORDER BY c.purchaseday DESC, c.ordernumber DESC LIMIT 5", nativeQuery = true)
+    List<Alcohol> alcoholspicklimt(String email);
+
+    @Query(value = "SELECT a.* \n" +
+            "FROM alcohol a \n" +
+            "JOIN stock b ON a.code = b.code \n" +
+            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
+            "WHERE c.email = :email\n" +
+            "AND c.delivery = 'DELIVERY' \n" +
+            "ORDER BY c.purchaseday DESC, c.ordernumber DESC LIMIT 5", nativeQuery = true)
+    List<Alcohol> alcoholsdeliverylimt(String email);
 }
+

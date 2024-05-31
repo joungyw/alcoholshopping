@@ -50,8 +50,8 @@ public class LoginController {
     //     이메일 찾기
     @PostMapping("/findEmail")
     @Operation(summary = "이메일 찾기", description = "전화번호와 생년월일을 입력하면 이메일을 찾아줍니다.")
-    public ResponseEntity<String> findEmail(@RequestBody FindEmailDTO findEmailDTO) {
-        String email = loginRepository.findByPhoneAndBirthdate(findEmailDTO.getPhone(), findEmailDTO.getBirthdate());
+    public ResponseEntity<String> findEmail(@RequestBody FindEmail findEmail) {
+        String email = loginRepository.findByPhoneAndBirthdate(findEmail.getPhone(), findEmail.getBirthdate());
         System.out.println(email);
         if (email != null) {
             return ResponseEntity.status(HttpStatus.OK).body(email);
@@ -60,9 +60,33 @@ public class LoginController {
         }
     }
 
-//    @PostMapping("/findPw")
-////    @Operation(summary = "비밀번호 변경", description = "이메일 인증을 하고 임시비번이 발송되면 임시비버")
-//    public
+    @PostMapping("/tempPw")
+    @Operation(summary = "임시비밀번호 발급", description = "임시비밀번호 발급합니다.<br>" +
+            "이메일을 입력하세요.")
+    public ResponseEntity<String> findPassword(@RequestBody Email email) throws Exception {
+        String temPw = loginService.findPw(email.getEmail());
+
+        return ResponseEntity.status(HttpStatus.OK).body(temPw);
+    }
+
+//    @PostMapping("/validateTemp")
+//    @Operation(summary = "임시비밀번호 인증", description = "이메일과 발급받은 임시비밀번호를 입력하세요.")
+//    public ResponseEntity<Boolean> validateTemporaryPassword(@RequestBody Email email, String tempPw) {
+//        System.out.println(email);
+//        System.out.println(tempPw);
+//        boolean isValid = loginService.validateTemporaryPassword(email.getEmail(),tempPw);
+//        return ResponseEntity.ok(isValid);
+//    }
+
+
+//    @PostMapping("changePW")
+//    @Operation(summary = "비밀번호 분실 시 비밀번호 변경", description = "비밀번호 분실 시 비밀번호를 변경합니다.<br>" +
+//            "변경하고 싶은 비밀번호와 비밀번호 확인을 입력하면 됩니다.")
+//    public ResponseEntity<String> changePw(@Valid @RequestBody Email email, ChangePw changePw) {
+//        String pwChange = loginService.pwChange(email.getEmail(), changePw);
+//        return ResponseEntity.status(HttpStatus.OK).body(pwChange);
+//    }
+
 
     @PostMapping("emailauth")
     @Operation(summary = "이메일 인증", description = "이메일 인증하기")

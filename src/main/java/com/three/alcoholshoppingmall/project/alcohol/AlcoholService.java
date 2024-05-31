@@ -36,28 +36,34 @@ public class AlcoholService {
         Double ratings = alcoholRepository.Rating(alcoholDto.getCode());
         int reviewCount = reviewRepository.Reviewcacount(alcoholDto.getCode());
 
-        Alcohol alcohol = alcoholRepository.findByCode(alcoholDto.getCode());
-        List<DetailInformation> list = new ArrayList<>();
+        Optional<Alcohol> alcohols = alcoholRepository.findByCode(alcoholDto.getCode());
+        if(alcohols.isPresent()) {
+            Alcohol alcohol = alcohols.get();
+            List<DetailInformation> list = new ArrayList<>();
 
-        DetailInformation info = DetailInformation.builder()
-                .code(alcohol.getCode())
-                .name(alcohol.getName())
-                .maincategory(alcohol.getMaincategory())
-                .subcategory(alcohol.getSubcategory())
-                .content(alcohol.getContent())
-                .aroma(alcohol.getAroma())
-                .taste(alcohol.getTaste())
-                .finish(alcohol.getFinish())
-                .nation(alcohol.getNation())
-                .picture(alcohol.getPicture())
-                .price(alcohol.getPrice())
-                .ratingaverage(ratings)
-                .reviewcacount(reviewCount)
-                .build();
+            DetailInformation info = DetailInformation.builder()
+                    .code(alcohol.getCode())
+                    .name(alcohol.getName())
+                    .maincategory(alcohol.getMaincategory())
+                    .subcategory(alcohol.getSubcategory())
+                    .content(alcohol.getContent())
+                    .aroma(alcohol.getAroma())
+                    .taste(alcohol.getTaste())
+                    .finish(alcohol.getFinish())
+                    .nation(alcohol.getNation())
+                    .picture(alcohol.getPicture())
+                    .price(alcohol.getPrice())
+                    .ratingaverage(ratings)
+                    .reviewcacount(reviewCount)
+                    .build();
 
-        list.add(info);
+            list.add(info);
 
-        return list;
+            return list;
+        }
+        else {
+            throw new BizException(ErrorCode.NOTFOUNDALCOHOL);
+        }
     }
 
     public List<Alcoholmain> MainType(String maincategory, String type) {

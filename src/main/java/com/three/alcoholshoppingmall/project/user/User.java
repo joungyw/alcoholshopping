@@ -1,6 +1,7 @@
 package com.three.alcoholshoppingmall.project.user;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
@@ -17,6 +18,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "user")
 @Schema(description = "user 테이블에 대한 내용입니다.")
 public class User {

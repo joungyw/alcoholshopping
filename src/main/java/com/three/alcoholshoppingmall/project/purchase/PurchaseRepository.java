@@ -1,5 +1,7 @@
 package com.three.alcoholshoppingmall.project.purchase;
 
+import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
+import com.three.alcoholshoppingmall.project.market.Market;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -31,84 +33,20 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
     @Query(value = "SELECT * FROM purchase WHERE email = :email AND delivery = 'DELIVERY' ORDER BY purchaseday DESC, ordernumber DESC LIMIT 5", nativeQuery = true)
     List<Purchase> Deliverylimt(@Param("email") String email);
 
-    @Query(value = "SELECT a.name \n" +
-            "FROM alcohol a \n" +
-            "JOIN stock b ON a.code = b.code \n" +
-            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
-            "WHERE c.email = :email\n" +
-            "AND c.delivery = 'PICKUP' \n" +
-            "ORDER BY c.purchaseday DESC, c.ordernumber DESC", nativeQuery = true)
-    List<String> alcoholspick(String email);
 
-    @Query(value = "SELECT a.marketname\n" +
-            "FROM market a \n" +
-            "JOIN stock b ON a.marketcode = b.marketcode\n" +
-            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
-            "WHERE c.email = :email\n" +
-            "AND c.delivery = 'PICKUP' \n" +
-            "ORDER BY c.purchaseday DESC, c.ordernumber DESC", nativeQuery = true)
-    List<String> marketspick(String email);
 
-    @Query(value = "SELECT a.name \n" +
-            "FROM alcohol a \n" +
-            "JOIN stock b ON a.code = b.code \n" +
-            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
-            "WHERE c.email = :email\n" +
-            "AND c.delivery = 'DELIVERY' \n" +
-            "ORDER BY c.purchaseday DESC, c.ordernumber DESC", nativeQuery = true)
-    List<String> alcoholsdelivery(String email);
 
-    @Query(value = "SELECT a.marketname\n" +
-            "FROM market a \n" +
-            "JOIN stock b ON a.marketcode = b.marketcode\n" +
-            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
-            "WHERE c.email = :email \n" +
-            "AND c.delivery = 'DELIVERY' \n" +
-            "ORDER BY c.purchaseday DESC, c.ordernumber DESC", nativeQuery = true)
-    List<String> marketsdelivery(String email);
 
-    @Query(value = "SELECT a.name \n" +
-            "FROM alcohol a \n" +
-            "JOIN stock b ON a.code = b.code \n" +
-            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
-            "WHERE c.email = :email\n" +
-            "AND c.delivery = 'PICKUP' \n" +
-            "ORDER BY c.purchaseday DESC, c.ordernumber DESC LIMIT 5", nativeQuery = true)
-    List<String> alcoholspicklimt(String email);
 
-    @Query(value = "SELECT a.marketname\n" +
-            "FROM market a \n" +
-            "JOIN stock b ON a.marketcode = b.marketcode\n" +
-            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
-            "WHERE c.email = :email \n" +
-            "AND c.delivery = 'PICKUP' \n" +
-            "ORDER BY c.purchaseday DESC, c.ordernumber DESC LIMIT 5", nativeQuery = true)
-    List<String> marketspicklimt(String email);
 
-    @Query(value = "SELECT a.name \n" +
-            "FROM alcohol a \n" +
-            "JOIN stock b ON a.code = b.code \n" +
-            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
-            "WHERE c.email = :email\n" +
-            "AND c.delivery = 'DELIVERY' \n" +
-            "ORDER BY c.purchaseday DESC, c.ordernumber DESC LIMIT 5", nativeQuery = true)
-    List<String> alcoholsdeliverylimt(String email);
 
-    @Query(value = "SELECT a.marketname\n" +
-            "FROM market a \n" +
-            "JOIN stock b ON a.marketcode = b.marketcode\n" +
-            "JOIN purchase c ON b.stocknumber = c.stocknumber \n" +
-            "WHERE c.email = :email \n" +
-            "AND c.delivery = 'DELIVERY' \n" +
-            "ORDER BY c.purchaseday DESC, c.ordernumber DESC LIMIT 5", nativeQuery = true)
-    List<String> marketsdeliverylimt(String email);
+
 
     @Query(value = "SELECT a.* FROM purchase a\n" +
             "LEFT JOIN stock b ON a.stocknumber = b.stocknumber\n" +
             "LEFT JOIN alcohol c ON b.code = c.code\n" +
-            "LEFT JOIN review d ON c.code = d.code\n" +
-            "LEFT JOIN market e ON b.marketcode = e.marketcode\n" +
-            "WHERE a.email = :email and d.code IS NULL", nativeQuery = true)
+            "LEFT JOIN review d ON c.code = d.code AND d.email = :email\n" +
+            "WHERE a.email = :email AND d.code IS NULL\n", nativeQuery = true)
     List<Purchase> purchasereview(String email);
 
     @Query(value = "SELECT a.picture FROM alcohol a\n" +
@@ -117,12 +55,7 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             "WHERE c.email = :email", nativeQuery = true)
     List<String> Picture(String email);
 
-    //해당 물건을 구매 했는지 확인
-    @Query(value = "SELECT a.* FROM purchase a\n" +
-            "JOIN stock b ON a.stocknumber = b.stocknumber\n" +
-            "JOIN alcohol c ON b.code = c.code\n" +
-            "WHERE a.email = :email AND c.code = :code",nativeQuery = true)
-    Optional<Purchase> PurchaseCheck (String email, Long code);
+
 
 
 }

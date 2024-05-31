@@ -6,7 +6,6 @@ import com.three.alcoholshoppingmall.project.exception.BizException;
 import com.three.alcoholshoppingmall.project.exception.ErrorCode;
 import com.three.alcoholshoppingmall.project.purchase.Delivery;
 import com.three.alcoholshoppingmall.project.stock.Stock;
-import com.three.alcoholshoppingmall.project.stock.StockCode;
 import com.three.alcoholshoppingmall.project.stock.StockRepository;
 import com.three.alcoholshoppingmall.project.user.User;
 import jakarta.transaction.Transactional;
@@ -54,11 +53,15 @@ public class ShoppingbasketService {
             String alcoholName = (alcoholname.size() > i) ? alcoholname.get(i) : null;
             String marketName = (marketname.size() > i) ? marketname.get(i) : null;
             String picturecode = (Picture.size() > i) ? Picture.get(i) : null;
+            Long alcoholcode =  alcoholRepository.code(alcoholName);
+
 
             if (alcoholName != null && marketName != null) {
                 Shopping shopping = Shopping.builder()
+                        .id(check.getNumber())
                         .stock(check.getStock().getStocknumber())
                         .name(alcoholName)
+                        .alcoholcode(alcoholcode)
                         .marketname(marketName)
                         .amount(check.getAmount())
                         .price(check.getPrice())
@@ -75,7 +78,7 @@ public class ShoppingbasketService {
     public List<Shopping> Shopping(User user, DetailbasketDTO detailbasketDTO) {
         Detailbasket detailbasket;
         List<Shopping> list = new ArrayList<>();
-        Optional<Long> stock = detailbasketRepository.stocknumber(detailbasketDTO.getAlcoholcode(), detailbasketDTO.getMarketname());
+        Optional<Long> stock = detailbasketRepository.stocknumbers(detailbasketDTO.getAlcoholcode(), detailbasketDTO.getMarketname());
         if (stock.isPresent()) {
             Long stocknumver = stock.get();
             Optional<Detailbasket> basket = detailbasketRepository.basket(user.getEmail(), stocknumver);
@@ -97,13 +100,15 @@ public class ShoppingbasketService {
 
                     detailbasketRepository.save(detailbasket);
 
-                    String alcohol = shoppingbasketRepository.alcoholname(detailbasket.getStock().getAlcohol().getCode());
-                    String market = shoppingbasketRepository.marketname(detailbasket.getStock().getMarket().getMarketcode());
+                    String alcohol = shoppingbasketRepository.alcoholname(detailbasket.getStock().getStocknumber());
+                    String market = shoppingbasketRepository.marketname(detailbasket.getStock().getStocknumber());
                     String Picture = shoppingbasketRepository.pictur(detailbasket.getStock().getAlcohol().getCode());
 
                     Shopping shopping = Shopping.builder()
+                            .id(detailbasket.getNumber())
                             .stock(detailbasket.getStock().getStocknumber())
                             .name(alcohol)
+                            .alcoholcode(detailbasketDTO.getAlcoholcode())
                             .marketname(market)
                             .amount(detailbasket.getAmount())
                             .price(detailbasket.getPrice())
@@ -118,8 +123,8 @@ public class ShoppingbasketService {
             }
             if (basket.isPresent()) {
                 Stock stockcheck = stockRepository.findByStocknumber(stocknumver);
-                String alcohols = shoppingbasketRepository.alcoholname(stockcheck.getAlcohol().getCode());
-                String market = shoppingbasketRepository.marketname(stockcheck.getMarket().getMarketcode());
+                String alcohols = shoppingbasketRepository.alcoholname(stockcheck.getStocknumber());
+                String market = shoppingbasketRepository.marketname(stockcheck.getStocknumber());
                 String Picture = shoppingbasketRepository.pictur(stockcheck.getAlcohol().getCode());
 
                 int alcoholprice = alcoholRepository.Price(stockcheck.getAlcohol().getCode());
@@ -133,8 +138,10 @@ public class ShoppingbasketService {
                 detailbasketRepository.save(shoppingbasketcheck);
 
                 Shopping shopping = Shopping.builder()
+                        .id(shoppingbasketcheck.getNumber())
                         .stock(stockcheck.getStocknumber())
                         .name(alcohols)
+                        .alcoholcode(detailbasketDTO.getAlcoholcode())
                         .marketname(market)
                         .amount(plusamount)
                         .price(plusPrice)
@@ -150,66 +157,54 @@ public class ShoppingbasketService {
         }
     }
 
-
     @Transactional
-    public ResponseEntity<String> Delete(User user, StockCode stockCode) {
-        List<Shopping> list = new ArrayList<>();
-        Optional<Long> stock = detailbasketRepository.stocknumber(stockCode.getAlcoholcode(), stockCode.getMarketname());
-        if (stock.isPresent()) {
-            Long stocknumver = stock.get();
-            Optional<Detailbasket> basket = detailbasketRepository.basket(user.getEmail(), stocknumver);
+    public ResponseEntity<String> Delete(User user, Long number) {
+        Optional<Detailbasket> basket = detailbasketRepository.findByNumber(number);
             if (basket.isPresent()) {
-                detailbasketRepository.deldete(user.getEmail(), stocknumver);
+                detailbasketRepository.deleteByNumber(number);
                 return ResponseEntity.status(HttpStatus.OK).body("해당이 제품이 장바구니에서 삭제되었습니다.");
             } else {
                 throw new BizException(ErrorCode.NOTFOUNDSHPPING);
             }
-        }
-        else {
-            throw new BizException(ErrorCode.ERRORDELIVERYTYPE);
-        }
     }
 
-
-    public List<Shopping> Put(User user, DetailbasketDTO detailbasketDTO) {
-        Optional<Long> stock = detailbasketRepository.stocknumber(detailbasketDTO.getAlcoholcode(), detailbasketDTO.getMarketname());
+    public List<Shopping> Put(User user, ShoppingPUT shoppingPUT) {
+        Optional<Long> stock = detailbasketRepository.stocknumber(shoppingPUT.getId());
         if(stock.isPresent()){
         Long stocknumber = stock.get();
         Optional<Detailbasket> basket = detailbasketRepository.basket(
                 user.getEmail(), stocknumber);
         if (basket.isPresent()) {
-            Delivery Type = detailbasketRepository.type(stocknumber);
-            if (Type.equals(detailbasketDTO.getDelivery()) || Type.equals(Delivery.Delivery)) {
+
                 Stock stockcheck = stockRepository.findByStocknumber(stocknumber);
                 int alcoholprice = alcoholRepository.Price(stockcheck.getAlcohol().getCode());
-                int totalprice = alcoholprice * detailbasketDTO.getAmount();
+                int totalprice = alcoholprice * shoppingPUT.getAmount();
                 Detailbasket exbasket = basket.get();
-                exbasket.setAmount(detailbasketDTO.getAmount());
+                exbasket.setAmount(shoppingPUT.getAmount());
                 exbasket.setPrice(totalprice);
-                exbasket.setDelivery(detailbasketDTO.getDelivery());
                 detailbasketRepository.save(exbasket);
-            } else {
-                throw new BizException(ErrorCode.ERRORDELIVERYTYPE);
             }
         } else {
             throw new BizException(ErrorCode.NOTFOUNDSHPPING);
         }
         List<Shopping> list = new ArrayList<>();
-        String type = String.valueOf(detailbasketDTO.getDelivery());
-        List<Detailbasket> shoppingbaskets = detailbasketRepository.baskets(user.getEmail(), type);
-        List<String> alcoholname = detailbasketRepository.alcohol(user.getEmail(), type);
-        List<String> marketname = detailbasketRepository.market(user.getEmail(), type);
-        List<String> Picture = detailbasketRepository.Picture(user.getEmail(), type);
+        List<Detailbasket> shoppingbaskets = detailbasketRepository.baskets(user.getEmail());
+        List<String> alcoholname = detailbasketRepository.alcohol(user.getEmail());
+        List<String> marketname = detailbasketRepository.market(user.getEmail());
+        List<String> Picture = detailbasketRepository.Picture(user.getEmail());
 
         for (int i = 0; i < shoppingbaskets.size(); i++) {
             Detailbasket check = shoppingbaskets.get(i);
             String alcoholName = alcoholname.isEmpty() ? null : alcoholname.get(i);
             String marketName = marketname.isEmpty() ? null : marketname.get(i);
             String picturecode = Picture.isEmpty() ? null : Picture.get(i);
+            Long alcoholcode =  alcoholRepository.code(alcoholName);
 
             Shopping shopping = Shopping.builder()
+                    .id(check.getNumber())
                     .stock(check.getStock().getStocknumber())
                     .name(alcoholName)
+                    .alcoholcode(alcoholcode)
                     .marketname(marketName)
                     .amount(check.getAmount())
                     .price(check.getPrice())
@@ -219,10 +214,6 @@ public class ShoppingbasketService {
             list.add(shopping);
         }
         return list;
-    }
-        else {
-            throw new BizException(ErrorCode.ERRORDELIVERYTYPE);
-        }
     }
 }
 

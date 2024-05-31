@@ -13,7 +13,7 @@ import lombok.*;
 @Builder
 public class StockCode {
 
-    private Long alcoholcode;
+    private String alcoholname;
 
     private String marketname;
 
