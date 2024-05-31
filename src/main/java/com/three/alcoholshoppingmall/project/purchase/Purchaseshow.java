@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Builder
 public class Purchaseshow {
 
+    private  Long id;
 
     private String alcoholname;
 

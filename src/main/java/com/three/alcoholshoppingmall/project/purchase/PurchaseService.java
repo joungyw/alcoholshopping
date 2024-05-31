@@ -42,6 +42,7 @@ public class PurchaseService {
             Alcohol alcohol = alcoholList.get(j);
             Market market= marketList.get(j);
             Purchaseshow purchaseshow = Purchaseshow.builder()
+                    .id(purchase.getId())
                     .alcoholname(alcohol.getName())
                     .marketname(market.getMarketname())
                     .amount(purchase.getAmount())
@@ -50,7 +51,7 @@ public class PurchaseService {
                     .division(purchase.getDivision())
                     .address(purchase.getAddress())
                     .purchaseday(purchase.getPurchaseday())
-                    .picture(alcohol.getPicture())
+                    .picture(purchase.getPicture())
                     .build();
             list.add(purchaseshow);
         }
@@ -67,6 +68,7 @@ public class PurchaseService {
             Alcohol alcohol = alcoholList.get(j);
             Market market = marketList.get(j);
             Purchaseshow purchaseshow = Purchaseshow.builder()
+                    .id(purchase.getId())
                     .alcoholname(alcohol.getName())
                     .marketname(market.getMarketname())
                     .amount(purchase.getAmount())
@@ -75,7 +77,7 @@ public class PurchaseService {
                     .division(purchase.getDivision())
                     .address(purchase.getAddress())
                     .purchaseday(purchase.getPurchaseday())
-                    .picture(alcohol.getPicture())
+                    .picture(purchase.getPicture())
                     .build();
 
             list.add(purchaseshow);
@@ -95,6 +97,7 @@ public class PurchaseService {
             Market market = marketList.get(j);
 
             Purchaseshow purchaseshow = Purchaseshow.builder()
+                    .id(purchase.getId())
                     .alcoholname(alcohol.getName())
                     .marketname(market.getMarketname())
                     .amount(purchase.getAmount())
@@ -103,7 +106,7 @@ public class PurchaseService {
                     .division(purchase.getDivision())
                     .address(purchase.getAddress())
                     .purchaseday(purchase.getPurchaseday())
-                    .picture(alcohol.getPicture())
+                    .picture(purchase.getPicture())
                     .build();
 
             list.add(purchaseshow);
@@ -123,6 +126,7 @@ public class PurchaseService {
             Market market = marketList.get(j);
 
             Purchaseshow purchaseshow = Purchaseshow.builder()
+                    .id(purchase.getId())
                     .alcoholname(alcohol.getName())
                     .marketname(market.getMarketname())
                     .amount(purchase.getAmount())
@@ -131,7 +135,7 @@ public class PurchaseService {
                     .division(purchase.getDivision())
                     .address(purchase.getAddress())
                     .purchaseday(purchase.getPurchaseday())
-                    .picture(alcohol.getPicture())
+                    .picture(purchase.getPicture())
                     .build();
 
             list.add(purchaseshow);
