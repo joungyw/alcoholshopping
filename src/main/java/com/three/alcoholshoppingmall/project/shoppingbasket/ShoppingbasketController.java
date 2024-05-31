@@ -37,7 +37,7 @@ public class ShoppingbasketController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         Delivery delivery = Delivery.Delivery;
-        List<Shopping> list = shoppingbasketService.Shoppinglist(user.getEmail(),delivery);
+        List<Shopping> list = shoppingbasketService.Shoppinglist(user.getEmail(), delivery);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -50,7 +50,7 @@ public class ShoppingbasketController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         Delivery delivery = Delivery.PickUp;
-        List<Shopping> list = shoppingbasketService.Shoppinglist(user.getEmail(),delivery);
+        List<Shopping> list = shoppingbasketService.Shoppinglist(user.getEmail(), delivery);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -72,12 +72,12 @@ public class ShoppingbasketController {
     @DeleteMapping("")
     @Operation(summary = "장바구니 빼기",
             description = "해당 재품을 회원의 장바구니에서 뺴는 기능입니다. <br>" +
-                    "id의 입력이 필요합니다." )
+                    "id의 입력이 필요합니다.")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<ResponseEntity<String>> DeleteShopping(@RequestBody ShoppingDELETE shoppingDELETE) {
+    public ResponseEntity<String> DeleteShopping(@RequestBody ShoppingDELETE shoppingDELETE) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        ResponseEntity<String> list = shoppingbasketService.Delete(user, shoppingDELETE.getId());
+        String list = shoppingbasketService.Delete(user, shoppingDELETE.getId());
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -91,10 +91,10 @@ public class ShoppingbasketController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         Optional<Integer> baskets = detailbasketRepository.basketcheck(user.getEmail());
-        if(baskets.isPresent() && baskets.get() != 0){
+        if (baskets.isPresent() && baskets.get() != 0) {
             detailbasketRepository.deldeteall(user.getEmail());
             return ResponseEntity.status(HttpStatus.OK).body("장바구니의 물건을 전부 삭제 하였습니다.");
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.OK).body("장바구니가 이미 비어 있습니다.");
         }
     }
@@ -102,7 +102,7 @@ public class ShoppingbasketController {
     @PutMapping("")
     @Operation(summary = "장바구니 수정",
             description = "회원의 장바구니에서 선택한 제품의 수량을 수정하는 기능입니다.<br>" +
-                    "id의 입력이 필요합니다."+
+                    "id의 입력이 필요합니다." +
                     "amount 물건의 수량의 입력이 필요 합니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<Shopping>> PutShopping(@RequestBody ShoppingPUT shoppingPUT) {
