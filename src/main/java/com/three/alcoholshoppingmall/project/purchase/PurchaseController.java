@@ -4,6 +4,8 @@ package com.three.alcoholshoppingmall.project.purchase;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholService;
 import com.three.alcoholshoppingmall.project.alcohol.Alcoholmain;
+import com.three.alcoholshoppingmall.project.stock.StockCode;
+import com.three.alcoholshoppingmall.project.stock.StockRepository;
 import com.three.alcoholshoppingmall.project.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -28,6 +30,7 @@ public class PurchaseController {
 
     private final PurchaseService purchaseServicce;
     private final AlcoholService alcoholService;
+    private  final StockRepository stockRepository;
 
 
     @GetMapping("/pickup")
@@ -89,8 +92,17 @@ public class PurchaseController {
 
         return ResponseEntity.status(HttpStatus.OK).body(checkoutPage);
     }
+    @PostMapping("/stockcode")
+    @Operation(summary = "스텍넘버 반환",
+            description = "alcoholname 는 술의 이름 <br>" +
+                    "marketname 는 매장 이름을 보내면 스텍넘버 번호 반환")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<Long> tosspay(@RequestBody StockCode stockCode) {
+        Long number = stockRepository.number(stockCode.getAlcoholname(), stockCode.getMarketname());
+        return ResponseEntity.status(HttpStatus.OK).body( number);
+    }
 
-    @GetMapping("/algorithm")
+        @GetMapping("/algorithm")
     @Operation(summary = "내 알고리즘",
             description = "회원의 구매정보를 토대로 술을 추천 합니다. 구매 정보가 없을 경우 많이 팔린 술 3개를 추천 합니다." +
                     "입력 하실 값은 없습니다.")

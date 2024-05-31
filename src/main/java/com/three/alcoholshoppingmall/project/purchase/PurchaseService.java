@@ -37,12 +37,10 @@ public class PurchaseService {
         List<Purchase> check = purchaseRepository.Pickuplist(email);
         List<Alcohol> alcoholList = alcoholRepository.alcoholspick(email);
         List<Market> marketList = marketRepository.marketspick(email);
-
         for (int j = 0; j < check.size(); j++) {
             Purchase purchase = check.get(j);
             Alcohol alcohol = alcoholList.get(j);
             Market market= marketList.get(j);
-
             Purchaseshow purchaseshow = Purchaseshow.builder()
                     .alcoholname(alcohol.getName())
                     .marketname(market.getMarketname())
@@ -54,7 +52,6 @@ public class PurchaseService {
                     .purchaseday(purchase.getPurchaseday())
                     .picture(alcohol.getPicture())
                     .build();
-
             list.add(purchaseshow);
         }
         return list;
@@ -65,12 +62,10 @@ public class PurchaseService {
         List<Purchase> check = purchaseRepository.Deliverylist(email);
         List<Alcohol> alcoholList = alcoholRepository.alcoholsdelivery(email);
         List<Market> marketList = marketRepository.marketsdelivery(email);
-
         for (int j = 0; j < check.size(); j++) {
             Purchase purchase = check.get(j);
             Alcohol alcohol = alcoholList.get(j);
             Market market = marketList.get(j);
-
             Purchaseshow purchaseshow = Purchaseshow.builder()
                     .alcoholname(alcohol.getName())
                     .marketname(market.getMarketname())
