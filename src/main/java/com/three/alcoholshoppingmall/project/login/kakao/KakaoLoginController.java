@@ -24,6 +24,6 @@ public class KakaoLoginController {
         String result = loginService.userAccessToken(tokens);
         System.out.println(result);
 
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        return ResponseEntity.status(HttpStatus.OK).body("jwt"+result);
     }
 }

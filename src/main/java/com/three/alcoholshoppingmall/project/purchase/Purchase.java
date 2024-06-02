@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -26,7 +27,7 @@ public class Purchase {
     private Long id;
 
     @Schema(title = "주문번호", description = "구매 물품의 주문 번호입니다.")
-    private Long ordernumber;
+    private String ordernumber;
 
     @Schema(title = "회원 이메일", description = "회원의 이메일을 넣는 조인된 칼럼입니다.")
     @JsonIgnore
