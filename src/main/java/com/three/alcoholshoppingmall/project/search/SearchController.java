@@ -56,4 +56,5 @@ public class SearchController {
             return ResponseEntity.status(HttpStatus.OK).body(list);
         }
     }
+
 }
