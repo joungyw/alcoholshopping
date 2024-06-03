@@ -8,10 +8,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "favorites")
 @Schema(description = "favorites 테이블에 대한 내용입니다.")
 public class Favorites { //즐겨찾기
