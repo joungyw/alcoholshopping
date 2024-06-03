@@ -1,5 +1,6 @@
 package com.three.alcoholshoppingmall.project.login;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -11,6 +12,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChangePw {
 
     @Schema(title = "newPassword", description = "회원의 변경하고픈 password입니다.",example = "변경하고픈 비밀번호")
@@ -20,4 +22,6 @@ public class ChangePw {
     @Schema(title = "passwordch", description = "회원의 passwordch입니다.", example = "비밀번호 확인")
     @NotBlank(message = "비밀번호를 확인해주세요.")
     private String passwordch;
+
+    private Email email;
 }
