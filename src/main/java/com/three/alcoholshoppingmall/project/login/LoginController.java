@@ -70,8 +70,8 @@ public class LoginController {
 
     @PostMapping("/validateTemp")
     @Operation(summary = "임시비밀번호 인증", description = "이메일과 발급받은 임시비밀번호를 입력하세요.")
-    public ResponseEntity<Boolean> validateTemporaryPassword(@RequestBody Email email) {
-        boolean isValid = loginService.validateTemporaryPassword(email.getEmail(),email.getTempPw());
+    public ResponseEntity<Boolean> validateTemporaryPassword(@RequestBody TempPwAuth tempPwAuth) {
+        boolean isValid = loginService.validateTemporaryPassword();
         return ResponseEntity.ok(isValid);
     }
 

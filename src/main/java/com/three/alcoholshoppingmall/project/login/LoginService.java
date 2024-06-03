@@ -174,7 +174,7 @@ public class LoginService {
         return tempPw + "";
 
     }
-        public boolean validateTemporaryPassword(String email, String tempPw) {
+        public boolean validateTemporaryPassword() {
             System.out.println(email);
             User user = userRepository.findByEmail(email);
             if (user == null) {
