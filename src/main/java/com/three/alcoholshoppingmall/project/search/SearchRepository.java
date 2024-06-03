@@ -24,4 +24,5 @@ public interface SearchRepository extends JpaRepository<Search, Long> {
     @Modifying
     @Query(value = "INSERT INTO search (email, searchcontents) VALUES (:email, :searchcontents)", nativeQuery = true)
     void searchsave(String email, String searchcontents);
+
 }

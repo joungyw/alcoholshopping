@@ -1,9 +1,11 @@
 package com.three.alcoholshoppingmall.project.user;
 
 import com.three.alcoholshoppingmall.project.exception.BizException;
+import com.three.alcoholshoppingmall.project.exception.ErrorCode;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,20 +14,23 @@ import static com.three.alcoholshoppingmall.project.exception.ErrorCode.*;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    @Value("${spring.mail.username}")
+    private String senderEmail;
+
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
+    private final JavaMailSender javaMailSender;
 
-//    public User withdrawUser(String email) { // 회원 정보 탈퇴 코드
-//        User dbUser = userRepository.findMyCustom(email);
-//
-//        if (dbUser != null) {
-//            dbUser.setWithdrawStatus(WithdrawStatus.Y);
-//            userRepository.save(dbUser);
-//            return dbUser;
-//        } else {
-//            throw new BizException(NOTFOUNDUSER); // 예외처리
-//        }
-//    }
+    public User withdrawUser(String email) { // 회원 정보 탈퇴 코드
+        User dbUser = userRepository.findByEmail(email);
+        if (dbUser != null) {
+            dbUser.setWithdrawStatus(WithdrawStatus.Y);
+            userRepository.save(dbUser);
+            return dbUser;
+        } else {
+            throw new BizException(NOTFOUNDUSER); // 예외처리
+        }
+    }
 
     public String updateUser(String email, UserUpdate userUpdate) {
         User dbUser = userRepository.findByEmail(email);
@@ -89,5 +94,43 @@ public class UserService {
         }
 
         return "비밀번호 수정이 완료되었습니다.";
+    }
+
+    public String withdrawEmailAuth(String email) {
+
+        if (email == null || email == "") {
+            throw new BizException(ErrorCode.NOTINPUTEMAIL);
+        }
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+
+        int num = (int) (Math.random() * 10000);
+
+        try {
+            message.setFrom(senderEmail);   // 보내는 이메일
+            message.setRecipients(MimeMessage.RecipientType.TO, email); // 보낼 이메일 설정
+            message.setSubject("[AlcoholFree] 회원탈퇴를 위한 이메일 인증");  // 제목 설정
+            String body = "";
+            body += "<h1>" + "안녕하세요." + "</h1>";
+            body += "<h1>" + "AlcoholFree 입니다." + "</h1>";
+            body += "<h3>" + "회원탈퇴를 위한 요청하신 인증 번호입니다." + "</h3><br>";
+            body += "<h2>" + "아래 코드를 회원탈퇴 창으로 돌아가 입력해주세요." + "</h2>";
+
+            body += "<div align='center' style='border:1px solid black; font-family:verdana;'>";
+            body += "<h2>" + "회원탈퇴 인증 코드입니다." + "</h2>";
+            body += "<h1 style='color:blue'>" + num + "</h1>";
+            body += "</div><br>";
+            body += "<h3>" + "감사합니다." + "</h3>";
+            message.setText(body, "UTF-8", "html");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        javaMailSender.send(message);
+        User user = userRepository.findByEmail(email);
+        user.setWithdrawStatus(WithdrawStatus.Y);
+        userRepository.save(user);
+        return num + "";
+
     }
 }

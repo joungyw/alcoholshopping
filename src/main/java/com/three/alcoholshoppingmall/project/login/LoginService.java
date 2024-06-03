@@ -6,20 +6,18 @@ import com.three.alcoholshoppingmall.project.exception.ErrorCode;
 import com.three.alcoholshoppingmall.project.shoppingbasket.Shoppingbasket;
 import com.three.alcoholshoppingmall.project.shoppingbasket.ShoppingbasketRepository;
 import com.three.alcoholshoppingmall.project.user.*;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.three.alcoholshoppingmall.project.exception.ErrorCode.CHECKPASSWORD;
-import static com.three.alcoholshoppingmall.project.exception.ErrorCode.NOTFOUNDUSER;
+import static com.three.alcoholshoppingmall.project.exception.ErrorCode.*;
+import static com.three.alcoholshoppingmall.project.exception.ErrorCode.SAMEPASSWORD;
 
 
 @Service
@@ -133,7 +131,7 @@ public class LoginService {
         return num + "";
     }
 
-    public String findPw(String email) {
+    public String tempPw(String email) {
         if (email == null || email == "") {
             throw new BizException(ErrorCode.NOTINPUTEMAIL); // 유효성 검사
         }
@@ -170,34 +168,42 @@ public class LoginService {
         }
 
         javaMailSender.send(message);
-
+        User user = userRepository.findByEmail(email);
+        user.setPassword(tempPw.toString());
+        userRepository.save(user);
         return tempPw + "";
+
     }
-//        public boolean validateTemporaryPassword(String email, String tempPw) {
-//            User user = userRepository.findByEmail(email);
-//            if (user == null) {
-//                throw new BizException(NOTFOUNDUSER);
-//            } else if (user.getEmail() == ) {
-//                return true;
-//            }else {
-//                return false;
-//            }
-//
-//        }
+        public boolean validateTemporaryPassword(String email, String tempPw) {
+            System.out.println(email);
+            User user = userRepository.findByEmail(email);
+            if (user == null) {
+                throw new BizException(NOTFOUNDUSER);
+            } else if (tempPw.toString().equals(user.getPassword())) {
 
+                return true;
+            }else {
+                return false;
+            }
 
+        }
 
-//    public String pwChange(String email, ChangePw changePw) {
-//        if (email == null || email == "") {
-//            throw new BizException(ErrorCode.NOTINPUTEMAIL);
-//        }
-//        else if (!changePw.getNewPassword().equals(changePw.getPasswordch())) {
-//            throw new BizException(CHECKPASSWORD);
-//        } else {
-//            changePw.setNewPassword(encoder.encode(changePw.getNewPassword()));
-//            userRepository.save();
-//
-//        }
-//        return "비밀번호 변경이 완료되었습니다.";
-//    }
+    public String pwChange(Email email, String passwordch, String newPassword) {
+        User dbUser = userRepository.findByEmail(String.valueOf(email));
+        System.out.println(dbUser);
+        if (dbUser == null) {
+            throw new BizException(NOTFOUNDUSER);
+        } else if (!newPassword.equals(passwordch)) {
+            throw new BizException(CHECKPASSWORD);
+        } else if (newPassword.equals(dbUser.getPassword())) {
+            throw new BizException(SAMEPASSWORD);
+        }
+        else {
+            dbUser.setPassword(encoder.encode(newPassword));
+            userRepository.save(dbUser);
+
+        }
+
+        return "비밀번호 수정이 완료되었습니다.";
+    }
 }

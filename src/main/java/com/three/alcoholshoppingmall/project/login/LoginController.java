@@ -64,28 +64,25 @@ public class LoginController {
     @Operation(summary = "임시비밀번호 발급", description = "임시비밀번호 발급합니다.<br>" +
             "이메일을 입력하세요.")
     public ResponseEntity<String> findPassword(@RequestBody Email email) throws Exception {
-        String temPw = loginService.findPw(email.getEmail());
-
+        String temPw = loginService.tempPw(email.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(temPw);
     }
 
-//    @PostMapping("/validateTemp")
-//    @Operation(summary = "임시비밀번호 인증", description = "이메일과 발급받은 임시비밀번호를 입력하세요.")
-//    public ResponseEntity<Boolean> validateTemporaryPassword(@RequestBody Email email, String tempPw) {
-//        System.out.println(email);
-//        System.out.println(tempPw);
-//        boolean isValid = loginService.validateTemporaryPassword(email.getEmail(),tempPw);
-//        return ResponseEntity.ok(isValid);
-//    }
+    @PostMapping("/validateTemp")
+    @Operation(summary = "임시비밀번호 인증", description = "이메일과 발급받은 임시비밀번호를 입력하세요.")
+    public ResponseEntity<Boolean> validateTemporaryPassword(@RequestBody Email email) {
+        boolean isValid = loginService.validateTemporaryPassword(email.getEmail(),email.getTempPw());
+        return ResponseEntity.ok(isValid);
+    }
 
 
-//    @PostMapping("changePW")
-//    @Operation(summary = "비밀번호 분실 시 비밀번호 변경", description = "비밀번호 분실 시 비밀번호를 변경합니다.<br>" +
-//            "변경하고 싶은 비밀번호와 비밀번호 확인을 입력하면 됩니다.")
-//    public ResponseEntity<String> changePw(@Valid @RequestBody Email email, ChangePw changePw) {
-//        String pwChange = loginService.pwChange(email.getEmail(), changePw);
-//        return ResponseEntity.status(HttpStatus.OK).body(pwChange);
-//    }
+    @PostMapping("changePW")
+    @Operation(summary = "비밀번호 분실 시 비밀번호 변경", description = "비밀번호 분실 시 비밀번호를 변경합니다.<br>" +
+            "변경하고 싶은 비밀번호와 비밀번호 확인을 입력하면 됩니다.")
+    public ResponseEntity<String> changePw(@Valid @RequestBody ChangePw changePw) {
+        String pwChange = loginService.pwChange(changePw.getEmail(),changePw.getPasswordch(),changePw.getNewPassword());
+        return ResponseEntity.status(HttpStatus.OK).body(pwChange);
+    }
 
 
     @PostMapping("emailauth")
