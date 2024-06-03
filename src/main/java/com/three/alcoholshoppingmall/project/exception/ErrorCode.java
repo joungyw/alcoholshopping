@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     //회원정보 수정, 탈퇴 에러코드
     NOTFOUNDUSER(HttpStatus.NOT_FOUND, "NOTFOUNDUSER", "해당 유저를 찾을 수 없습니다."),
+    NOTMATCHTEMPPW(HttpStatus.BAD_REQUEST, "NOTMATCHTEMPPW", "인증번호가 틀렸습니다."),
     // 검색 에러코드
     NULLSEARCH(HttpStatus.BAD_REQUEST, "NULLSEARCH","검색기록은 공백일 수 없습니다."),
     SEARCHCLENGTH(HttpStatus.BAD_REQUEST, "SEARCHLENGTH", "검색 기록은 두 글자 이상 입력해야합니다."),

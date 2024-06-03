@@ -72,6 +72,9 @@ public class User {
     @Schema(title = "modifiedDate", description = "회원 정보수정일자 입니다.")
     @UpdateTimestamp
     private LocalDate modifiedDate;
+
+    @Schema(title = "tempPw", description = "임시 비밀번호 입니다.")
+    private String tempPw;
 }
 
 
