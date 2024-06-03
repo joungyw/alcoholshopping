@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
@@ -16,5 +15,11 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
             "WHERE b.code = :code", nativeQuery = true)
     List<Integer> code(Long code);
 
+
+    @Query(value = "SELECT a.* FROM stock a\n" +
+            "JOIN alcohol b ON a.code = b.code\n" +
+            "JOIN market c ON a.marketcode = c.marketcode\n" +
+            "WHERE b.name = :alcoholname AND c.marketname = :marketname",nativeQuery = true)
+    Stock number(String alcoholname, String marketname);
 
 }

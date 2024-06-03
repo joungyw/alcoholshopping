@@ -114,11 +114,9 @@ public class ReviewService {
 
     public List<ReviewCheck> Cherklist(String email) {
         List<ReviewCheck> list = new ArrayList<>();
-
         List<Alcohol> alcohol = alcoholRepository.alcoholreview(email);
         List<Market> market = marketRepository.marketreview(email);
         List<Purchase> purchase = purchaseRepository.purchasereview(email);
-
         for (int i = 0; i < alcohol.size(); i++) {
             Alcohol alcohols = alcohol.get(i);
             Market markets = market.get(i);
@@ -136,6 +134,7 @@ public class ReviewService {
         }
         return list;
     }
+
     public List<Reviewshow> AlcoholReview(Long code) {
         Optional<Alcohol> alcohol = alcoholRepository.findByCode(code);
         List<Review> reviews = reviewRepository.findByAlcohol_Code(code);

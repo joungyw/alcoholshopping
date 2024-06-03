@@ -158,11 +158,13 @@ public class ShoppingbasketService {
     }
 
     @Transactional
-    public ResponseEntity<String> Delete(User user, Long number) {
+    public String Delete(Long number) {
         Optional<Detailbasket> basket = detailbasketRepository.findByNumber(number);
             if (basket.isPresent()) {
                 detailbasketRepository.deleteByNumber(number);
-                return ResponseEntity.status(HttpStatus.OK).body("해당이 제품이 장바구니에서 삭제되었습니다.");
+
+                return ("해당이 제품이 장바구니에서 삭제되었습니다.");
+
             } else {
                 throw new BizException(ErrorCode.NOTFOUNDSHPPING);
             }

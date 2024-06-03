@@ -4,7 +4,11 @@ package com.three.alcoholshoppingmall.project.purchase;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholService;
 import com.three.alcoholshoppingmall.project.alcohol.Alcoholmain;
+import com.three.alcoholshoppingmall.project.stock.Stock;
+import com.three.alcoholshoppingmall.project.stock.StockCode;
+import com.three.alcoholshoppingmall.project.stock.StockRepository;
 import com.three.alcoholshoppingmall.project.user.User;
+import com.three.alcoholshoppingmall.project.user.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,9 +17,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -28,6 +34,7 @@ public class PurchaseController {
 
     private final PurchaseService purchaseServicce;
     private final AlcoholService alcoholService;
+    private final StockRepository stockRepository;
 
 
     @GetMapping("/pickup")
@@ -86,8 +93,20 @@ public class PurchaseController {
     public ResponseEntity<String> tosspay(@Valid @RequestBody TossInfo tossInfo) {
 
         String checkoutPage = purchaseServicce.tosspay(tossInfo);
-
+        System.out.println(checkoutPage);
         return ResponseEntity.status(HttpStatus.OK).body(checkoutPage);
+    }
+
+    @PostMapping("/stockcode")
+    @Operation(summary = "스텍넘버 반환",
+            description = "alcoholname 는 술의 이름 <br>" +
+                    "marketname 는 매장 이름을 보내면 스텍넘버 번호 반환")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<Stock> tosspay(@RequestBody StockCode stockCode) {
+        System.out.println(stockCode);
+        Stock stock = stockRepository.number(stockCode.getAlcoholname(), stockCode.getMarketname());
+        System.out.println(stock);
+        return ResponseEntity.status(HttpStatus.OK).body(stock);
     }
 
     @GetMapping("/algorithm")
@@ -100,6 +119,17 @@ public class PurchaseController {
         User user = (User) authentication.getPrincipal();
         List<Alcoholmain> list = alcoholService.Algorithm(user.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
+    @PostMapping("/buysave")
+    @Operation(summary = "구매 정보 저장", description = "구매내역을 DB에 저장합니다." +
+            "이미지 경로, 제품명, 주문일자, 매장명, 주문번호, 주문방식, 주소, 수량, 결제금액이 필요합니다.")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<String> buysave(@AuthenticationPrincipal User user, @RequestBody PurchaseDTO purchaseDTO) {
+
+        String result = purchaseServicce.buysave(user, purchaseDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }
 

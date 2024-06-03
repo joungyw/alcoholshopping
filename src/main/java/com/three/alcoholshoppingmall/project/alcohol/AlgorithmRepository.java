@@ -11,7 +11,6 @@ import java.util.List;
 @Repository
 public interface AlgorithmRepository extends JpaRepository<Alcohol, Long> {
 
-
     // 가장 많이 구매된 주류의 향
     @Query(value = "SELECT REPLACE(REPLACE(SUBSTRING_INDEX" +
             "(SUBSTRING_INDEX(a.aroma, ',', numbers.n), ',', -1), '\\\\\\\"', ''), ' ', '') AS word FROM alcohol a  \n" +
@@ -53,7 +52,4 @@ public interface AlgorithmRepository extends JpaRepository<Alcohol, Long> {
             "WHERE (aroma LIKE CONCAT('%', :aroma, '%') OR taste LIKE CONCAT('%', :taste, '%') OR finish LIKE CONCAT('%', :finish, '%')) " +
             "ORDER BY RAND() LIMIT 3", nativeQuery = true)
    List<Alcohol> personalalgorithm( String aroma, String taste, String finish);
-
-
-
 }
