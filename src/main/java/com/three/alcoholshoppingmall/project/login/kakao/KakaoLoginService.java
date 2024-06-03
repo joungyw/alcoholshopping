@@ -90,7 +90,7 @@ public class KakaoLoginService {
         User dbuser = userRepository.findByEmail(jsonObject.get("email").toString());
 
         if(dbuser != null){
-            return tokenManager.generateToken(dbuser);
+            return "jwt"+tokenManager.generateToken(dbuser);
         }else{
             String kakaoUser = "{\"email\": \""+ jsonObject.get("email") + "\", \"nickname\": \""+ jsonProfile.get("nickname") +"\" }";
             return kakaoUser;
