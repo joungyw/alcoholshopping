@@ -16,10 +16,10 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     List<Integer> code(Long code);
 
 
-    @Query(value = "SELECT a.stocknumber FROM stock a\n" +
+    @Query(value = "SELECT a.* FROM stock a\n" +
             "JOIN alcohol b ON a.code = b.code\n" +
             "JOIN market c ON a.marketcode = c.marketcode\n" +
             "WHERE b.name = :alcoholname AND c.marketname = :marketname",nativeQuery = true)
-    Long number(String alcoholname, String marketname);
+    Stock number(String alcoholname, String marketname);
 
 }

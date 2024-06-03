@@ -2,9 +2,13 @@ package com.three.alcoholshoppingmall.project.purchase;
 
 import com.three.alcoholshoppingmall.project.alcohol.Alcohol;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
+import com.three.alcoholshoppingmall.project.exception.BizException;
+import com.three.alcoholshoppingmall.project.exception.ErrorCode;
 import com.three.alcoholshoppingmall.project.market.Market;
 import com.three.alcoholshoppingmall.project.market.MarketRepository;
 import com.three.alcoholshoppingmall.project.shoppingbasket.ShoppingbasketRepository;
+import com.three.alcoholshoppingmall.project.user.User;
+import com.three.alcoholshoppingmall.project.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -21,6 +25,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.nio.charset.StandardCharsets;
@@ -31,6 +36,7 @@ public class PurchaseService {
     private final PurchaseRepository purchaseRepository;
     private final AlcoholRepository alcoholRepository;
     private final MarketRepository marketRepository;
+    private final UserRepository userRepository;
 
     public List<Purchaseshow> PICKUPlist(String email) {
         List<Purchaseshow> list = new ArrayList<>();
@@ -40,7 +46,7 @@ public class PurchaseService {
         for (int j = 0; j < check.size(); j++) {
             Purchase purchase = check.get(j);
             Alcohol alcohol = alcoholList.get(j);
-            Market market= marketList.get(j);
+            Market market = marketList.get(j);
             Purchaseshow purchaseshow = Purchaseshow.builder()
                     .id(purchase.getId())
                     .alcoholname(alcohol.getName())
@@ -52,6 +58,8 @@ public class PurchaseService {
                     .address(purchase.getAddress())
                     .purchaseday(purchase.getPurchaseday())
                     .picture(purchase.getPicture())
+                    .picture(alcohol.getPicture())
+                    .ordernumber(purchase.getOrdernumber())
                     .build();
             list.add(purchaseshow);
         }
@@ -185,5 +193,32 @@ public class PurchaseService {
         }
 
         return responseBody.toString();
+    }
+
+    public String buysave(User user, PurchaseDTO purchaseDTO) {
+        User dbuser = userRepository.findByEmail(user.getEmail());
+
+        if (dbuser != null) {
+            Purchase purchase = Purchase.builder()
+                    .ordernumber(purchaseDTO.getOrdernumber())
+                    .user(dbuser)
+                    .stock(purchaseDTO.getStock())
+                    .amount(purchaseDTO.getAmount())
+                    .price(purchaseDTO.getPrice())
+                    .delivery(purchaseDTO.getDelivery())
+                    .division(Division.BUY)
+                    .address(purchaseDTO.getAddress())
+                    .address2(purchaseDTO.getAddress2())
+                    .picture(purchaseDTO.getPicture())
+                    .purchaseday(LocalDate.now())
+                    .build();
+
+            purchaseRepository.save(purchase);
+
+            return "구매내역 저장 성공";
+        }else if(dbuser == null){
+            throw new BizException(ErrorCode.NOTFOUNDUSER);
+        }
+        return "구매내역 저장 실패";
     }
 }

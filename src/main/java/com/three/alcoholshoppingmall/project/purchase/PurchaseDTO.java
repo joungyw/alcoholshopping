@@ -22,30 +22,26 @@ import java.time.LocalDate;
 @Schema(title = "DB 유효성 검사하는 회원의 구매 정보")
 public class PurchaseDTO {
 
+    private String ordernumber;
 
-    @JsonIgnore
-    private Long ordernumber;
-
-    @JsonIgnore
     private User user;
 
-    @JsonIgnore
-    private Long stock;
+    private Stock stock;
 
-    @JsonIgnore
     private int amount;
 
-    @JsonIgnore
     private int price;
 
-    @JsonIgnore
     private Delivery delivery;
 
     @JsonIgnore
     private Division division;
 
-    @JsonIgnore
     private String address;
+
+    private String address2;
+
+    private String picture;
 
     @JsonIgnore
     private LocalDate purchaseday;
