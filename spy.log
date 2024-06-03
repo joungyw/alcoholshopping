@@ -3354,6 +3354,8 @@
 1717145671574|2|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|select * from `alcoholfree`.`alcohol` where 1=0|select * from `alcoholfree`.`alcohol` where 1=0
 1717145671585|4|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|select * from `alcoholfree`.`market` where 1=0|select * from `alcoholfree`.`market` where 1=0
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
 1717145805521|9|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|SELECT @@character_set_database, @@sql_mode|SELECT @@character_set_database, @@sql_mode
 1717145808595|73|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|     alter table purchase         add column id bigint not null auto_increment|     alter table purchase         add column id bigint not null auto_increment
 1717145808649|40|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|     alter table purchase         add column picture varchar(255)|     alter table purchase         add column picture varchar(255)
@@ -3649,6 +3651,7 @@
 1717146486220|3|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|SELECT a.*  FROM alcohol a  JOIN stock b ON a.code = b.code  JOIN purchase c ON b.stocknumber = c.stocknumber  WHERE c.email = ? AND c.delivery = 'DELIVERY'  ORDER BY c.purchaseday DESC, c.ordernumber DESC|SELECT a.*  FROM alcohol a  JOIN stock b ON a.code = b.code  JOIN purchase c ON b.stocknumber = c.stocknumber  WHERE c.email = 'aaa@naver.com' AND c.delivery = 'DELIVERY'  ORDER BY c.purchaseday DESC, c.ordernumber DESC
 1717146486228|3|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|SELECT a.* FROM market a  JOIN stock b ON a.marketcode = b.marketcode JOIN purchase c ON b.stocknumber = c.stocknumber  WHERE c.email = ?  AND c.delivery = 'DELIVERY'  ORDER BY c.purchaseday DESC, c.ordernumber DESC|SELECT a.* FROM market a  JOIN stock b ON a.marketcode = b.marketcode JOIN purchase c ON b.stocknumber = c.stocknumber  WHERE c.email = 'aaa@naver.com'  AND c.delivery = 'DELIVERY'  ORDER BY c.purchaseday DESC, c.ordernumber DESC
 =======
+>>>>>>> main
 1717221586163|8|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|SELECT @@character_set_database, @@sql_mode|SELECT @@character_set_database, @@sql_mode
 1717221589537|46|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|     alter table purchase         add column id bigint not null auto_increment|     alter table purchase         add column id bigint not null auto_increment
 1717221589634|88|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|     alter table purchase         add column picture varchar(255)|     alter table purchase         add column picture varchar(255)
@@ -6939,7 +6942,10 @@
 1717314383822|2|statement|connection 13|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade FROM alcohol a LEFT JOIN review b ON a.code = b.code WHERE a.code = ? GROUP BY a.code LIMIT 3 |SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade FROM alcohol a LEFT JOIN review b ON a.code = b.code WHERE a.code = 28 GROUP BY a.code LIMIT 3 
 1717314383823|5|statement|connection 11|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|SELECT ROUND(COALESCE(AVG(r.grade), 0), 1) AS average_grade FROM alcohol a LEFT JOIN ( SELECT s.code, COUNT(p.ordernumber) AS total_orders FROM purchase p JOIN stock s ON p.stocknumber = s.stocknumber  WHERE YEARWEEK(p.purchaseday) = YEARWEEK(NOW()) GROUP BY s.code ) AS p ON a.code = p.code LEFT JOIN review r ON a.code = r.code GROUP BY a.code ORDER BY COALESCE(MAX(p.total_orders), 0) DESC, a.code ASC LIMIT 3|SELECT ROUND(COALESCE(AVG(r.grade), 0), 1) AS average_grade FROM alcohol a LEFT JOIN ( SELECT s.code, COUNT(p.ordernumber) AS total_orders FROM purchase p JOIN stock s ON p.stocknumber = s.stocknumber  WHERE YEARWEEK(p.purchaseday) = YEARWEEK(NOW()) GROUP BY s.code ) AS p ON a.code = p.code LEFT JOIN review r ON a.code = r.code GROUP BY a.code ORDER BY COALESCE(MAX(p.total_orders), 0) DESC, a.code ASC LIMIT 3
 1717314383827|3|statement|connection 13|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade FROM alcohol a LEFT JOIN review b ON a.code = b.code WHERE a.code = ? GROUP BY a.code LIMIT 3 |SELECT ROUND(COALESCE(AVG(b.grade), 0), 1) AS average_grade FROM alcohol a LEFT JOIN review b ON a.code = b.code WHERE a.code = 50 GROUP BY a.code LIMIT 3 
+<<<<<<< HEAD
+=======
 >>>>>>> b034b4d (240602 - 구매, 구매목록,카카오 회원가입 완료)
+<<<<<<< HEAD
 =======
 1717047762642|4|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|SELECT @@character_set_database, @@sql_mode|SELECT @@character_set_database, @@sql_mode
 1717047764144|3|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|select * from `alcoholfree`.`shoppingbasket` where 1=0|select * from `alcoholfree`.`shoppingbasket` where 1=0
@@ -9070,3 +9076,6 @@
 1717377496394|1|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|select * from `alcoholfree`.`alcohol` where 1=0|select * from `alcoholfree`.`alcohol` where 1=0
 1717377496496|3|statement|connection 0|url jdbc:p6spy:mysql://localhost:3306/alcoholfree?useSSL=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true|select * from `alcoholfree`.`market` where 1=0|select * from `alcoholfree`.`market` where 1=0
 >>>>>>> 김상의
+=======
+>>>>>>> main
+>>>>>>> khj

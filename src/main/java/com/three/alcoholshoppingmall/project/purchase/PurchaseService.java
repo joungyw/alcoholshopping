@@ -85,6 +85,8 @@ public class PurchaseService {
                     .division(purchase.getDivision())
                     .address(purchase.getAddress())
                     .purchaseday(purchase.getPurchaseday())
+                    .picture(alcohol.getPicture())
+                    .ordernumber(purchase.getOrdernumber())
                     .picture(purchase.getPicture())
                     .build();
 
