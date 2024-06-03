@@ -75,9 +75,7 @@ public class UserService {
     }
 
     public String updatePw(String email, PwUpdate pwUpdate) {
-        System.out.println(pwUpdate);
         User dbUser = userRepository.findByEmail(email);
-        System.out.println(dbUser);
         if (dbUser == null) {
             throw new BizException(NOTFOUNDUSER);
         } else if (!encoder.matches(pwUpdate.getPassword(), dbUser.getPassword())) {

@@ -175,7 +175,7 @@ public class PurchaseService {
             jsonBody.put("productDesc", tossInfo.getProductname());
             jsonBody.put("apiKey", "sk_test_w5lNQylNqa5lNQe013Nq");
             jsonBody.put("autoExecute", true);
-            jsonBody.put("resultCallback", "https://YOUR-SITE.COM/callback");
+            jsonBody.put("resultCallback", "http://localhost:3000/callback");
             jsonBody.put("retUrl", "http://localhost:3000/callback");
             jsonBody.put("retCancelUrl", "http://localhost:3000/");
 

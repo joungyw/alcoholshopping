@@ -36,7 +36,7 @@ public class UserController {
     }
 
 
-    @PutMapping("updateUser")// 회원정보 수정
+    @PutMapping("/updateUser")// 회원정보 수정
     @Operation(summary = "회원정보 수정", description = "회원정보를 수정하는 코드입니다.")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<String> updateUser(@Valid @RequestBody UserUpdate userUpdate) {
@@ -46,20 +46,20 @@ public class UserController {
         String returnvalue = userService.updateUser(email, userUpdate);
         return ResponseEntity.status(HttpStatus.OK).body(returnvalue);
     }
-    @PostMapping("withdrawEmailAuth")
+    @PostMapping("/withdrawEmailAuth")
     @Operation(summary = " 회원탈퇴를 위한 이메일 인증", description = " 회원 탈퇴를 위한 이메일 인증하기")
     public ResponseEntity<String> withdrawEmailAuth(@RequestBody Email email)  {
         String num = userService.withdrawEmailAuth(email.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(num);
     }
 
-    @PostMapping("withdraw")// 회원정보 탈퇴
+    @PostMapping("/withdraw")// 회원정보 탈퇴
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴하는 코드입니다.")
     public ResponseEntity<String> withdrawUser(@RequestBody Email email) {
         userService.withdrawUser(email.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body("회원 탈퇴가 완료되었습니다.");
     }
-    @PutMapping("updatePw")
+    @PutMapping("/updatePw")
     @Operation(summary = "비밀번호 변경", description = "비밀번호를 변경하는 코드입니다.")// 비밀번호 수정
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<String> updatePw(@Valid @RequestBody PwUpdate pwUpdate){

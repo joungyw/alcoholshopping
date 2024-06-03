@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.three.alcoholshoppingmall.project.exception.ErrorCode.*;
 import static com.three.alcoholshoppingmall.project.exception.ErrorCode.SAMEPASSWORD;
@@ -132,7 +133,7 @@ public class LoginService {
     }
 
     public String tempPw(String email) {
-        if (email == null || email == "") {
+        if (email == null || email.equals("")) {
             throw new BizException(ErrorCode.NOTINPUTEMAIL); // 유효성 검사
         }
 
@@ -154,11 +155,10 @@ public class LoginService {
             String body = "";
             body += "<h1>" + "안녕하세요." + "</h1>";
             body += "<h1>" + "AlcoholFree 입니다." + "</h1>";
-            body += "<h3>" + "비밀번호 찾기를 위한 요청하신 임시 비밀번호입니다." + "</h3><br>";
-            body += "<h2>" + "아래 코드를 로그인 창으로 돌아가 임시 비밀번호를 입력해 로그인주세요. 로그인 후 비밀번호 수정은 꼭 해주세요" + "</h2>";
-
+            body += "<h3>" + "비밀번호 찾기를 위한 요청하신 인증번호입니다." + "</h3><br>";
+            body += "<h2>" + "아래 코드를 비밀번호 찾기 창으로 돌아가 인증번호를 입력해 로그인주세요. 로그인 후 비밀번호 수정은 꼭 해주세요" + "</h2>";
             body += "<div align='center' style='border:1px solid black; font-family:verdana;'>";
-            body += "<h2>" + "비밀번호 찾기 임시 비밀번호입니다." + "</h2>";
+            body += "<h2>" + "비밀번호 찾기 인증번호입니다." + "</h2>";
             body += "<h1 style='color:blue'>" + tempPw + "</h1>";
             body += "</div><br>";
             body += "<h3>" + "감사합니다." + "</h3>";
@@ -169,41 +169,32 @@ public class LoginService {
 
         javaMailSender.send(message);
         User user = userRepository.findByEmail(email);
-        user.setPassword(tempPw.toString());
+        user.setTempPw(tempPw.toString());
         userRepository.save(user);
         return tempPw + "";
 
     }
-        public boolean validateTemporaryPassword(String email, String tempPw) {
-            System.out.println(email);
-            User user = userRepository.findByEmail(email);
-            if (user == null) {
-                throw new BizException(NOTFOUNDUSER);
-            } else if (tempPw.toString().equals(user.getPassword())) {
 
-                return true;
-            }else {
-                return false;
-            }
+    public boolean validateTemporaryPassword(String email, String tempPw) {
+        Optional<User> user = userRepository.findByEmailAndTempPw(email, tempPw);
+        if (user.isEmpty()) {
+            throw new BizException(NOTMATCHTEMPPW);
+        } else
+            return true;
+    }
 
-        }
+    public String pwChange(ChangePwDto changePwDto) {
+        Optional<User> dbUser = userRepository.findByEmailAndTempPw(changePwDto.getEmail(), changePwDto.getTempPw());
 
-    public String pwChange(Email email, String passwordch, String newPassword) {
-        User dbUser = userRepository.findByEmail(String.valueOf(email));
-        System.out.println(dbUser);
-        if (dbUser == null) {
+        if (dbUser.isEmpty()) {
             throw new BizException(NOTFOUNDUSER);
-        } else if (!newPassword.equals(passwordch)) {
-            throw new BizException(CHECKPASSWORD);
-        } else if (newPassword.equals(dbUser.getPassword())) {
-            throw new BizException(SAMEPASSWORD);
-        }
-        else {
-            dbUser.setPassword(encoder.encode(newPassword));
-            userRepository.save(dbUser);
+        } else {
 
+            User user = dbUser.get();
+            user.setPassword(encoder.encode(changePwDto.getNewPassword()));
+            user.setTempPw(null);
+            userRepository.save(user);
+            return "비밀번호 수정이 완료되었습니다.";
         }
-
-        return "비밀번호 수정이 완료되었습니다.";
     }
 }

@@ -14,8 +14,7 @@ import lombok.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Tag(name = "이메일 클래스",description = "이메일 인증용 클래스입니다.")
 public class Email {
-
-    private String tempPw;
+    
 
     @Pattern(regexp = "(^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)",
             message = "이메일 형식을 확인해 주세요")
