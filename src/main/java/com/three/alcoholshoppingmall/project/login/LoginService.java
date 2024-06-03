@@ -140,6 +140,9 @@ public class LoginService {
         if (userEmail == null) {
             throw new BizException(NOTFOUNDUSER);
         }
+        if (userEmail.getWithdrawStatus()==WithdrawStatus.Y){
+            throw new BizException(WITHDRAWUSER);
+        }
 
         MimeMessage message = javaMailSender.createMimeMessage();
         // 임시비번 생성
@@ -198,6 +201,6 @@ public class LoginService {
         user.setPassword(encoder.encode(changePwDto.getNewPassword()));
         user.setTempPw(null);
         userRepository.save(user);
-        return "비밀번호 수정이 완료되었습니다.";
+        return "비밀번호가 변경되었습니다.";
     }
 }

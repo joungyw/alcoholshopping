@@ -25,8 +25,6 @@ public class PwUpdate {
 
     @Schema(title = "passwordch", description = "회원의 passwordch입니다.", example = "비밀번호 확인")
     @NotBlank(message = "비밀번호를 확인해주세요.")
-    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}",
-            message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
     private String passwordch;
 
 

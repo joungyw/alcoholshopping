@@ -23,10 +23,14 @@ public class UserService {
 
     public User withdrawUser(String email) { // 회원 정보 탈퇴 코드
         User dbUser = userRepository.findByEmail(email);
+        if (dbUser.getWithdrawStatus()== WithdrawStatus.Y){
+            throw new BizException(WITHDRAWUSER);
+        }
         if (dbUser != null) {
             dbUser.setWithdrawStatus(WithdrawStatus.Y);
             userRepository.save(dbUser);
             return dbUser;
+
         } else {
             throw new BizException(NOTFOUNDUSER); // 예외처리
         }
@@ -98,6 +102,13 @@ public class UserService {
 
         if (email == null || email == "") {
             throw new BizException(ErrorCode.NOTINPUTEMAIL);
+        }
+        User userEmail = userRepository.findByEmail(email);
+        if (userEmail == null) {
+            throw new BizException(NOTFOUNDUSER);
+        }
+        if (userEmail.getWithdrawStatus()==WithdrawStatus.Y){
+            throw new BizException(WITHDRAWUSER);
         }
 
         MimeMessage message = javaMailSender.createMimeMessage();

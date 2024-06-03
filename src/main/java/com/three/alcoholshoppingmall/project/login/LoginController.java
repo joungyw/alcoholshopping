@@ -7,6 +7,7 @@ import com.three.alcoholshoppingmall.project.login.token.TokenManager;
 import com.three.alcoholshoppingmall.project.user.User;
 import com.three.alcoholshoppingmall.project.user.UserDto;
 import com.three.alcoholshoppingmall.project.user.UserRepository;
+import com.three.alcoholshoppingmall.project.user.WithdrawStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -15,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import static com.three.alcoholshoppingmall.project.exception.ErrorCode.WITHDRAWUSER;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,6 +36,9 @@ public class LoginController {
             "password: a123456!")
     public ResponseEntity<String> loginUser(@RequestBody Login login) {
         User dbuser = loginRepository.findByEmail(login.getEmail());
+        if (dbuser.getWithdrawStatus()== WithdrawStatus.Y){
+            throw new BizException(WITHDRAWUSER);
+        }
 
         if (dbuser == null || !encoder.matches(login.getPassword(), dbuser.getPassword())) {
             throw new BizException(ErrorCode.CHECKEMAILPASSWORD);
