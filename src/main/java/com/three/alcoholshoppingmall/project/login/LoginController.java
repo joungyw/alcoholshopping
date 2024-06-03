@@ -66,6 +66,7 @@ public class LoginController {
     @Operation(summary = "인증번호를 발급", description = "이메일을 입력하여 인증번호를 발급합니다.<br>" +
             "이메일을 입력하세요.")
     public ResponseEntity<String> findPassword(String email) throws Exception {
+
         String temPw = loginService.tempPw(email);
         return ResponseEntity.status(HttpStatus.OK).body(temPw);
     }

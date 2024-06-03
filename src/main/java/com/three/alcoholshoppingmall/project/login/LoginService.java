@@ -136,6 +136,10 @@ public class LoginService {
         if (email == null || email.equals("")) {
             throw new BizException(ErrorCode.NOTINPUTEMAIL); // 유효성 검사
         }
+        User userEmail = userRepository.findByEmail(email);
+        if (userEmail == null) {
+            throw new BizException(NOTFOUNDUSER);
+        }
 
         MimeMessage message = javaMailSender.createMimeMessage();
         // 임시비번 생성
@@ -176,7 +180,7 @@ public class LoginService {
     }
 
     public boolean validateTemporaryPassword(String email, String tempPw) {
-        Optional<User> user = userRepository.findByEmailAndTempPw(email, tempPw);
+        Optional<User> user = userRepository.findByEmailAndTempPw(email.trim(), tempPw.trim());
         if (user.isEmpty()) {
             throw new BizException(NOTMATCHTEMPPW);
         } else
@@ -188,13 +192,12 @@ public class LoginService {
 
         if (dbUser.isEmpty()) {
             throw new BizException(NOTFOUNDUSER);
-        } else {
-
-            User user = dbUser.get();
-            user.setPassword(encoder.encode(changePwDto.getNewPassword()));
-            user.setTempPw(null);
-            userRepository.save(user);
-            return "비밀번호 수정이 완료되었습니다.";
         }
+
+        User user = dbUser.get();
+        user.setPassword(encoder.encode(changePwDto.getNewPassword()));
+        user.setTempPw(null);
+        userRepository.save(user);
+        return "비밀번호 수정이 완료되었습니다.";
     }
 }
