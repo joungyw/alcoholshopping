@@ -3,19 +3,23 @@ package com.three.alcoholshoppingmall.project.favorites;
 
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholDto;
 import com.three.alcoholshoppingmall.project.user.User;
+import com.three.alcoholshoppingmall.project.user.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.apache.bcel.classfile.Code;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +29,8 @@ import java.util.List;
 public class FavoritesController {
 
 private final FavoritesService favoritesService;
+private final FavoritesRepository favoritesRepository;
+private final UserRepository userRepository;
     @GetMapping("/list")
     @Operation(summary = "즐겨찾기 목록",
             description = "해당 회원이 즐겨찾기에 등록한 정보를 모두 보여 줍니다." +
@@ -68,5 +74,22 @@ private final FavoritesService favoritesService;
         User user = (User)authentication.getPrincipal();
        String list = favoritesService.FavoritesDelete(alcoholDto.getCode(), user.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
+    @PostMapping("check")
+    @Operation(summary = "즐겨찾기 술 확인",
+            description = "즐겨찾기 추가한 술인지 확인하는 기능입니다." +
+                    "code에 술의 고유 코드의 입력이 필요 합니다."+
+                    "code는 1~50까지 있습니다.")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<Boolean> FavoritesCheck(@AuthenticationPrincipal User user, @RequestBody FavoritesCheck favoritesCheck){
+        User dbuser = userRepository.findByEmail(user.getEmail());
+        Favorites favorites = favoritesRepository.selectFavoriteCode(favoritesCheck.getCode(), dbuser.getEmail());
+
+        if(favorites == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
+        }else {
+            return ResponseEntity.status(HttpStatus.OK).body(true);
+        }
     }
 }
