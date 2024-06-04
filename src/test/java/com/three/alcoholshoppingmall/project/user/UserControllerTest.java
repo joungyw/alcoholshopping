@@ -86,7 +86,7 @@ public class UserControllerTest {
     @DisplayName("회원정보수정성공테스트")
     public void UpdateUserSuccess() throws Exception {
         // Given
-        UserUpdate userUpdate = new UserUpdate("k9315861", "01012345672", "대구 달서구", "조암로 6길 20 103동");
+        UserUpdate userUpdate = new UserUpdate("k9315861", "01012341234", "대구", "달서구");
         when(userService.updateUser("k9315861@naver.com", userUpdate)).thenReturn("회원정보가 수정되었습니다");
 
         // When
@@ -101,7 +101,7 @@ public class UserControllerTest {
     public void UpdateUserPhoneAlreadyExists() throws Exception {
         // Given
         ObjectMapper objectMapper = new ObjectMapper();
-        UserUpdate userUpdate = new UserUpdate("newNickname", "01012345672", "newAddress", "newAddress2");
+        UserUpdate userUpdate = new UserUpdate("k9315861", "01011111111", "대구 ", "달서구");
         String token = genToken();
         String jwtToken = "Bearer "+token;
 
@@ -119,4 +119,27 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.errorMessage").value("이미 가입된 번호입니다."))
                 .andDo(print());
     }
+
+//    @Test
+//    @DisplayName("회원정보 휴대폰 중복체크")
+//    public void UpdateUserPhoneAlreadyExists() throws Exception {
+//        // Given
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        UserUpdate userUpdate = new UserUpdate("k9315861", "01012341234", "대구 달서구", "조암로 6길 20 103동");
+//        String token = genToken();
+//        String jwtToken = "Bearer " + token;
+//
+//        // When
+//        ResultActions resultActions = mockMvc.perform(put("/user/updateUser")
+//                .contentType(MediaType.APPLICATION_JSON_UTF8)
+//                .content(objectMapper.writeValueAsString(userUpdate))
+//                .header("Authorization", jwtToken));
+//
+//        // Then
+//        resultActions
+//                .andExpect(status().isOk()) // 응답 코드 확인 (200 OK)
+//                .andExpect(jsonPath("$.error").value("DUPLPHONE_ERROR")) // 실제 API에서 사용하는 에러 코드 명칭 사용
+//                .andExpect(jsonPath("$.errorMessage").value("이미 가입된 번호입니다."))
+//                .andDo(print());
+//    }
 }
