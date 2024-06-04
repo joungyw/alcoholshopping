@@ -56,54 +56,61 @@ public class ReviewService {
     public Reviewshow Review(ReviewDTO reviewDTO) {
         Optional<Alcohol> alcoholcheck = alcoholRepository.findByCode(reviewDTO.getAlcoholcodecode());
         Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getAlcoholcodecode());
+        Optional<Purchase> Purchasecheck = purchaseRepository.reviewPpurchase(reviewDTO.getUser().getEmail(),reviewDTO.getAlcoholcodecode());
         Review review;
         Reviewshow reviewshow;
-        if (alcoholcheck.isPresent()) {
-            if (check.isPresent()) {
-                Review existingReview = check.get();
-                existingReview.setWriting(reviewDTO.getWriting());
-                existingReview.setGrade(reviewDTO.getGrade());
-                reviewRepository.save(existingReview);
-                String alcoholname = alcoholRepository.name(reviewDTO.getAlcoholcodecode());
-                reviewshow = Reviewshow
-                        .builder()
-                        .id(existingReview.getId())
-                        .nickname(reviewDTO.getUser().getNickname())
-                        .alcoholcode(existingReview.getAlcohol().getCode())
-                        .name(alcoholname)
-                        .writing(reviewDTO.getWriting())
-                        .grade(reviewDTO.getGrade())
-                        .picture(existingReview.getPicture())
-                        .date(existingReview.getCreateDate())
-                        .build();
+        if(Purchasecheck.isPresent()) {
+            if (alcoholcheck.isPresent()) {
+                if (check.isPresent()) {
+                    Review existingReview = check.get();
+                    existingReview.setWriting(reviewDTO.getWriting());
+                    existingReview.setGrade(reviewDTO.getGrade());
+                    reviewRepository.save(existingReview);
+                    String alcoholname = alcoholRepository.name(reviewDTO.getAlcoholcodecode());
+                    reviewshow = Reviewshow
+                            .builder()
+                            .id(existingReview.getId())
+                            .nickname(reviewDTO.getUser().getNickname())
+                            .alcoholcode(existingReview.getAlcohol().getCode())
+                            .name(alcoholname)
+                            .writing(reviewDTO.getWriting())
+                            .grade(reviewDTO.getGrade())
+                            .picture(existingReview.getPicture())
+                            .date(existingReview.getCreateDate())
+                            .build();
+                } else {
+                    User usercheck = userRepository.findByEmail(reviewDTO.getUser().getEmail());
+                    Alcohol alcohol = alcoholcheck.get();
+                    review = Review.builder()
+                            .user(usercheck)
+                            .alcohol(alcohol)
+                            .writing(reviewDTO.getWriting())
+                            .grade(reviewDTO.getGrade())
+                            .picture(alcohol.getPicture())
+                            .build();
+                    reviewRepository.save(review);
+                    String alcoholname = alcoholRepository.name(reviewDTO.getAlcoholcodecode());
+                    reviewshow = Reviewshow
+                            .builder()
+                            .id(review.getId())
+                            .nickname(reviewDTO.getUser().getNickname())
+                            .alcoholcode(review.getAlcohol().getCode())
+                            .name(alcoholname)
+                            .writing(reviewDTO.getWriting())
+                            .grade(reviewDTO.getGrade())
+                            .picture(alcohol.getPicture())
+                            .date(review.getCreateDate())
+                            .build();
+                }
+                return reviewshow;
             } else {
-                User usercheck = userRepository.findByEmail(reviewDTO.getUser().getEmail());
-                Alcohol alcohol = alcoholcheck.get();
-                review = Review.builder()
-                        .user(usercheck)
-                        .alcohol(alcohol)
-                        .writing(reviewDTO.getWriting())
-                        .grade(reviewDTO.getGrade())
-                        .picture(alcohol.getPicture())
-                        .build();
-                reviewRepository.save(review);
-                String alcoholname = alcoholRepository.name(reviewDTO.getAlcoholcodecode());
-                reviewshow = Reviewshow
-                        .builder()
-                        .id(review.getId())
-                        .nickname(reviewDTO.getUser().getNickname())
-                        .alcoholcode(review.getAlcohol().getCode())
-                        .name(alcoholname)
-                        .writing(reviewDTO.getWriting())
-                        .grade(reviewDTO.getGrade())
-                        .picture(alcohol.getPicture())
-                        .date(review.getCreateDate())
-                        .build();
+                throw new BizException(ErrorCode.NOTFOUNDALCOHOL);
             }
-            return reviewshow;
-        } else {
-            throw new BizException(ErrorCode.NOTFOUNDALCOHOL);
         }
+            else{
+                throw new BizException(ErrorCode.NOTFOUNDPURCHASE);
+            }
+
     }
 
     @Transactional
