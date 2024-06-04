@@ -43,7 +43,7 @@ public class UserControllerTest {
 
     public String genToken() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        Login login = new Login("bbb@naver.com","a123456!");
+        Login login = new Login("k9315861@naver.com","a1234567!");
 
         //when
         ResultActions resultActions = mockMvc.perform(post("/login")
@@ -62,7 +62,7 @@ public class UserControllerTest {
     public  void jwtTokenGeneration() throws Exception{
         // Given
         ObjectMapper objectMapper = new ObjectMapper();
-        Login login = new Login("bbb@naver.com","a123456!");
+        Login login = new Login("k9315861@naver.com","a1234567!");
 
         //when
         ResultActions resultActions = mockMvc.perform(post("/login")
@@ -86,11 +86,11 @@ public class UserControllerTest {
     @DisplayName("회원정보수정성공테스트")
     public void UpdateUserSuccess() throws Exception {
         // Given
-        UserUpdate userUpdate = new UserUpdate("newNickname", "01012345672", "newAddress", "newAddress2");
-        when(userService.updateUser("ddd@naver.com", userUpdate)).thenReturn("회원정보가 수정되었습니다");
+        UserUpdate userUpdate = new UserUpdate("k9315861", "01012345672", "대구 달서구", "조암로 6길 20 103동");
+        when(userService.updateUser("k9315861@naver.com", userUpdate)).thenReturn("회원정보가 수정되었습니다");
 
         // When
-        String response = userService.updateUser("ddd@naver.com", userUpdate);
+        String response = userService.updateUser("k9315861@naver.com", userUpdate);
 
         // Then
         assertEquals("회원정보가 수정되었습니다", response);
@@ -106,11 +106,12 @@ public class UserControllerTest {
         String jwtToken = "Bearer "+token;
 
         //when
-        ResultActions resultActions = mockMvc.perform(put("/user/update")
+        ResultActions resultActions = mockMvc.perform(put("/user/updateUser")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(userUpdate))
                 .header("Authorization", jwtToken)); // JWT 토큰
         // 을 헤더에 추가
+
         //then
         resultActions
                 .andExpect(status().isBadRequest())
