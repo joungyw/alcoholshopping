@@ -101,7 +101,7 @@ public class UserControllerTest {
     public void UpdateUserPhoneAlreadyExists() throws Exception {
         // Given
         ObjectMapper objectMapper = new ObjectMapper();
-        UserUpdate userUpdate = new UserUpdate("newNickname", "01012345678", "newAddress", "newAddress2");
+        UserUpdate userUpdate = new UserUpdate("newNickname", "01012341234", "newAddress", "newAddress2");
         String token = genToken();
         String jwtToken = "Bearer "+token;
 
