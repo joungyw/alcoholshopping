@@ -87,7 +87,7 @@ private final UserRepository userRepository;
         Favorites favorites = favoritesRepository.selectFavoriteCode(favoritesCheck.getCode(), dbuser.getEmail());
 
         if(favorites == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
+            return ResponseEntity.status(HttpStatus.OK).body(false);
         }else {
             return ResponseEntity.status(HttpStatus.OK).body(true);
         }
