@@ -54,9 +54,9 @@ public class ReviewService {
     }
 
     public Reviewshow Review(ReviewDTO reviewDTO) {
-        Optional<Alcohol> alcoholcheck = alcoholRepository.findByCode(reviewDTO.getAlcoholcodecode());
-        Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getAlcoholcodecode());
-        Optional<Purchase> Purchasecheck = purchaseRepository.reviewPpurchase(reviewDTO.getUser().getEmail(),reviewDTO.getAlcoholcodecode());
+        Optional<Alcohol> alcoholcheck = alcoholRepository.findByCode(reviewDTO.getAlcoholcode());
+        Optional<Review> check = reviewRepository.findByUser_EmailAndAlcohol_Code(reviewDTO.getUser().getEmail(), reviewDTO.getAlcoholcode());
+        Optional<Purchase> Purchasecheck = purchaseRepository.reviewPpurchase(reviewDTO.getUser().getEmail(),reviewDTO.getAlcoholcode());
         Review review;
         Reviewshow reviewshow;
         if(Purchasecheck.isPresent()) {
@@ -66,7 +66,7 @@ public class ReviewService {
                     existingReview.setWriting(reviewDTO.getWriting());
                     existingReview.setGrade(reviewDTO.getGrade());
                     reviewRepository.save(existingReview);
-                    String alcoholname = alcoholRepository.name(reviewDTO.getAlcoholcodecode());
+                    String alcoholname = alcoholRepository.name(reviewDTO.getAlcoholcode());
                     reviewshow = Reviewshow
                             .builder()
                             .id(existingReview.getId())
@@ -89,7 +89,7 @@ public class ReviewService {
                             .picture(alcohol.getPicture())
                             .build();
                     reviewRepository.save(review);
-                    String alcoholname = alcoholRepository.name(reviewDTO.getAlcoholcodecode());
+                    String alcoholname = alcoholRepository.name(reviewDTO.getAlcoholcode());
                     reviewshow = Reviewshow
                             .builder()
                             .id(review.getId())

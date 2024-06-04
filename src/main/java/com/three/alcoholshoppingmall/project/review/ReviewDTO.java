@@ -24,7 +24,7 @@ public class ReviewDTO {
     @JsonIgnore
     private Long id;
 
-    private Long alcoholcodecode;
+    private Long alcoholcode;
 
     @JsonIgnore
     private User user;
