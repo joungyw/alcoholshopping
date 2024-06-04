@@ -40,4 +40,11 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             "WHERE a.email = :email AND d.code IS NULL\n", nativeQuery = true)
     List<Purchase> purchasereview(String email);
 
+
+    @Query(value = "SELECT a.* FROM purchase a\n" +
+            "JOIN stock b ON a.stocknumber = b.stocknumber\n" +
+            "JOIN alcohol c ON b.code = c.code\n" +
+            "WHERE a.email =  :email and c.code = :code",nativeQuery = true)
+    Optional<Purchase> reviewPpurchase(String email, Long code);
+
 }

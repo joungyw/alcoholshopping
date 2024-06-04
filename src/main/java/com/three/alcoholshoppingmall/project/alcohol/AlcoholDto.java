@@ -57,6 +57,10 @@ public class AlcoholDto {
     @JsonIgnore
     private String picture;
 
+    @Schema(title = "주류 사진", description = "주류의 사진을 저장하는 필드입니다.")
+    @JsonIgnore
+    private String picture2;
+
     @Schema(title = "주류의 가격", description = "주류의 가격 입니다.")
     @JsonIgnore
     private int price;

@@ -52,6 +52,9 @@ public enum ErrorCode {
     //리뷰 삭제시 없는 내용인경우
     NOTFOUNDREVIEW(HttpStatus.NOT_FOUND, "NOTFOUNDREVIEW", "해당 내용의 리뷰는 존재하지 않습니다."),
 
+    //구매하지 않은 물건에 대하여 리뷰를 쓸때
+    NOTFOUNDPURCHASE(HttpStatus.NOT_FOUND, "NOTFOUNDPURCHASE", "해당 물건을 구매하신적이 없어 리뷰 작성이 불가 합니다."),
+
     ERRORDELIVERYTYPE(HttpStatus.BAD_REQUEST,"ERRORDELIVERYTYPE","유효하지 않은 주문 입니다."),
 
     //주류 정렬시 에러코드
