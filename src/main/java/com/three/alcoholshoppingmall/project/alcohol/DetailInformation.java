@@ -54,6 +54,9 @@ public class DetailInformation {
     @Schema(title = "주류 사진", description = "주류의 사진")
     private String picture;
 
+    @Schema(title = "주류 사진", description = "주류의 사진")
+    private String picture2;
+
     @Schema(title = "리뷰 갯수", description = "선택한 술의 리뷰 갯수 입니다.")
     private int reviewcacount;
 

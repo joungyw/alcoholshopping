@@ -52,6 +52,7 @@ public class AlcoholService {
                     .finish(alcohol.getFinish())
                     .nation(alcohol.getNation())
                     .picture(alcohol.getPicture())
+                    .picture2(alcohol.getPicture2())
                     .price(alcohol.getPrice())
                     .ratingaverage(ratings)
                     .reviewcacount(reviewCount)
