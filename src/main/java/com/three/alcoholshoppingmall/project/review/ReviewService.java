@@ -34,16 +34,19 @@ public class ReviewService {
 
         List<Reviewshow> list = new ArrayList<>();
         for (int i = 0; i < Math.min(alcoholnames.size(), reviews.size()); i++) {
+            User user = userRepository.findByEmail(email);
             String name = alcoholnames.get(i);
             Review review = reviews.get(i);
             Reviewshow reviewshow = Reviewshow
                     .builder()
                     .id(review.getId())
+                    .nickname(user.getNickname())
                     .alcoholcode(review.getAlcohol().getCode())
                     .name(name)
                     .grade(review.getGrade())
                     .writing(review.getWriting())
                     .picture(review.getPicture())
+                    .date(review.getCreateDate())
                     .build();
             list.add(reviewshow);
         }
@@ -65,11 +68,13 @@ public class ReviewService {
                 reviewshow = Reviewshow
                         .builder()
                         .id(existingReview.getId())
+                        .nickname(reviewDTO.getUser().getNickname())
                         .alcoholcode(existingReview.getAlcohol().getCode())
                         .name(alcoholname)
                         .writing(reviewDTO.getWriting())
                         .grade(reviewDTO.getGrade())
                         .picture(existingReview.getPicture())
+                        .date(existingReview.getCreateDate())
                         .build();
             } else {
                 User usercheck = userRepository.findByEmail(reviewDTO.getUser().getEmail());
@@ -86,11 +91,13 @@ public class ReviewService {
                 reviewshow = Reviewshow
                         .builder()
                         .id(review.getId())
+                        .nickname(reviewDTO.getUser().getNickname())
                         .alcoholcode(review.getAlcohol().getCode())
                         .name(alcoholname)
                         .writing(reviewDTO.getWriting())
                         .grade(reviewDTO.getGrade())
                         .picture(alcohol.getPicture())
+                        .date(review.getCreateDate())
                         .build();
             }
             return reviewshow;
@@ -138,16 +145,21 @@ public class ReviewService {
     public List<Reviewshow> AlcoholReview(Long code) {
         Optional<Alcohol> alcohol = alcoholRepository.findByCode(code);
         List<Review> reviews = reviewRepository.findByAlcohol_Code(code);
+        List<User> users = userRepository.reviewnickname(code);
         List<Reviewshow> list = new ArrayList<>();
         if (alcohol.isPresent()) {
             Alcohol alcohols = alcohol.get();
-            for (Review review : reviews) {
+            for (int i = 0; i < reviews.size(); i++) {
+                Review review = reviews.get(i);
+                User user = users.get(i);
                 Reviewshow reviewshow = Reviewshow.builder()
                         .alcoholcode(code)
+                        .nickname(user.getNickname())
                         .name(alcohols.getName())
                         .writing(review.getWriting())
                         .picture(review.getPicture())
                         .grade(review.getGrade())
+                        .date(review.getCreateDate())
                         .build();
                 list.add(reviewshow);
             }
