@@ -99,7 +99,7 @@ public class LoginService {
 
     public String sendAuthNum(String email) {
 
-        if (email == null || email == "") {
+        if (email == null || email.equals("")) {
             throw new BizException(ErrorCode.NOTINPUTEMAIL);
         }
 

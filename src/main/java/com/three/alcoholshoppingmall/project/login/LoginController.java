@@ -85,7 +85,7 @@ public class LoginController {
     }
 
 
-    @PostMapping("changePW")
+    @PostMapping("/changePw")
     @Operation(summary = "비밀번호 분실 시 비밀번호 변경", description = "비밀번호 분실 시 비밀번호를 변경합니다.<br>" +
             "변경하고 싶은 비밀번호와 비밀번호 확인을 입력하면 됩니다.")
     public ResponseEntity<String> changePw(@Valid @RequestBody ChangePwDto changePwDto) {

@@ -100,7 +100,7 @@ public class UserService {
 
     public String withdrawEmailAuth(String email) {
 
-        if (email == null || email == "") {
+        if (email == null || email.equals("")) {
             throw new BizException(ErrorCode.NOTINPUTEMAIL);
         }
         User userEmail = userRepository.findByEmail(email);

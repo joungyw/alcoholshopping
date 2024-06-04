@@ -145,9 +145,9 @@ public class MainConstructor {
         String email = user.getEmail();
         List<String> list = searchService.recentSearch(email);
         List<Search> searchList = list.stream().map(
-                item -> Search.builder()
-                        .searchcontents(item)
-                        .build())
+                        item -> Search.builder()
+                                .searchcontents(item)
+                                .build())
                 .collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(searchList);
     }

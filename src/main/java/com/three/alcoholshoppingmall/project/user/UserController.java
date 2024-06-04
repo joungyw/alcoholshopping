@@ -46,23 +46,32 @@ public class UserController {
         String returnvalue = userService.updateUser(email, userUpdate);
         return ResponseEntity.status(HttpStatus.OK).body(returnvalue);
     }
-    @PostMapping("/withdrawEmailAuth")
+
+    @GetMapping("/withdrawEmailAuth")
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = " 회원탈퇴를 위한 이메일 인증", description = " 회원 탈퇴를 위한 이메일 인증하기")
-    public ResponseEntity<String> withdrawEmailAuth(@RequestBody Email email)  {
-        String num = userService.withdrawEmailAuth(email.getEmail());
+    public ResponseEntity<String> withdrawEmailAuth(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        String email = user.getEmail();
+        String num = userService.withdrawEmailAuth(email);
         return ResponseEntity.status(HttpStatus.OK).body(num);
     }
 
-    @PostMapping("/withdraw")// 회원정보 탈퇴
+    @GetMapping("/withdraw")// 회원정보 탈퇴
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴하는 코드입니다.")
-    public ResponseEntity<String> withdrawUser(@RequestBody Email email) {
-        userService.withdrawUser(email.getEmail());
+    public ResponseEntity<String> withdrawUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        String email = user.getEmail();
+        userService.withdrawUser(email);
         return ResponseEntity.status(HttpStatus.OK).body("회원 탈퇴가 완료되었습니다.");
     }
+
     @PutMapping("/updatePw")
     @Operation(summary = "비밀번호 변경", description = "비밀번호를 변경하는 코드입니다.")// 비밀번호 수정
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<String> updatePw(@Valid @RequestBody PwUpdate pwUpdate){
+    public ResponseEntity<String> updatePw(@Valid @RequestBody PwUpdate pwUpdate) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         String email = user.getEmail();
