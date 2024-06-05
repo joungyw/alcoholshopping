@@ -16,7 +16,7 @@ public interface ShoppingbasketRepository extends JpaRepository<Shoppingbasket, 
             "WHERE a.stocknumber = :stocknumber", nativeQuery = true)
     String alcoholname(Long stocknumber);
 
-    @Query(value = "SELECT b.marketcode FROM stock a\n" +
+    @Query(value = "SELECT b.* FROM stock a\n" +
             "JOIN market b ON a.marketcode = b.marketcode \n" +
             "WHERE a.stocknumber = :stocknumber", nativeQuery = true)
     String marketname(Long stocknumber);
