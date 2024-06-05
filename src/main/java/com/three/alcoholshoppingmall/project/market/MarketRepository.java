@@ -62,4 +62,21 @@ public interface MarketRepository extends JpaRepository<Market,Long> {
             "AND c.delivery = 'DELIVERY' \n" +
             "ORDER BY c.purchaseday DESC, c.ordernumber DESC LIMIT 5", nativeQuery = true)
     List<Market> marketsdeliverylimt(String email);
+
+
+    @Query(value = "SELECT a.* FROM market a\n" +
+            "JOIN stock b ON a.marketcode = b.marketcode\n" +
+            "JOIN detailbasket c ON c.stocknumber = b.stocknumber\n" +
+            "JOIN shoppingbasket d ON c.shoppingnumber = d.shoppingnumber\n" +
+            "WHERE d.email = :email AND c.delivery = 'Delivery'", nativeQuery = true)
+    List<Market> marketDelivery(String email);
+
+
+
+    @Query(value = "SELECT a.* FROM market a\n" +
+            "JOIN stock b ON a.marketcode = b.marketcode\n" +
+            "JOIN detailbasket c ON c.stocknumber = b.stocknumber\n" +
+            "JOIN shoppingbasket d ON c.shoppingnumber = d.shoppingnumber\n" +
+            "WHERE d.email = :email AND c.delivery = 'PickUp'", nativeQuery = true)
+    List<Market> marketPickUp(String email);
 }
