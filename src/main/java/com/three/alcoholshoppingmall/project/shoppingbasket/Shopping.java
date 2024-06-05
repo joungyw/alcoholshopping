@@ -20,6 +20,8 @@ public class Shopping {
 
     private String marketname;
 
+    private String marketaddress;
+
     private  int amount;
 
     private int price;

@@ -1,6 +1,7 @@
 package com.three.alcoholshoppingmall.project.shoppingbasket;
 
 
+import com.three.alcoholshoppingmall.project.market.Market;
 import com.three.alcoholshoppingmall.project.purchase.Delivery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -79,12 +80,7 @@ public interface DetailbasketRepository extends JpaRepository<Detailbasket, Long
             "WHERE d.email = :email AND c.delivery = 'Delivery'", nativeQuery = true)
     List<String> alcoholDelivery(String email);
 
-    @Query(value = "SELECT a.marketname FROM market a\n" +
-            "JOIN stock b ON a.marketcode = b.marketcode\n" +
-            "JOIN detailbasket c ON c.stocknumber = b.stocknumber\n" +
-            "JOIN shoppingbasket d ON c.shoppingnumber = d.shoppingnumber\n" +
-            "WHERE d.email = :email AND c.delivery = 'Delivery'", nativeQuery = true)
-    List<String> marketDelivery(String email);
+
 
     @Query(value = "SELECT a.picture FROM alcohol a\n" +
             "JOIN stock b on  a.code = b.code\n" +
@@ -105,12 +101,7 @@ public interface DetailbasketRepository extends JpaRepository<Detailbasket, Long
             "WHERE d.email = :email AND c.delivery = 'PickUp'", nativeQuery = true)
     List<String> alcoholPickUp(String email);
 
-    @Query(value = "SELECT a.marketname FROM market a\n" +
-            "JOIN stock b ON a.marketcode = b.marketcode\n" +
-            "JOIN detailbasket c ON c.stocknumber = b.stocknumber\n" +
-            "JOIN shoppingbasket d ON c.shoppingnumber = d.shoppingnumber\n" +
-            "WHERE d.email = :email AND c.delivery = 'PickUp'", nativeQuery = true)
-    List<String> marketPickUp(String email);
+
 
     @Query(value = "SELECT a.picture FROM alcohol a\n" +
             "JOIN stock b on  a.code = b.code\n" +
