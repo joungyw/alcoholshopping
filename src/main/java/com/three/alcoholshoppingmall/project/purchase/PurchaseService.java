@@ -9,16 +9,10 @@ import com.three.alcoholshoppingmall.project.market.MarketRepository;
 import com.three.alcoholshoppingmall.project.shoppingbasket.ShoppingbasketRepository;
 import com.three.alcoholshoppingmall.project.user.User;
 import com.three.alcoholshoppingmall.project.user.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -58,7 +52,6 @@ public class PurchaseService {
                     .address(purchase.getAddress())
                     .purchaseday(purchase.getPurchaseday())
                     .picture(purchase.getPicture())
-                    .picture(alcohol.getPicture())
                     .ordernumber(purchase.getOrdernumber())
                     .build();
             list.add(purchaseshow);
@@ -85,7 +78,6 @@ public class PurchaseService {
                     .division(purchase.getDivision())
                     .address(purchase.getAddress())
                     .purchaseday(purchase.getPurchaseday())
-                    .picture(alcohol.getPicture())
                     .ordernumber(purchase.getOrdernumber())
                     .picture(purchase.getPicture())
                     .build();
@@ -175,7 +167,7 @@ public class PurchaseService {
             jsonBody.put("productDesc", tossInfo.getProductname());
             jsonBody.put("apiKey", "sk_test_w5lNQylNqa5lNQe013Nq");
             jsonBody.put("autoExecute", true);
-            jsonBody.put("resultCallback", "http://localhost:3000/callback");
+            jsonBody.put("resultCallback", "http://threeback.hellomh.site/callback");
             jsonBody.put("retUrl", "http://localhost:3000/callback");
             jsonBody.put("retCancelUrl", "http://localhost:3000/");
 
