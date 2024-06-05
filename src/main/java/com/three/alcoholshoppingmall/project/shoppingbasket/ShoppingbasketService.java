@@ -4,6 +4,8 @@ package com.three.alcoholshoppingmall.project.shoppingbasket;
 import com.three.alcoholshoppingmall.project.alcohol.AlcoholRepository;
 import com.three.alcoholshoppingmall.project.exception.BizException;
 import com.three.alcoholshoppingmall.project.exception.ErrorCode;
+import com.three.alcoholshoppingmall.project.market.Market;
+import com.three.alcoholshoppingmall.project.market.MarketRepository;
 import com.three.alcoholshoppingmall.project.purchase.Delivery;
 import com.three.alcoholshoppingmall.project.stock.Stock;
 import com.three.alcoholshoppingmall.project.stock.StockRepository;
@@ -26,24 +28,25 @@ public class ShoppingbasketService {
     private final StockRepository stockRepository;
     private final AlcoholRepository alcoholRepository;
     private final DetailbasketRepository detailbasketRepository;
+    private final MarketRepository marketRepository;
 
     public List<Shopping> Shoppinglist(String email, Delivery delivery) {
         List<Shopping> list = new ArrayList<>();
 
         List<Detailbasket> shoppingbaskets;
         List<String> alcoholname;
-        List<String> marketname;
+        List<Market> marketname;
         List<String> Picture;
 
         if (delivery.equals(Delivery.Delivery)) {
             shoppingbaskets = detailbasketRepository.DetailbasketDelivery(email);
             alcoholname = detailbasketRepository.alcoholDelivery(email);
-            marketname = detailbasketRepository.marketDelivery(email);
+            marketname =  marketRepository.marketDelivery(email);
             Picture = detailbasketRepository.PictureDelivery(email);
         } else {
             shoppingbaskets = detailbasketRepository.DetailbasketPickUp(email);
             alcoholname = detailbasketRepository.alcoholPickUp(email);
-            marketname = detailbasketRepository.marketPickUp(email);
+            marketname = marketRepository.marketPickUp(email);
             Picture = detailbasketRepository.PicturePickUp(email);
         }
 
@@ -51,18 +54,19 @@ public class ShoppingbasketService {
         for (int i = 0; i < size; i++) {
             Detailbasket check = shoppingbaskets.get(i);
             String alcoholName = (alcoholname.size() > i) ? alcoholname.get(i) : null;
-            String marketName = (marketname.size() > i) ? marketname.get(i) : null;
+            Market market = (marketname.size() > i) ? marketname.get(i) : null;
             String picturecode = (Picture.size() > i) ? Picture.get(i) : null;
             Long alcoholcode =  alcoholRepository.code(alcoholName);
 
 
-            if (alcoholName != null && marketName != null) {
+            if (alcoholName != null && alcoholName != null) {
                 Shopping shopping = Shopping.builder()
                         .id(check.getNumber())
                         .stock(check.getStock().getStocknumber())
                         .name(alcoholName)
                         .alcoholcode(alcoholcode)
-                        .marketname(marketName)
+                        .marketname(market.getMarketname())
+                        .marketaddress(market.getAddress())
                         .amount(check.getAmount())
                         .price(check.getPrice())
                         .picture(picturecode)

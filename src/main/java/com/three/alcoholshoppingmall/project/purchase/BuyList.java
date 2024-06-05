@@ -22,4 +22,3 @@ public class BuyList {
     private String address;
     private String address2;
 }
-
