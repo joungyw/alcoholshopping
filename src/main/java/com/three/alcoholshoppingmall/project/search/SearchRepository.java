@@ -13,10 +13,10 @@ import java.util.List;
 
 @Repository
 public interface SearchRepository extends JpaRepository<Search, Long> {
-    @Query(value = "  SELECT DISTINCT searchcontents,id\n" +
+    @Query(value = "  SELECT DISTINCT searchcontents\n" +
             "FROM search\n" +
             "WHERE email = :email \n" +
-            "ORDER BY id DESC \n" +
+            "ORDER BY searchcontents DESC \n" +
             "LIMIT 5; ",nativeQuery = true)
     List<String> findAllByUserOrderByIdDesc(String email);
 
