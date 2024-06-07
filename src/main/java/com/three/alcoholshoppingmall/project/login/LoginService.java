@@ -127,18 +127,18 @@ public class LoginService {
 
     public String tempPw(String email) {
         if (email == null || email.equals("")) {
-            throw new BizException(ErrorCode.NOTINPUTEMAIL); // 유효성 검사
+            throw new BizException(ErrorCode.NOTINPUTEMAIL);
         }
         User userEmail = userRepository.findByEmail(email);
         if (userEmail == null) {
             throw new BizException(NOTFOUNDUSER);
         }
         if (userEmail.getWithdrawStatus()==WithdrawStatus.Y){
-            throw new BizException(WITHDRAWUSER);
+            throw new BizException(WITHDRAWUSER); // 유효성 검사
         }
 
         MimeMessage message = javaMailSender.createMimeMessage();
-        // 임시비번 생성
+        // 인증번호 생성
         char[] charSet = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
                 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
@@ -156,7 +156,7 @@ public class LoginService {
             body += "<h1>" + "안녕하세요." + "</h1>";
             body += "<h1>" + "AlcoholFree 입니다." + "</h1>";
             body += "<h3>" + "비밀번호 찾기를 위한 요청하신 인증번호입니다." + "</h3><br>";
-            body += "<h2>" + "아래 코드를 비밀번호 찾기 창으로 돌아가 인증번호를 입력해 로그인주세요. 로그인 후 비밀번호 수정은 꼭 해주세요" + "</h2>";
+            body += "<h2>" + "아래 코드를 비밀번호 찾기 창으로 돌아가 인증번호를 입력해주세요." + "</h2>";
             body += "<div align='center' style='border:1px solid black; font-family:verdana;'>";
             body += "<h2>" + "비밀번호 찾기 인증번호입니다." + "</h2>";
             body += "<h1 style='color:blue'>" + tempPw + "</h1>";
@@ -166,12 +166,11 @@ public class LoginService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         javaMailSender.send(message);
         User user = userRepository.findByEmail(email);
         user.setTempPw(tempPw.toString());
         userRepository.save(user);
-        return tempPw + "";
+        return tempPw + ""; //인증번호 저장
 
     }
 
