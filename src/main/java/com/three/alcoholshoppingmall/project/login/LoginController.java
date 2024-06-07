@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.CompletableFuture;
+
 import static com.three.alcoholshoppingmall.project.exception.ErrorCode.WITHDRAWUSER;
 
 @RestController
@@ -101,12 +103,17 @@ public class LoginController {
 
     @PostMapping("emailauth")
     @Operation(summary = "이메일 인증", description = "이메일 인증하기")
-    public ResponseEntity<String> emailAuth(@RequestBody Email email) {
+    public ResponseEntity<String> emailAuth(@Valid @RequestBody Email email) {
 
-        System.out.println(email);
-        String num = loginService.sendAuthNum(email.getEmail());
+        User dbuser = userRepository.findByEmail(email.getEmail());
+        if(dbuser != null){
+            throw new BizException(ErrorCode.DUPLEMAIL);
+        }
 
-        return ResponseEntity.status(HttpStatus.OK).body(num);
+        int num = (int) (Math.random() * 10000);
+        loginService.sendAuthNum(email.getEmail(),num+"");
+
+        return ResponseEntity.status(HttpStatus.OK).body(num+"");
     }
 
 }

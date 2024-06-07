@@ -87,13 +87,12 @@ public class PurchaseController {
 
     @PostMapping("/toss")
     @Operation(summary = "토스페이 결제",
-            description = "토스페이 결제입니다. " +
-                    "필요한 정보 = 총가격,상품 이름,결제 결과 Callback URL,인증 완료 후 연결할 URL,결제 중단 시 사용자를 이동시킬 가맹점 페이지")
+            description = "토스페이 결제입니다. 필요한 정보 = 총가격,상품 이름")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<String> tosspay(@Valid @RequestBody TossInfo tossInfo) {
 
         String checkoutPage = purchaseServicce.tosspay(tossInfo);
-        System.out.println(checkoutPage);
+
         return ResponseEntity.status(HttpStatus.OK).body(checkoutPage);
     }
 

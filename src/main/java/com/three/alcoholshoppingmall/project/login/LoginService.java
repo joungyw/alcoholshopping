@@ -10,12 +10,14 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import static com.three.alcoholshoppingmall.project.exception.ErrorCode.*;
 import static com.three.alcoholshoppingmall.project.exception.ErrorCode.SAMEPASSWORD;
@@ -97,15 +99,10 @@ public class LoginService {
         return list;
     }
 
-    public String sendAuthNum(String email) {
-
-        if (email == null || email.equals("")) {
-            throw new BizException(ErrorCode.NOTINPUTEMAIL);
-        }
+    @Async
+    public void sendAuthNum(String email,String num) {
 
         MimeMessage message = javaMailSender.createMimeMessage();
-
-        int num = (int) (Math.random() * 10000);
 
         try {
             message.setFrom(senderEmail);   // 보내는 이메일
@@ -116,7 +113,6 @@ public class LoginService {
             body += "<h1>" + "AlcoholFree 입니다." + "</h1>";
             body += "<h3>" + "회원가입을 위한 요청하신 인증 번호입니다." + "</h3><br>";
             body += "<h2>" + "아래 코드를 회원가입 창으로 돌아가 입력해주세요." + "</h2>";
-
             body += "<div align='center' style='border:1px solid black; font-family:verdana;'>";
             body += "<h2>" + "회원가입 인증 코드입니다." + "</h2>";
             body += "<h1 style='color:blue'>" + num + "</h1>";
@@ -126,10 +122,7 @@ public class LoginService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         javaMailSender.send(message);
-
-        return num + "";
     }
 
     public String tempPw(String email) {
