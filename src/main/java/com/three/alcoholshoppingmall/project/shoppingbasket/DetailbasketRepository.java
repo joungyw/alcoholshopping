@@ -123,4 +123,5 @@ public interface DetailbasketRepository extends JpaRepository<Detailbasket, Long
     void deleteByNumber(Long number);
 
     Optional<Detailbasket> findByNumber(Long number);
+    
 }

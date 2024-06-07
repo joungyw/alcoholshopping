@@ -100,6 +100,7 @@ public class PurchaseService {
 
             Purchaseshow purchaseshow = Purchaseshow.builder()
                     .id(purchase.getId())
+                    .ordernumber(purchase.getOrdernumber())
                     .alcoholname(alcohol.getName())
                     .marketname(market.getMarketname())
                     .amount(purchase.getAmount())
@@ -129,6 +130,7 @@ public class PurchaseService {
 
             Purchaseshow purchaseshow = Purchaseshow.builder()
                     .id(purchase.getId())
+                    .ordernumber(purchase.getOrdernumber())
                     .alcoholname(alcohol.getName())
                     .marketname(market.getMarketname())
                     .amount(purchase.getAmount())
